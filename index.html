@@ -1,1065 +1,2308 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hindustan Industrial Solution</title>
-  <!-- Font Awesome 6 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- SheetJS for Excel -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: -apple-system, 'Segoe UI', Roboto, system-ui, sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hindustan Industrial Solution</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
 
-    body {
-      min-height: 100vh;
-      background: linear-gradient(145deg, #f0f5fe 0%, #dbe6f5 100%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 1.5rem;
-      position: relative;
-      overflow-x: auto;
-    }
+        body {
+            min-height: 100vh;
+            background: radial-gradient(ellipse at 30% 20%, #e8f0fe 0%, #c5d8ed 100%);
+            padding: 12px;
+            position: relative;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    /* ---------- FIXED BACKGROUND WATERMARK (VISIBLE) ---------- */
-    .watermark {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      pointer-events: none;
-      z-index: 0;
-      font-size: clamp(4.5rem, 20vw, 12rem);
-      font-weight: 800;
-      letter-spacing: 10px;
-      transform: rotate(-4deg) scale(1.1);
-      white-space: nowrap;
-      user-select: none;
-      font-family: -apple-system, 'Segoe UI', sans-serif;
-      opacity: 0.25;
-    }
-    .watermark .h {
-      color: #1a3a6b;
-      filter: blur(4px);
-      -webkit-filter: blur(4px);
-      text-shadow: 0 0 60px rgba(26, 58, 107, 0.15);
-    }
-    .watermark .industan {
-      color: #2a4a7a;
-      filter: blur(3px);
-      -webkit-filter: blur(3px);
-      text-shadow: 0 0 40px rgba(26, 58, 107, 0.10);
-      margin-left: 4px;
-    }
-    /* Orange dot on 'I' in watermark — we show it as a separate element */
-    .watermark-dot {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-4deg) scale(1.1) translateX(calc(0.5em + 8px));
-      pointer-events: none;
-      z-index: 0;
-      font-size: clamp(4.5rem, 20vw, 12rem);
-      color: #f57c00;
-      filter: blur(2px);
-      -webkit-filter: blur(2px);
-      opacity: 0.35;
-      text-shadow: 0 0 40px rgba(245, 124, 0, 0.2);
-    }
-    /* Adjust dot position relative to text - we use a pseudo approach */
-    .watermark-wrapper {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      pointer-events: none;
-      z-index: 0;
-      transform: rotate(-4deg) scale(1.1);
-    }
-    .watermark-text {
-      font-size: clamp(4.5rem, 20vw, 12rem);
-      font-weight: 800;
-      letter-spacing: 10px;
-      white-space: nowrap;
-      user-select: none;
-      font-family: -apple-system, 'Segoe UI', sans-serif;
-      position: relative;
-      opacity: 0.25;
-    }
-    .watermark-text .h-char {
-      color: #1a3a6b;
-      filter: blur(4px);
-      -webkit-filter: blur(4px);
-      text-shadow: 0 0 60px rgba(26, 58, 107, 0.15);
-    }
-    .watermark-text .industan-char {
-      color: #2a4a7a;
-      filter: blur(3px);
-      -webkit-filter: blur(3px);
-      text-shadow: 0 0 40px rgba(26, 58, 107, 0.10);
-    }
-    .watermark-text .dot-overlay {
-      display: inline-block;
-      width: 0.35em;
-      height: 0.35em;
-      background: #f57c00;
-      border-radius: 50%;
-      filter: blur(2px);
-      -webkit-filter: blur(2px);
-      opacity: 0.35;
-      margin: 0 0.05em 0 0.1em;
-      box-shadow: 0 0 30px rgba(245, 124, 0, 0.2);
-      position: relative;
-      top: -0.05em;
-    }
+        /* ===== BACKGROUND WATERMARK ===== */
+        .watermark-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+            z-index: 0;
+            transform: rotate(-5deg) scale(1.1);
+        }
+        .watermark-text {
+            font-size: clamp(3rem, 18vw, 12rem);
+            font-weight: 900;
+            letter-spacing: 10px;
+            white-space: nowrap;
+            user-select: none;
+            opacity: 0.07;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Segoe UI', sans-serif;
+            filter: blur(3px);
+        }
+        .watermark-text .h-char {
+            color: #0a2647;
+            filter: blur(5px);
+        }
+        .watermark-text .rest-char {
+            color: #1a3f6e;
+            filter: blur(4px);
+        }
+        .watermark-text .dot-wm {
+            display: inline-block;
+            width: 0.3em;
+            height: 0.3em;
+            background: #f57c00;
+            border-radius: 50%;
+            filter: blur(4px);
+            opacity: 0.15;
+        }
 
-    /* ---------- MAIN GLASS CARD (Professional Transparent White + Orange) ---------- */
-    .app {
-      max-width: 1500px;
-      width: 100%;
-      background: rgba(255, 255, 255, 0.30);
-      backdrop-filter: blur(18px) saturate(180%);
-      -webkit-backdrop-filter: blur(18px) saturate(180%);
-      border-radius: 48px;
-      padding: 2rem 2rem 2.2rem;
-      box-shadow: 0 30px 60px rgba(0, 20, 40, 0.15),
-                  0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      position: relative;
-      z-index: 2;
-      transition: 0.3s;
-    }
+        /* ===== LOGIN PAGE ===== */
+        #loginPage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        #loginPage.hidden {
+            display: none;
+        }
+        .login-box {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 40px;
+            padding: 32px 28px;
+            max-width: 400px;
+            width: 92%;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            max-height: 95vh;
+            overflow-y: auto;
+        }
+        .login-box .logo-icon {
+            font-size: 2.8rem;
+            color: #f57c00;
+            margin-bottom: 4px;
+        }
+        .login-box h2 {
+            color: #0a2647;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        .login-box .sub-title {
+            color: #1a3f5e;
+            font-size: 0.8rem;
+            opacity: 0.6;
+            margin-bottom: 16px;
+        }
+        .login-box .field {
+            margin-bottom: 12px;
+            text-align: left;
+        }
+        .login-box .field label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #1a4a6e;
+            display: block;
+            margin-bottom: 3px;
+        }
+        .login-box .field input {
+            width: 100%;
+            padding: 9px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 60px;
+            font-size: 0.85rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(4px);
+            color: #0b2b4f;
+        }
+        .login-box .field input:focus {
+            border-color: #f57c00;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(245, 124, 0, 0.06);
+        }
+        .login-box .btn-login {
+            width: 100%;
+            padding: 10px;
+            border-radius: 60px;
+            border: none;
+            background: #f57c00;
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 20px rgba(245, 124, 0, 0.25);
+        }
+        .login-box .btn-login:hover {
+            background: #e06b00;
+            transform: translateY(-2px);
+        }
+        .login-box .btn-login:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .login-box .error-msg {
+            color: #b33c3c;
+            font-size: 0.75rem;
+            margin-top: 6px;
+            display: none;
+        }
+        .login-box .error-msg.show {
+            display: block;
+        }
+        .login-box .success-msg {
+            color: #2b8c5e;
+            font-size: 0.75rem;
+            margin-top: 6px;
+            display: none;
+        }
+        .login-box .success-msg.show {
+            display: block;
+        }
+        .login-box .toggle-form {
+            margin-top: 12px;
+            font-size: 0.75rem;
+            color: #1a4a6e;
+        }
+        .login-box .toggle-form a {
+            color: #f57c00;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .login-box .toggle-form a:hover {
+            text-decoration: underline;
+        }
+        .login-box .demo-info {
+            margin-top: 10px;
+            font-size: 0.6rem;
+            opacity: 0.4;
+            color: #1a4a6e;
+        }
 
-    /* Water drop reflections — subtle iOS style */
-    .app::before {
-      content: '';
-      position: absolute;
-      top: -10px;
-      left: 6%;
-      width: 50%;
-      height: 35px;
-      background: radial-gradient(circle at 20% 0%, rgba(255,255,255,0.6), transparent 70%);
-      border-radius: 50%;
-      filter: blur(8px);
-      opacity: 0.4;
-      pointer-events: none;
-    }
-    .app::after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      right: 4%;
-      width: 30%;
-      height: 20px;
-      background: radial-gradient(circle at 70% 100%, rgba(255,255,255,0.25), transparent 70%);
-      border-radius: 50%;
-      filter: blur(10px);
-      pointer-events: none;
-    }
+        /* ===== MAIN APP ===== */
+        #mainApp {
+            display: none;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 40px;
+            padding: 14px 16px 20px;
+            box-shadow: 0 30px 60px rgba(0, 20, 40, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+        #mainApp.show {
+            display: block;
+        }
 
-    /* ---------- BRAND HEADER ---------- */
-    .brand {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      padding-bottom: 0.8rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.30);
-      margin-bottom: 1.4rem;
-    }
-    .brand h1 {
-      font-size: 1.9rem;
-      font-weight: 700;
-      color: #0a2647;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      text-shadow: 0 2px 12px rgba(255, 255, 255, 0.25);
-      letter-spacing: -0.3px;
-    }
-    .brand h1 .capital-h {
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: #0a2647;
-    }
-    .brand h1 .small-industan {
-      font-size: 1.6rem;
-      font-weight: 400;
-      color: #1a3f5e;
-      letter-spacing: 1px;
-    }
-    .brand h1 .orange-dot {
-      display: inline-block;
-      width: 14px;
-      height: 14px;
-      background: #f57c00;
-      border-radius: 50%;
-      box-shadow: 0 0 24px rgba(245, 124, 0, 0.45);
-      margin: 0 4px 0 2px;
-      flex-shrink: 0;
-      position: relative;
-      top: 2px;
-    }
-    .brand h1 i {
-      color: #f57c00;
-      filter: drop-shadow(0 4px 8px rgba(245, 124, 0, 0.2));
-      margin-right: 6px;
-    }
-    .brand .tagline {
-      background: rgba(255, 255, 255, 0.35);
-      backdrop-filter: blur(8px);
-      padding: 6px 24px;
-      border-radius: 60px;
-      font-weight: 500;
-      color: #1a3f5e;
-      border: 1px solid rgba(255,255,255,0.4);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-      font-size: 0.85rem;
-    }
+        /* Water drop reflections */
+        #mainApp::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 6%;
+            width: 40%;
+            height: 30px;
+            background: radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.5), transparent 70%);
+            border-radius: 50%;
+            filter: blur(8px);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        #mainApp::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            right: 4%;
+            width: 25%;
+            height: 18px;
+            background: radial-gradient(circle at 70% 100%, rgba(255, 255, 255, 0.2), transparent 70%);
+            border-radius: 50%;
+            filter: blur(10px);
+            pointer-events: none;
+        }
 
-    .subhead {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.2rem;
-      color: #1a4870;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(6px);
-      padding: 6px 20px;
-      border-radius: 60px;
-      border: 1px solid rgba(255,255,255,0.20);
-    }
-    .subhead .auto-email {
-      background: rgba(255, 255, 255, 0.20);
-      padding: 4px 22px;
-      border-radius: 60px;
-      color: #004080;
-      font-weight: 500;
-      backdrop-filter: blur(4px);
-      font-size: 0.85rem;
-    }
+        /* ===== SAVE STATUS ===== */
+        .save-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(12px);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 60px;
+            font-size: 0.7rem;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
+        .save-status.show {
+            opacity: 1;
+        }
 
-    /* ---------- GRID ---------- */
-    .grid-2col {
-      display: grid;
-      grid-template-columns: 2.2fr 1.3fr;
-      gap: 24px;
-      margin-top: 4px;
-    }
-    @media (max-width: 900px) { .grid-2col { grid-template-columns: 1fr; } }
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            margin-bottom: 14px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            padding: 4px 14px 4px 10px;
+            border-radius: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .logo i {
+            font-size: 1.5rem;
+            color: #f57c00;
+            filter: drop-shadow(0 4px 12px rgba(245, 124, 0, 0.15));
+        }
+        .logo h1 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0a2647;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            flex-wrap: wrap;
+        }
+        .logo .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #f57c00;
+            border-radius: 50%;
+            box-shadow: 0 0 16px rgba(245, 124, 0, 0.3);
+            flex-shrink: 0;
+        }
+        .logo .sub {
+            font-weight: 300;
+            color: #1a3f5e;
+            font-size: 0.75rem;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .user-badge {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 3px 14px;
+            border-radius: 60px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #1a3f5e;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .user-badge .role {
+            font-size: 0.55rem;
+            background: rgba(245, 124, 0, 0.12);
+            padding: 1px 8px;
+            border-radius: 40px;
+            color: #f57c00;
+        }
+        .btn-logout {
+            padding: 3px 14px;
+            border-radius: 60px;
+            border: 1px solid rgba(200, 80, 80, 0.15);
+            background: rgba(200, 80, 80, 0.04);
+            color: #b33c3c;
+            font-size: 0.65rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-logout:hover {
+            background: rgba(200, 80, 80, 0.08);
+        }
+        .btn-export {
+            padding: 3px 14px;
+            border-radius: 60px;
+            border: 1px solid rgba(43, 140, 94, 0.2);
+            background: rgba(43, 140, 94, 0.08);
+            color: #2b8c5e;
+            font-size: 0.65rem;
+            cursor: pointer;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-export:hover {
+            background: rgba(43, 140, 94, 0.15);
+        }
 
-    /* ---------- CARDS (Transparent White) ---------- */
-    .card {
-      background: rgba(255, 255, 255, 0.22);
-      backdrop-filter: blur(14px) saturate(160%);
-      -webkit-backdrop-filter: blur(14px) saturate(160%);
-      border-radius: 32px;
-      padding: 1.5rem 1.2rem;
-      border: 1px solid rgba(255, 255, 255, 0.40);
-      box-shadow: 0 8px 28px rgba(0, 20, 30, 0.05), 0 0 0 1px rgba(255,255,255,0.25) inset;
-      margin-bottom: 1.5rem;
-      transition: 0.25s;
-    }
-    .card:hover {
-      background: rgba(255, 255, 255, 0.30);
-      box-shadow: 0 12px 36px rgba(0, 30, 60, 0.08);
-    }
-    .card-title {
-      font-weight: 600;
-      font-size: 1.05rem;
-      color: #0e3250;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.20);
-      padding-bottom: 0.6rem;
-    }
-    .card-title i {
-      color: #f57c00;
-    }
-    .badge-section {
-      background: rgba(255, 255, 255, 0.25);
-      padding: 4px 16px;
-      border-radius: 40px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: #004d99;
-      backdrop-filter: blur(4px);
-    }
+        /* ===== TABS ===== */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 14px;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(8px);
+            padding: 4px;
+            border-radius: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .tab-btn {
+            flex: 1;
+            min-width: 40px;
+            padding: 6px 8px;
+            border: none;
+            border-radius: 60px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            background: transparent;
+            color: #1a3f5e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            text-align: center;
+        }
+        .tab-btn i {
+            font-size: 0.7rem;
+        }
+        .tab-btn.active {
+            background: rgba(245, 124, 0, 0.15);
+            color: #f57c00;
+            box-shadow: 0 0 16px rgba(245, 124, 0, 0.06);
+        }
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .tab-btn.hidden-tab {
+            display: none;
+        }
 
-    /* ---------- ENTRY ROW ---------- */
-    .entry-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px 14px;
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(8px);
-      padding: 16px 14px;
-      border-radius: 28px;
-      margin-bottom: 18px;
-      border: 1px solid rgba(255, 255, 255, 0.20);
-    }
-    .entry-row .field {
-      flex: 1 0 100px;
-      min-width: 85px;
-    }
-    .entry-row label {
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: #1a4a6e;
-      display: block;
-      margin-bottom: 2px;
-      letter-spacing: 0.2px;
-      text-shadow: 0 1px 4px rgba(255,255,255,0.15);
-    }
-    .entry-row input, .entry-row select {
-      width: 100%;
-      padding: 8px 16px;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      border-radius: 60px;
-      font-size: 0.85rem;
-      background: rgba(255, 255, 255, 0.30);
-      backdrop-filter: blur(4px);
-      transition: 0.2s;
-      color: #0b2b4f;
-    }
-    .entry-row input:focus, .entry-row select:focus {
-      border-color: #f57c00;
-      outline: none;
-      box-shadow: 0 0 0 4px rgba(245, 124, 0, 0.12);
-      background: rgba(255, 255, 255, 0.60);
-    }
+        /* ===== TAB CONTENT ===== */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
 
-    /* ---------- BUTTONS (Orange theme) ---------- */
-    .btn {
-      background: rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(6px);
-      border: 1px solid rgba(255, 255, 255, 0.30);
-      padding: 8px 24px;
-      border-radius: 60px;
-      font-weight: 500;
-      font-size: 0.85rem;
-      color: #1f3b57;
-      cursor: pointer;
-      transition: 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-    }
-    .btn-primary {
-      background: #f57c00;
-      border: 1px solid #f57c00;
-      color: white;
-      box-shadow: 0 4px 16px rgba(245, 124, 0, 0.30);
-    }
-    .btn-primary:hover { background: #e06b00; }
-    .btn-success {
-      background: #2b8c5e;
-      border: 1px solid #2b8c5e;
-      color: white;
-      box-shadow: 0 4px 16px rgba(43, 140, 94, 0.20);
-    }
-    .btn-success:hover { background: #1f724b; }
-    .btn-outline { background: rgba(255,255,255,0.12); }
-    .btn-outline:hover { background: rgba(255,255,255,0.30); }
-    .btn-danger { color: #b33c3c; border-color: rgba(200,80,80,0.20); }
-    .btn-danger:hover { background: rgba(200,80,80,0.12); }
-    .btn-sm { padding: 4px 16px; font-size: 0.75rem; }
-    .btn-warning { background: #d4a017; border-color: #d4a017; color: white; }
-    .btn-warning:hover { background: #b8890e; }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    /* ---------- TABLE ---------- */
-    .stock-table-wrap {
-      max-height: 270px;
-      overflow-y: auto;
-      border-radius: 24px;
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(4px);
-      padding: 2px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.82rem;
-    }
-    th {
-      background: rgba(255, 255, 255, 0.18);
-      backdrop-filter: blur(8px);
-      color: #0e3250;
-      font-weight: 600;
-      padding: 10px 8px;
-      text-align: left;
-      position: sticky;
-      top: 0;
-      z-index: 2;
-      border-bottom: 1px solid rgba(255,255,255,0.15);
-    }
-    td {
-      padding: 9px 8px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      vertical-align: middle;
-      color: #0b2b4f;
-    }
-    .category-badge {
-      background: rgba(255, 255, 255, 0.30);
-      backdrop-filter: blur(4px);
-      padding: 2px 16px;
-      border-radius: 40px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: #1f4870;
-      display: inline-block;
-      border: 1px solid rgba(255,255,255,0.12);
-    }
-    .model-badge {
-      background: rgba(255, 255, 255, 0.15);
-      padding: 0px 14px;
-      border-radius: 20px;
-      font-size: 0.7rem;
-      color: #1a4a6e;
-    }
+        /* ===== CARDS ===== */
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(14px) saturate(160%);
+            -webkit-backdrop-filter: blur(14px) saturate(160%);
+            border-radius: 24px;
+            padding: 12px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 16px rgba(0, 20, 30, 0.03), 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+            margin-bottom: 10px;
+            transition: 0.3s;
+        }
+        .card:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .card-title {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #0e3250;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 5px;
+            margin-bottom: 8px;
+        }
+        .card-title i {
+            color: #f57c00;
+            font-size: 0.85rem;
+        }
+        .badge {
+            font-size: 0.5rem;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 1px 8px;
+            border-radius: 40px;
+            color: #004d99;
+            font-weight: 600;
+        }
 
-    /* ---------- SECTION TAGS ---------- */
-    .section-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px 12px;
-      margin-bottom: 16px;
-      align-items: center;
-    }
-    .section-tag {
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(4px);
-      padding: 4px 18px;
-      border-radius: 60px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: #1f4a7a;
-      border: 1px solid rgba(255,255,255,0.10);
-    }
+        /* ===== 3-LINE SECTIONS ===== */
+        .section-3line {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .section-3line .line-item {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 6px 10px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            text-align: center;
+            font-size: 0.7rem;
+        }
+        .section-3line .line-item .num {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0a2647;
+        }
+        .section-3line .line-item .label {
+            font-size: 0.55rem;
+            color: #1a4a6e;
+            opacity: 0.5;
+        }
 
-    /* ---------- BOM ---------- */
-    .bom-panel {
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(16px);
-    }
-    .bom-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    .bom-row select, .bom-row input {
-      padding: 8px 16px;
-      border-radius: 60px;
-      border: 1px solid rgba(255, 255, 255, 0.30);
-      font-size: 0.85rem;
-      background: rgba(255, 255, 255, 0.20);
-      backdrop-filter: blur(4px);
-      flex: 1 0 110px;
-    }
-    .file-upload-wrapper {
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(6px);
-      padding: 8px 20px;
-      border-radius: 60px;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      border: 1px solid rgba(255,255,255,0.12);
-    }
-    .file-upload-wrapper input[type="file"] {
-      border: none;
-      background: transparent;
-      font-size: 0.8rem;
-      color: #1a3a5e;
-    }
-    #bomItemsList {
-      margin-top: 12px;
-      list-style: none;
-      padding: 0;
-      max-height: 180px;
-      overflow-y: auto;
-    }
-    #bomItemsList li {
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(4px);
-      padding: 8px 18px;
-      border-radius: 60px;
-      margin-bottom: 5px;
-      display: flex;
-      justify-content: space-between;
-      border: 1px solid rgba(255,255,255,0.10);
-      font-size: 0.82rem;
-    }
+        @media(max-width:500px) {
+            .section-3line {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 4px;
+            }
+            .section-3line .line-item {
+                padding: 4px 6px;
+                font-size: 0.6rem;
+            }
+            .section-3line .line-item .num {
+                font-size: 1rem;
+            }
+        }
 
-    /* ---------- EMAIL SECTION ---------- */
-    .email-section {
-      margin-top: 1.2rem;
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(8px);
-      border-radius: 60px;
-      padding: 10px 20px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 12px 20px;
-      border: 1px solid rgba(255,255,255,0.12);
-    }
-    .email-section input {
-      flex: 2 1 180px;
-      padding: 10px 20px;
-      border-radius: 60px;
-      border: 1px solid rgba(255,255,255,0.20);
-      background: rgba(255,255,255,0.20);
-      backdrop-filter: blur(4px);
-      color: #0a2647;
-    }
-    .email-section input:focus {
-      border-color: #f57c00;
-      outline: none;
-      box-shadow: 0 0 0 4px rgba(245, 124, 0, 0.10);
-    }
+        /* ===== ENTRY ROW ===== */
+        .entry-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 6px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(8px);
+            padding: 8px 10px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 8px;
+        }
+        .entry-row .field {
+            flex: 1 0 60px;
+            min-width: 50px;
+        }
+        .entry-row label {
+            font-size: 0.5rem;
+            font-weight: 600;
+            color: #1a4a6e;
+            display: block;
+            margin-bottom: 1px;
+        }
+        .entry-row input,
+        .entry-row select {
+            width: 100%;
+            padding: 4px 8px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 60px;
+            font-size: 0.7rem;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(4px);
+            color: #0b2b4f;
+        }
+        .entry-row input:focus,
+        .entry-row select:focus {
+            border-color: #f57c00;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(245, 124, 0, 0.05);
+        }
 
-    .saved-bom-list .bom-save-item {
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(4px);
-      padding: 4px 18px;
-      border-radius: 60px;
-      display: inline-block;
-      margin: 3px 6px 3px 0;
-      font-size: 0.75rem;
-      cursor: pointer;
-      border: 1px solid rgba(255,255,255,0.10);
-      transition: 0.2s;
-    }
-    .saved-bom-list .bom-save-item:hover {
-      background: rgba(255, 255, 255, 0.30);
-    }
-    .text-muted { color: #1f4870; opacity: 0.7; }
-    .flex { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .mt-2 { margin-top: 12px; }
-  </style>
+        /* ===== BUTTONS ===== */
+        .btn {
+            padding: 4px 12px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.06);
+            cursor: pointer;
+            transition: 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-primary {
+            background: #f57c00;
+            border-color: #f57c00;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(245, 124, 0, 0.15);
+        }
+        .btn-primary:hover {
+            background: #e06b00;
+            transform: translateY(-1px);
+        }
+        .btn-success {
+            background: #2b8c5e;
+            border-color: #2b8c5e;
+            color: #fff;
+        }
+        .btn-success:hover {
+            background: #1f724b;
+        }
+        .btn-danger {
+            color: #b33c3c;
+            border-color: rgba(200, 80, 80, 0.1);
+        }
+        .btn-danger:hover {
+            background: rgba(200, 80, 80, 0.05);
+        }
+        .btn-warning {
+            background: #d4a017;
+            border-color: #d4a017;
+            color: #fff;
+        }
+        .btn-warning:hover {
+            background: #b8890e;
+        }
+        .btn-sm {
+            padding: 2px 8px;
+            font-size: 0.6rem;
+        }
+        .btn-xs {
+            padding: 1px 6px;
+            font-size: 0.55rem;
+        }
+
+        /* ===== TABLE ===== */
+        .table-wrap {
+            max-height: 160px;
+            overflow-y: auto;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 2px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.65rem;
+        }
+        th {
+            background: rgba(255, 255, 255, 0.05);
+            color: #0e3250;
+            font-weight: 600;
+            padding: 4px 5px;
+            text-align: left;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        td {
+            padding: 4px 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            color: #0b2b4f;
+        }
+        .cat-badge {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 1px 6px;
+            border-radius: 40px;
+            font-size: 0.5rem;
+            font-weight: 600;
+            color: #1f4870;
+            display: inline-block;
+        }
+
+        /* ===== GRID ===== */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1.8fr 1fr;
+            gap: 10px;
+        }
+        @media(max-width:768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== BOM LIST ===== */
+        #bomList {
+            list-style: none;
+            padding: 0;
+            max-height: 110px;
+            overflow-y: auto;
+        }
+        #bomList li {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 3px 10px;
+            border-radius: 60px;
+            margin-bottom: 2px;
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            font-size: 0.68rem;
+        }
+
+        /* ===== SAVED BOMS ===== */
+        .saved-item {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 1px 10px;
+            border-radius: 60px;
+            display: inline-block;
+            margin: 1px 3px 1px 0;
+            font-size: 0.6rem;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: 0.2s;
+        }
+        .saved-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ===== FILE UPLOAD ===== */
+        .file-upload-area {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 3px 12px;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: wrap;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 3px;
+        }
+        .file-upload-area input[type="file"] {
+            border: none;
+            background: transparent;
+            font-size: 0.6rem;
+            color: #1a3a5e;
+            max-width: 80px;
+        }
+
+        .text-muted {
+            color: #1f4870;
+            opacity: 0.4;
+        }
+        .flex {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .mt-2 {
+            margin-top: 6px;
+        }
+        .mb-2 {
+            margin-bottom: 6px;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(245, 124, 0, 0.15);
+            border-radius: 10px;
+        }
+
+        /* ===== NOTIFICATION ===== */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(16px);
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 90%;
+            display: none;
+            animation: slideDown 0.4s ease;
+        }
+        .notification.show {
+            display: block;
+        }
+        .notification .notif-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+        .notification .notif-btns {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 6px;
+        }
+        .notification .notif-btns .btn {
+            min-width: 50px;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+        .notification .notif-btns .btn-yes {
+            background: #2b8c5e;
+            border-color: #2b8c5e;
+        }
+        .notification .notif-btns .btn-no {
+            background: #b33c3c;
+            border-color: #b33c3c;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        /* ===== ACTIVITY LOG ===== */
+        .activity-log {
+            max-height: 160px;
+            overflow-y: auto;
+            font-size: 0.65rem;
+        }
+        .activity-log .log-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 6px;
+            flex-wrap: wrap;
+            gap: 2px;
+        }
+        .activity-log .log-item .user-tag {
+            background: rgba(245, 124, 0, 0.08);
+            padding: 0px 6px;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #f57c00;
+            font-size: 0.6rem;
+        }
+        .activity-log .log-item .action-tag {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0px 6px;
+            border-radius: 40px;
+            font-size: 0.6rem;
+        }
+        .activity-log .log-item .time-tag {
+            opacity: 0.3;
+            font-size: 0.55rem;
+        }
+    </style>
 </head>
 <body>
 
-  <!-- ===== FIXED BACKGROUND WATERMARK (VISIBLE) ===== -->
-  <div class="watermark-wrapper">
-    <div class="watermark-text">
-      <span class="h-char">H</span><span class="industan-char">industan</span>
-      <span class="dot-overlay"></span>
-      <span class="industan-char" style="margin-left:6px;">Industrial Solution</span>
-    </div>
-  </div>
-
-  <!-- ===== MAIN APP ===== -->
-  <div class="app">
-
-    <!-- BRAND with Orange Dot on 'I' -->
-    <div class="brand">
-      <h1>
-        <i class="fas fa-water"></i>
-        <span class="capital-h">H</span><span class="small-industan">industan</span>
-        <span class="orange-dot"></span>
-        <span class="small-industan" style="font-weight:300; font-size:1.4rem;">Industrial Solution</span>
-      </h1>
-      <span class="tagline"><i class="fas fa-warehouse"></i> Store & BOM Manager</span>
+    <!-- ===== BACKGROUND WATERMARK ===== -->
+    <div class="watermark-wrapper">
+        <div class="watermark-text">
+            <span class="h-char">H</span>
+            <span class="rest-char">industan</span>
+            <span class="dot-wm"></span>
+            <span class="rest-char" style="margin-left:8px;">Industrial Solution</span>
+        </div>
     </div>
 
-    <div class="subhead">
-      <span><i class="fas fa-calendar-alt"></i> Daily Entry / Exit · Auto monthly email</span>
-      <span class="auto-email"><i class="fas fa-envelope"></i> monthly@hindustan.com</span>
+    <!-- ===== SAVE STATUS ===== -->
+    <div id="saveStatus" class="save-status"><i class="fas fa-check"></i> Auto-saved</div>
+
+    <!-- ===== NOTIFICATION ===== -->
+    <div id="notification" class="notification">
+        <div class="notif-title"><i class="fas fa-map-marker-alt" style="color:#f57c00;"></i> Are you at office?</div>
+        <div class="notif-btns">
+            <button class="btn btn-yes" id="attendanceYes"><i class="fas fa-check"></i> Yes</button>
+            <button class="btn btn-no" id="attendanceNo"><i class="fas fa-times"></i> No</button>
+        </div>
     </div>
 
-    <!-- ENTRY / EXIT -->
-    <div class="card">
-      <div class="card-title"><i class="fas fa-pen-alt"></i> Daily Entry / Out <span class="badge-section">with Model No</span></div>
-      <div class="entry-row">
-        <div class="field">
-          <label><i class="far fa-circle"></i> Category</label>
-          <select id="categorySelect">
-            <option value="MCB">MCB</option><option value="LIGHT">LIGHT</option><option value="CONTACTOR">CONTACTOR</option>
-            <option value="SSR">SSR</option><option value="WIRE">WIRE</option><option value="MULTI-CORE">MULTI-CORE</option>
-            <option value="SINGLE-CORE">SINGLE-CORE</option><option value="LAMP">LAMP</option><option value="SWITCH">SWITCH</option>
-            <option value="METER">METER</option><option value="LOCK">LOCK</option><option value="PLC">PLC</option>
-            <option value="HMI">HMI</option><option value="SOCKET">SOCKET</option><option value="FAN">FAN</option>
-            <option value="AIRVENT">AIRVENT</option><option value="TERMINAL">TERMINAL</option><option value="LUG">LUG</option>
-            <option value="DRIVE">DRIVE</option><option value="STRETCH ROLL">STRETCH ROLL</option><option value="SMPS">SMPS</option>
-            <option value="TIE">TIE</option><option value="SPIRAL">SPIRAL</option><option value="GLAN">GLAN</option>
-            <option value="TRANSFORMER">TRANSFORMER</option><option value="LINE CHOKE">LINE CHOKE</option>
-            <option value="SALZER OLR">SALZER OLR</option><option value="CONTACTOR ADDON BLOCK">CONTACTOR ADDON BLOCK</option>
-          </select>
-        </div>
-        <div class="field">
-          <label><i class="fas fa-tag"></i> Item name</label>
-          <input type="text" id="itemName" placeholder="e.g. 10A MCB" />
-        </div>
-        <div class="field" style="flex:0.7;">
-          <label><i class="fas fa-hashtag"></i> Model No</label>
-          <input type="text" id="itemModel" placeholder="MOD-101" />
-        </div>
-        <div class="field" style="flex:0.6;">
-          <label><i class="fas fa-arrow-down"></i> Qty</label>
-          <input type="number" id="itemQty" value="1" min="1" />
-        </div>
-        <div class="field" style="flex:0.8;">
-          <label><i class="fas fa-exchange-alt"></i> Transaction</label>
-          <select id="entryType">
-            <option value="in">IN (entry)</option>
-            <option value="out">OUT (exit)</option>
-          </select>
-        </div>
-        <button class="btn btn-primary" id="addStockBtn"><i class="fas fa-plus-circle"></i> Add</button>
-      </div>
+    <!-- ============================================================= -->
+    <!-- ===== LOGIN PAGE ===== -->
+    <!-- ============================================================= -->
+    <div id="loginPage">
+        <div class="login-box">
+            <div class="logo-icon"><i class="fas fa-industry"></i></div>
+            <h2>Hindustan Industrial Solution</h2>
+            <div class="sub-title">Store &amp; BOM Management System</div>
 
-      <!-- Section Tags -->
-      <div class="section-group">
-        <span class="section-tag"><i class="fas fa-filter"></i> sections</span>
-        <span class="section-tag">MCB</span><span class="section-tag">LIGHT</span><span class="section-tag">CONTACTOR</span>
-        <span class="section-tag">SSR</span><span class="section-tag">WIRE</span><span class="section-tag">MULTI-CORE</span>
-        <span class="section-tag">SINGLE-CORE</span><span class="section-tag">LAMP</span><span class="section-tag">SWITCH</span>
-        <span class="section-tag">METER</span><span class="section-tag">LOCK</span><span class="section-tag">PLC</span>
-        <span class="section-tag">HMI</span><span class="section-tag">SOCKET</span><span class="section-tag">FAN</span>
-        <span class="section-tag">AIRVENT</span><span class="section-tag">TERMINAL</span><span class="section-tag">LUG</span>
-        <span class="section-tag">DRIVE</span><span class="section-tag">STRETCH ROLL</span><span class="section-tag">SMPS</span>
-        <span class="section-tag">TIE</span><span class="section-tag">SPIRAL</span><span class="section-tag">GLAN</span>
-        <span class="section-tag">TRANSFORMER</span><span class="section-tag">LINE CHOKE</span>
-        <span class="section-tag" style="background:rgba(245,124,0,0.12);">SALZER OLR</span>
-        <span class="section-tag" style="background:rgba(245,124,0,0.12);">CONTACTOR ADDON BLOCK</span>
-      </div>
+            <!-- Login Form -->
+            <div id="loginForm">
+                <div class="field">
+                    <label><i class="fas fa-user"></i> Username</label>
+                    <input type="text" id="loginUsername" placeholder="Enter username" />
+                </div>
+                <div class="field">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter password" />
+                </div>
+                <div class="error-msg" id="loginError">Invalid username or password</div>
+                <button class="btn-login" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Login</button>
+                <div class="toggle-form">
+                    Don't have an account? <a id="showRegister">Create New Account</a>
+                </div>
+            </div>
 
-      <!-- Stock Table -->
-      <div class="stock-table-wrap">
-        <table>
-          <thead><tr><th>Category</th><th>Item</th><th>Model</th><th>Qty</th><th style="width:50px;"></th></tr></thead>
-          <tbody id="stockTableBody"></tbody>
-        </table>
-      </div>
-      <div class="flex mt-2">
-        <span class="text-muted"><i class="fas fa-database"></i> total items: <span id="totalItems">0</span></span>
-      </div>
+            <!-- Register Form -->
+            <div id="registerForm" style="display:none;">
+                <div class="field">
+                    <label><i class="fas fa-user"></i> Username</label>
+                    <input type="text" id="regUsername" placeholder="Choose username" />
+                </div>
+                <div class="field">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="regPassword" placeholder="Choose password" />
+                </div>
+                <div class="field">
+                    <label><i class="fas fa-lock"></i> Confirm Password</label>
+                    <input type="password" id="regConfirm" placeholder="Confirm password" />
+                </div>
+                <div class="error-msg" id="regError"></div>
+                <div class="success-msg" id="regSuccess"></div>
+                <button class="btn-login" id="registerBtn"><i class="fas fa-user-plus"></i> Create Account</button>
+                <div class="toggle-form">
+                    Already have an account? <a id="showLogin">Back to Login</a>
+                </div>
+            </div>
+
+            <div class="demo-info">
+                <i class="fas fa-info-circle"></i> Admin: admin / admin &nbsp;|&nbsp; Register to create user account
+            </div>
+        </div>
     </div>
 
-    <!-- BOM + EMAIL -->
-    <div class="grid-2col">
-      <div class="card bom-panel">
-        <div class="card-title"><i class="fas fa-clipboard-list"></i> BOM · Panel Material <span class="badge-section">auto stock remove</span></div>
-        <div class="bom-row">
-          <select id="bomCategorySelect">
-            <option value="MCB">MCB</option><option value="LIGHT">LIGHT</option><option value="CONTACTOR">CONTACTOR</option>
-            <option value="SSR">SSR</option><option value="WIRE">WIRE</option><option value="MULTI-CORE">MULTI-CORE</option>
-            <option value="SINGLE-CORE">SINGLE-CORE</option><option value="LAMP">LAMP</option><option value="SWITCH">SWITCH</option>
-            <option value="METER">METER</option><option value="LOCK">LOCK</option><option value="PLC">PLC</option>
-            <option value="HMI">HMI</option><option value="SOCKET">SOCKET</option><option value="FAN">FAN</option>
-            <option value="AIRVENT">AIRVENT</option><option value="TERMINAL">TERMINAL</option><option value="LUG">LUG</option>
-            <option value="DRIVE">DRIVE</option><option value="STRETCH ROLL">STRETCH ROLL</option><option value="SMPS">SMPS</option>
-            <option value="TIE">TIE</option><option value="SPIRAL">SPIRAL</option><option value="GLAN">GLAN</option>
-            <option value="TRANSFORMER">TRANSFORMER</option><option value="LINE CHOKE">LINE CHOKE</option>
-            <option value="SALZER OLR">SALZER OLR</option><option value="CONTACTOR ADDON BLOCK">CONTACTOR ADDON BLOCK</option>
-          </select>
-          <input type="text" id="bomItemName" placeholder="item name" />
-          <input type="text" id="bomModel" placeholder="Model" style="flex:0.8;" />
-          <input type="number" id="bomQty" value="1" min="1" style="flex:0.6;" />
-          <button class="btn btn-primary btn-sm" id="addBomBtn"><i class="fas fa-plus"></i> Add</button>
-        </div>
-        <div class="flex" style="gap:6px; flex-wrap:wrap;">
-          <button class="btn btn-outline btn-sm" id="clearBomBtn"><i class="fas fa-undo-alt"></i> clear</button>
-          <button class="btn btn-success btn-sm" id="applyBomBtn"><i class="fas fa-check-double"></i> Apply BOM</button>
-          <button class="btn btn-warning btn-sm" id="saveBomBtn"><i class="fas fa-save"></i> Save BOM</button>
-        </div>
-        <!-- Excel Upload -->
-        <div class="file-upload-wrapper" style="margin-top: 10px;">
-          <i class="fas fa-file-excel" style="color:#1f7b3a;"></i>
-          <span style="font-size:0.8rem; font-weight:500;">Upload Excel (BOM)</span>
-          <input type="file" id="excelUpload" accept=".xlsx,.xls" />
-          <button class="btn btn-success btn-sm" id="processExcelBtn"><i class="fas fa-play"></i> Process & Remove</button>
-        </div>
-        <div class="text-muted" style="margin-top: 6px; font-size:0.7rem;">
-          <i class="fas fa-info-circle"></i> Excel: Category, ItemName, Model, Qty
+    <!-- ============================================================= -->
+    <!-- ===== MAIN APP ===== -->
+    <!-- ============================================================= -->
+    <div id="mainApp">
+
+        <!-- ===== HEADER ===== -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-industry"></i>
+                <h1>
+                    <span style="font-weight:800;">H</span>
+                    <span style="font-weight:300;">industan</span>
+                    <span class="dot"></span>
+                    <span class="sub">Industrial Solution</span>
+                </h1>
+            </div>
+            <div class="header-right">
+                <button class="btn-export" id="exportBtn"><i class="fas fa-file-excel"></i> Export</button>
+                <span class="user-badge">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="currentUserDisplay">admin</span>
+                    <span class="role" id="currentRoleDisplay">Admin</span>
+                </span>
+                <button class="btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
         </div>
 
-        <ul id="bomItemsList"><li style="color:#1f4870; justify-content:center; font-style:italic; opacity:0.6;">No BOM items</li></ul>
-        
-        <div style="margin-top: 12px;">
-          <span class="text-muted"><i class="fas fa-archive"></i> Saved BOMs (click to load)</span>
-          <div id="savedBomContainer" class="saved-bom-list"></div>
+        <!-- ===== TABS ===== -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="tab1"><i class="fas fa-boxes"></i> Stock</button>
+            <button class="tab-btn" data-tab="tab2"><i class="fas fa-clipboard-list"></i> BOM</button>
+            <button class="tab-btn" data-tab="tab3"><i class="fas fa-list-ul"></i> Materials</button>
+            <button class="tab-btn" data-tab="tab4"><i class="fas fa-chart-pie"></i> Accounts</button>
+            <button class="tab-btn" data-tab="tab5"><i class="fas fa-history"></i> History</button>
+            <button class="tab-btn" data-tab="tab6"><i class="fas fa-user-check"></i> Attendance</button>
+            <button class="tab-btn hidden-tab" data-tab="tab7" id="adminTab"><i class="fas fa-users-cog"></i> Admin</button>
         </div>
-      </div>
 
-      <!-- Right: Email + Stats -->
-      <div>
-        <div class="card">
-          <div class="card-title"><i class="fas fa-envelope-open-text"></i> Monthly Auto Email</div>
-          <div class="email-section">
-            <i class="fas fa-at" style="color:#f57c00;"></i>
-            <input type="email" id="emailInput" placeholder="your@email.com" value="devanshusuvagya5@gmail.com" />
-            <button class="btn btn-primary btn-sm" id="sendTestEmailBtn"><i class="fas fa-paper-plane"></i> Send Report</button>
-          </div>
-          <p class="text-muted" style="margin-top: 10px; font-size:0.8rem;"><i class="fas fa-clock"></i> Monthly report with stock & BOM will be sent to your email.</p>
-          <div style="background:rgba(255,255,255,0.10); border-radius:60px; padding:8px 18px; margin-top:8px; backdrop-filter:blur(4px);">
-            <span><i class="fas fa-flag"></i> next scheduled: 1 July 2026</span>
-          </div>
+        <!-- ============================================================= -->
+        <!-- ===== TAB 1: STOCK ===== -->
+        <!-- ============================================================= -->
+        <div id="tab1" class="tab-content active">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-pen-alt"></i> Daily Entry / Out <span class="badge">with Model</span></div>
+                <div class="entry-row">
+                    <div class="field">
+                        <label>Category</label>
+                        <select id="categorySelect">
+                            <option value="MCB">MCB</option><option value="LIGHT">LIGHT</option>
+                            <option value="CONTACTOR">CONTACTOR</option><option value="SSR">SSR</option>
+                            <option value="WIRE">WIRE</option><option value="MULTI-CORE">MULTI-CORE</option>
+                            <option value="SINGLE-CORE">SINGLE-CORE</option><option value="LAMP">LAMP</option>
+                            <option value="SWITCH">SWITCH</option><option value="METER">METER</option>
+                            <option value="LOCK">LOCK</option><option value="PLC">PLC</option>
+                            <option value="HMI">HMI</option><option value="SOCKET">SOCKET</option>
+                            <option value="FAN">FAN</option><option value="AIRVENT">AIRVENT</option>
+                            <option value="TERMINAL">TERMINAL</option><option value="LUG">LUG</option>
+                            <option value="DRIVE">DRIVE</option><option value="STRETCH ROLL">STRETCH ROLL</option>
+                            <option value="SMPS">SMPS</option><option value="TIE">TIE</option>
+                            <option value="SPIRAL">SPIRAL</option><option value="GLAN">GLAN</option>
+                            <option value="TRANSFORMER">TRANSFORMER</option><option value="LINE CHOKE">LINE CHOKE</option>
+                            <option value="SALZER OLR">SALZER OLR</option>
+                            <option value="CONTACTOR ADDON BLOCK">CONTACTOR ADDON BLOCK</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Item name</label>
+                        <input type="text" id="itemName" placeholder="e.g. 10A MCB" />
+                    </div>
+                    <div class="field" style="flex:0.5;">
+                        <label>Model</label>
+                        <input type="text" id="itemModel" placeholder="MOD-101" />
+                    </div>
+                    <div class="field" style="flex:0.4;">
+                        <label>Qty</label>
+                        <input type="number" id="itemQty" value="1" min="1" />
+                    </div>
+                    <div class="field" style="flex:0.5;">
+                        <label>Type</label>
+                        <select id="entryType">
+                            <option value="in">IN</option>
+                            <option value="out">OUT</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" id="addStockBtn"><i class="fas fa-plus-circle"></i> Add</button>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Category</th><th>Item</th><th>Model</th><th>Qty</th><th style="width:30px;"></th></tr></thead>
+                        <tbody id="stockTableBody"></tbody>
+                    </table>
+                </div>
+                <div class="flex mt-2">
+                    <span class="text-muted"><i class="fas fa-database"></i> Total: <span id="totalItems">0</span></span>
+                </div>
+            </div>
         </div>
-        <div class="card" style="background:rgba(255,255,255,0.10);">
-          <div class="card-title"><i class="fas fa-chart-pie"></i> Stock Summary</div>
-          <div id="stockSummary" style="font-size:0.8rem; display:flex; flex-wrap:wrap; gap:4px 10px;"></div>
+
+        <!-- ============================================================= -->
+        <!-- ===== TAB 2: BOM ===== -->
+        <!-- ============================================================= -->
+        <div id="tab2" class="tab-content">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-clipboard-list"></i> BOM Builder <span class="badge">auto stock remove</span></div>
+                <div class="entry-row">
+                    <div class="field">
+                        <label>Category</label>
+                        <select id="bomCategorySelect">
+                            <option value="MCB">MCB</option><option value="LIGHT">LIGHT</option>
+                            <option value="CONTACTOR">CONTACTOR</option><option value="SSR">SSR</option>
+                            <option value="WIRE">WIRE</option><option value="MULTI-CORE">MULTI-CORE</option>
+                            <option value="SINGLE-CORE">SINGLE-CORE</option><option value="LAMP">LAMP</option>
+                            <option value="SWITCH">SWITCH</option><option value="METER">METER</option>
+                            <option value="LOCK">LOCK</option><option value="PLC">PLC</option>
+                            <option value="HMI">HMI</option><option value="SOCKET">SOCKET</option>
+                            <option value="FAN">FAN</option><option value="AIRVENT">AIRVENT</option>
+                            <option value="TERMINAL">TERMINAL</option><option value="LUG">LUG</option>
+                            <option value="DRIVE">DRIVE</option><option value="STRETCH ROLL">STRETCH ROLL</option>
+                            <option value="SMPS">SMPS</option><option value="TIE">TIE</option>
+                            <option value="SPIRAL">SPIRAL</option><option value="GLAN">GLAN</option>
+                            <option value="TRANSFORMER">TRANSFORMER</option><option value="LINE CHOKE">LINE CHOKE</option>
+                            <option value="SALZER OLR">SALZER OLR</option>
+                            <option value="CONTACTOR ADDON BLOCK">CONTACTOR ADDON BLOCK</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Item name</label>
+                        <input type="text" id="bomItemName" placeholder="item name" />
+                    </div>
+                    <div class="field" style="flex:0.5;">
+                        <label>Model</label>
+                        <input type="text" id="bomModel" placeholder="Model" />
+                    </div>
+                    <div class="field" style="flex:0.4;">
+                        <label>Qty</label>
+                        <input type="number" id="bomQty" value="1" min="1" />
+                    </div>
+                    <button class="btn btn-primary btn-sm" id="addBomBtn"><i class="fas fa-plus"></i> Add</button>
+                </div>
+
+                <div class="flex" style="gap:3px;flex-wrap:wrap;margin-bottom:6px;">
+                    <button class="btn btn-outline btn-sm" id="clearBomBtn"><i class="fas fa-undo-alt"></i> Clear</button>
+                    <button class="btn btn-success btn-sm" id="applyBomBtn"><i class="fas fa-check-double"></i> Apply</button>
+                    <button class="btn btn-warning btn-sm" id="saveBomBtn"><i class="fas fa-save"></i> Save</button>
+                </div>
+
+                <div class="file-upload-area">
+                    <i class="fas fa-file-excel" style="color:#1f7b3a;"></i>
+                    <span style="font-size:0.6rem;font-weight:500;">Excel</span>
+                    <input type="file" id="excelUpload" accept=".xlsx,.xls" />
+                    <button class="btn btn-success btn-sm" id="processExcelBtn"><i class="fas fa-play"></i> Process</button>
+                </div>
+
+                <ul id="bomList"><li style="color:#1f4870;justify-content:center;font-style:italic;opacity:0.4;font-size:0.65rem;">No BOM items</li></ul>
+
+                <div style="margin-top:6px;">
+                    <span class="text-muted" style="font-size:0.6rem;"><i class="fas fa-archive"></i> Saved BOMs (click to load)</span>
+                    <div id="savedBomContainer"></div>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <!-- ============================================================= -->
+        <!-- ===== TAB 3: MATERIALS ===== -->
+        <!-- ============================================================= -->
+        <div id="tab3" class="tab-content">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-list-ul"></i> All Materials <span class="badge">category wise</span></div>
+                <div id="materialList" style="font-size:0.75rem;">
+                    <p class="text-muted" style="text-align:center;padding:12px;">Loading materials...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================= -->
+        <!-- ===== TAB 4: ACCOUNTS ===== -->
+        <!-- ============================================================= -->
+        <div id="tab4" class="tab-content">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-coins"></i> Accounts Overview</div>
+                <div class="section-3line">
+                    <div class="line-item">
+                        <div class="num" id="totalStockValue">0</div>
+                        <div class="label">Total Stock Value</div>
+                    </div>
+                    <div class="line-item">
+                        <div class="num" id="totalTransactions">0</div>
+                        <div class="label">Total Transactions</div>
+                    </div>
+                    <div class="line-item">
+                        <div class="num" id="totalBOMs">0</div>
+                        <div class="label">Total BOMs</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fas fa-user-circle"></i> My Account Data</div>
+                <div style="font-size:0.75rem;">
+                    <div class="flex" style="margin-bottom:2px;">
+                        <span style="font-weight:600;">Username:</span>
+                        <span id="userDataUsername">admin</span>
+                    </div>
+                    <div class="flex" style="margin-bottom:2px;">
+                        <span style="font-weight:600;">Role:</span>
+                        <span id="userDataRole">Admin</span>
+                    </div>
+                    <div class="flex" style="margin-bottom:2px;">
+                        <span style="font-weight:600;">Total Activities:</span>
+                        <span id="userDataActivities">0</span>
+                    </div>
+                    <div class="flex" style="margin-bottom:2px;">
+                        <span style="font-weight:600;">Last Login:</span>
+                        <span id="userDataLastLogin">Never</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================= -->
+        <!-- ===== TAB 5: HISTORY ===== -->
+        <!-- ============================================================= -->
+        <div id="tab5" class="tab-content">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-history"></i> Login History <span class="badge">user activity</span></div>
+                <div id="loginHistory" style="font-size:0.7rem;max-height:280px;overflow-y:auto;">
+                    <p class="text-muted" style="text-align:center;padding:12px;">No login history yet</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================= -->
+        <!-- ===== TAB 6: ATTENDANCE ===== -->
+        <!-- ============================================================= -->
+        <div id="tab6" class="tab-content">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-user-check"></i> Attendance <span class="badge">location based</span></div>
+
+                <div style="background:rgba(255,255,255,0.04);backdrop-filter:blur(8px);border-radius:20px;padding:12px;border:1px solid rgba(255,255,255,0.04);text-align:center;margin-bottom:8px;">
+                    <div style="font-size:1.6rem;margin-bottom:2px;">📍</div>
+                    <div style="font-size:1rem;font-weight:700;" id="attendanceStatus">Not Marked</div>
+                    <div style="font-size:0.65rem;opacity:0.5;" id="attendanceLocation">Location: Unknown</div>
+                    <div class="flex" style="justify-content:center;gap:8px;margin-top:6px;">
+                        <button class="btn btn-success btn-sm" id="checkInBtn"><i class="fas fa-sign-in-alt"></i> Check In</button>
+                        <button class="btn btn-danger btn-sm" id="checkOutBtn"><i class="fas fa-sign-out-alt"></i> Check Out</button>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="text-muted" style="font-size:0.65rem;"><i class="fas fa-clock"></i> Today's Attendance</span>
+                    <div id="todayAttendance" style="font-size:0.7rem;margin-top:3px;max-height:100px;overflow-y:auto;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================= -->
+        <!-- ===== TAB 7: ADMIN ===== -->
+        <!-- ============================================================= -->
+        <div id="tab7" class="tab-content">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-users-cog"></i> Admin Dashboard <span class="badge">all users</span></div>
+
+                <div class="section-3line">
+                    <div class="line-item">
+                        <div class="num" id="adminTotalUsers">0</div>
+                        <div class="label">Total Users</div>
+                    </div>
+                    <div class="line-item">
+                        <div class="num" id="adminTotalActivities">0</div>
+                        <div class="label">Total Activities</div>
+                    </div>
+                    <div class="line-item">
+                        <div class="num" id="adminTodayCheckins">0</div>
+                        <div class="label">Today Check-ins</div>
+                    </div>
+                </div>
+
+                <div style="margin-top:8px;">
+                    <div class="card-title" style="font-size:0.75rem;border-bottom:none;padding-bottom:0;margin-bottom:4px;">
+                        <i class="fas fa-stream"></i> All User Activities
+                    </div>
+                    <div id="adminActivityLog" class="activity-log">
+                        <p class="text-muted" style="text-align:center;padding:8px;">No activities yet</p>
+                    </div>
+                </div>
+
+                <div style="margin-top:8px;">
+                    <div class="card-title" style="font-size:0.75rem;border-bottom:none;padding-bottom:0;margin-bottom:4px;">
+                        <i class="fas fa-users"></i> All Users
+                    </div>
+                    <div id="adminUserList" style="font-size:0.7rem;max-height:120px;overflow-y:auto;"></div>
+                </div>
+            </div>
+        </div>
+
     </div>
-  </div>
 
-  <script>
-    (function(){
-      // ---------- STATE ----------
-      let stockItems = [];
-      let bomItems = [];
-      let idCounter = 0;
-      let savedBoms = JSON.parse(localStorage.getItem('hindustan_boms')) || [];
+    <!-- ============================================================= -->
+    <!-- ===== JAVASCRIPT ===== -->
+    <!-- ============================================================= -->
+    <script>
+        (function() {
+            'use strict';
 
-      // DOM refs
-      const stockTbody = document.getElementById('stockTableBody');
-      const totalItemsSpan = document.getElementById('totalItems');
-      const bomList = document.getElementById('bomItemsList');
-      const summaryDiv = document.getElementById('stockSummary');
-      const savedContainer = document.getElementById('savedBomContainer');
+            // =============================================================
+            // STORAGE KEYS
+            // =============================================================
+            const KEYS = {
+                STOCK: 'hindustan_stock',
+                BOM: 'hindustan_bom',
+                SAVED: 'hindustan_saved_boms',
+                ID: 'hindustan_id',
+                USERS: 'hindustan_users',
+                ACTIVITY: 'hindustan_activity',
+                ATTENDANCE: 'hindustan_attendance',
+                SESSION: 'hindustan_session'
+            };
 
-      const catSelect = document.getElementById('categorySelect');
-      const itemNameInput = document.getElementById('itemName');
-      const itemModelInput = document.getElementById('itemModel');
-      const qtyInput = document.getElementById('itemQty');
-      const entryType = document.getElementById('entryType');
-      const addStockBtn = document.getElementById('addStockBtn');
+            // =============================================================
+            // STATE
+            // =============================================================
+            let stockItems = [];
+            let bomItems = [];
+            let savedBoms = [];
+            let idCounter = 0;
+            let users = [];
+            let activityLog = [];
+            let attendance = [];
+            let currentUser = null;
 
-      const bomCatSelect = document.getElementById('bomCategorySelect');
-      const bomItemInput = document.getElementById('bomItemName');
-      const bomModelInput = document.getElementById('bomModel');
-      const bomQtyInput = document.getElementById('bomQty');
-      const addBomBtn = document.getElementById('addBomBtn');
-      const clearBomBtn = document.getElementById('clearBomBtn');
-      const applyBomBtn = document.getElementById('applyBomBtn');
-      const saveBomBtn = document.getElementById('saveBomBtn');
+            // =============================================================
+            // DOM REFS
+            // =============================================================
+            const $ = id => document.getElementById(id);
+            const stockTbody = $('stockTableBody');
+            const totalSpan = $('totalItems');
+            const bomList = $('bomList');
+            const savedContainer = $('savedBomContainer');
+            const saveStatus = $('saveStatus');
+            const materialList = $('materialList');
+            const loginHistoryDiv = $('loginHistory');
+            const todayAttendanceDiv = $('todayAttendance');
 
-      const emailInput = document.getElementById('emailInput');
-      const sendTestEmailBtn = document.getElementById('sendTestEmailBtn');
-      const excelUpload = document.getElementById('excelUpload');
-      const processExcelBtn = document.getElementById('processExcelBtn');
+            // Stock
+            const catSel = $('categorySelect');
+            const itemName = $('itemName');
+            const itemModel = $('itemModel');
+            const itemQty = $('itemQty');
+            const entryType = $('entryType');
+            const addStockBtn = $('addStockBtn');
 
-      const allCategories = [
-        'MCB','LIGHT','CONTACTOR','SSR','WIRE','MULTI-CORE','SINGLE-CORE','LAMP','SWITCH',
-        'METER','LOCK','PLC','HMI','SOCKET','FAN','AIRVENT','TERMINAL','LUG','DRIVE',
-        'STRETCH ROLL','SMPS','TIE','SPIRAL','GLAN','TRANSFORMER','LINE CHOKE',
-        'SALZER OLR','CONTACTOR ADDON BLOCK'
-      ];
+            // BOM
+            const bomCat = $('bomCategorySelect');
+            const bomName = $('bomItemName');
+            const bomModel = $('bomModel');
+            const bomQty = $('bomQty');
+            const addBomBtn = $('addBomBtn');
+            const clearBomBtn = $('clearBomBtn');
+            const applyBomBtn = $('applyBomBtn');
+            const saveBomBtn = $('saveBomBtn');
+            const excelUpload = $('excelUpload');
+            const processExcelBtn = $('processExcelBtn');
 
-      // ---------- RENDER ----------
-      function renderStock() {
-        stockTbody.innerHTML = '';
-        let total = 0;
-        stockItems.forEach((item, index) => {
-          total += item.qty;
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td><span class="category-badge">${item.category}</span></td>
-            <td><strong>${item.name}</strong></td>
-            <td><span class="model-badge">${item.model || '-'}</span></td>
-            <td class="stock-qty">${item.qty}</td>
-            <td><button class="btn btn-danger btn-sm" data-index="${index}" style="padding:2px 8px;"><i class="fas fa-trash"></i></button></td>
-          `;
-          stockTbody.appendChild(tr);
-        });
-        totalItemsSpan.textContent = total;
-        stockTbody.querySelectorAll('button[data-index]').forEach(btn => {
-          btn.addEventListener('click', function() {
-            const idx = parseInt(this.dataset.index, 10);
-            stockItems.splice(idx, 1);
-            renderStock();
-            updateSummary();
-          });
-        });
-        updateSummary();
-      }
+            // Attendance
+            const attendanceStatus = $('attendanceStatus');
+            const attendanceLocation = $('attendanceLocation');
+            const checkInBtn = $('checkInBtn');
+            const checkOutBtn = $('checkOutBtn');
 
-      function updateSummary() {
-        const map = {};
-        stockItems.forEach(it => { map[it.category] = (map[it.category] || 0) + it.qty; });
-        summaryDiv.innerHTML = allCategories.map(c => `<span>${c}: ${map[c]||0}</span>`).join(' ');
-      }
+            // Login
+            const loginPage = $('loginPage');
+            const mainApp = $('mainApp');
+            const loginUsername = $('loginUsername');
+            const loginPassword = $('loginPassword');
+            const loginBtn = $('loginBtn');
+            const loginError = $('loginError');
+            const logoutBtn = $('logoutBtn');
+            const currentUserDisplay = $('currentUserDisplay');
+            const currentRoleDisplay = $('currentRoleDisplay');
+            const showRegister = $('showRegister');
+            const showLogin = $('showLogin');
+            const loginForm = $('loginForm');
+            const registerForm = $('registerForm');
+            const regUsername = $('regUsername');
+            const regPassword = $('regPassword');
+            const regConfirm = $('regConfirm');
+            const registerBtn = $('registerBtn');
+            const regError = $('regError');
+            const regSuccess = $('regSuccess');
 
-      function renderBom() {
-        bomList.innerHTML = '';
-        if (bomItems.length === 0) {
-          bomList.innerHTML = '<li style="color:#1f4870; justify-content:center; font-style:italic; opacity:0.6;">No BOM items</li>';
-          return;
-        }
-        bomItems.forEach((item, idx) => {
-          const li = document.createElement('li');
-          li.innerHTML = `
-            <span><span class="category-badge">${item.category}</span> ${item.name} ${item.model ? '['+item.model+']' : ''} × ${item.qty}</span>
-            <button class="btn btn-danger btn-sm" data-bomidx="${idx}" style="padding:2px 8px;"><i class="fas fa-times"></i></button>
-          `;
-          bomList.appendChild(li);
-        });
-        bomList.querySelectorAll('button[data-bomidx]').forEach(btn => {
-          btn.addEventListener('click', function() {
-            const idx = parseInt(this.dataset.bomidx, 10);
-            bomItems.splice(idx, 1);
-            renderBom();
-          });
-        });
-      }
+            // Admin
+            const adminTab = $('adminTab');
+            const adminTotalUsers = $('adminTotalUsers');
+            const adminTotalActivities = $('adminTotalActivities');
+            const adminTodayCheckins = $('adminTodayCheckins');
+            const adminActivityLog = $('adminActivityLog');
+            const adminUserList = $('adminUserList');
 
-      function renderSavedBoms() {
-        savedContainer.innerHTML = '';
-        if (savedBoms.length === 0) {
-          savedContainer.innerHTML = '<span class="text-muted" style="font-size:0.75rem;">No saved BOMs</span>';
-          return;
-        }
-        savedBoms.forEach((bom, idx) => {
-          const span = document.createElement('span');
-          span.className = 'bom-save-item';
-          span.textContent = `📋 ${bom.name || 'BOM-'+(idx+1)} (${bom.items.length})`;
-          span.dataset.idx = idx;
-          span.addEventListener('click', function() {
-            const index = parseInt(this.dataset.idx, 10);
-            const loaded = savedBoms[index];
-            if (loaded) {
-              bomItems = JSON.parse(JSON.stringify(loaded.items));
-              renderBom();
-              alert('BOM loaded: ' + (loaded.name || 'Unnamed'));
+            // User Data
+            const userDataUsername = $('userDataUsername');
+            const userDataRole = $('userDataRole');
+            const userDataActivities = $('userDataActivities');
+            const userDataLastLogin = $('userDataLastLogin');
+
+            // Export
+            const exportBtn = $('exportBtn');
+
+            // =============================================================
+            // ALL CATEGORIES
+            // =============================================================
+            const ALL_CATS = [
+                'MCB', 'LIGHT', 'CONTACTOR', 'SSR', 'WIRE', 'MULTI-CORE',
+                'SINGLE-CORE', 'LAMP', 'SWITCH', 'METER', 'LOCK', 'PLC',
+                'HMI', 'SOCKET', 'FAN', 'AIRVENT', 'TERMINAL', 'LUG',
+                'DRIVE', 'STRETCH ROLL', 'SMPS', 'TIE', 'SPIRAL', 'GLAN',
+                'TRANSFORMER', 'LINE CHOKE', 'SALZER OLR', 'CONTACTOR ADDON BLOCK'
+            ];
+
+            // =============================================================
+            // SAVE / LOAD
+            // =============================================================
+            let statusTimer = null;
+
+            function showStatus(msg, isError) {
+                const icon = isError ? 'fa-exclamation-triangle' : 'fa-check';
+                saveStatus.innerHTML = `<i class="fas ${icon}"></i> ${msg}`;
+                saveStatus.className = 'save-status show';
+                clearTimeout(statusTimer);
+                statusTimer = setTimeout(() => {
+                    saveStatus.className = 'save-status';
+                }, 2500);
             }
-          });
-          savedContainer.appendChild(span);
-        });
-      }
 
-      // ---------- STOCK ----------
-      function addStock() {
-        const category = catSelect.value;
-        const name = itemNameInput.value.trim();
-        const model = itemModelInput.value.trim();
-        const qty = parseInt(qtyInput.value, 10) || 1;
-        const type = entryType.value;
-        if (!name) { alert('Please enter item name'); return; }
-        if (qty <= 0) { alert('Qty must be > 0'); return; }
+            function saveAll() {
+                try {
+                    localStorage.setItem(KEYS.STOCK, JSON.stringify(stockItems));
+                    localStorage.setItem(KEYS.BOM, JSON.stringify(bomItems));
+                    localStorage.setItem(KEYS.SAVED, JSON.stringify(savedBoms));
+                    localStorage.setItem(KEYS.ID, JSON.stringify(idCounter));
+                    localStorage.setItem(KEYS.USERS, JSON.stringify(users));
+                    localStorage.setItem(KEYS.ACTIVITY, JSON.stringify(activityLog));
+                    localStorage.setItem(KEYS.ATTENDANCE, JSON.stringify(attendance));
+                    return true;
+                } catch (e) {
+                    console.error('Save error:', e);
+                    return false;
+                }
+            }
 
-        const existing = stockItems.find(it => it.category === category && it.name.toLowerCase() === name.toLowerCase() && it.model === model);
-        if (existing) {
-          if (type === 'in') existing.qty += qty;
-          else existing.qty = Math.max(0, existing.qty - qty);
-        } else {
-          if (type === 'out') { alert('Item not in stock, cannot exit.'); return; }
-          stockItems.push({ id: idCounter++, category, name, model, qty });
-        }
-        renderStock();
-        itemNameInput.value = '';
-        itemModelInput.value = '';
-        qtyInput.value = 1;
-      }
+            function loadAll() {
+                try {
+                    const stock = localStorage.getItem(KEYS.STOCK);
+                    const bom = localStorage.getItem(KEYS.BOM);
+                    const saved = localStorage.getItem(KEYS.SAVED);
+                    const id = localStorage.getItem(KEYS.ID);
+                    const usersData = localStorage.getItem(KEYS.USERS);
+                    const activity = localStorage.getItem(KEYS.ACTIVITY);
+                    const att = localStorage.getItem(KEYS.ATTENDANCE);
 
-      // ---------- BOM ----------
-      function addBomItem() {
-        const category = bomCatSelect.value;
-        const name = bomItemInput.value.trim();
-        const model = bomModelInput.value.trim();
-        const qty = parseInt(bomQtyInput.value, 10) || 1;
-        if (!name) { alert('Enter BOM item name'); return; }
-        if (qty <= 0) { alert('Qty > 0'); return; }
-        bomItems.push({ category, name, model, qty });
-        renderBom();
-        bomItemInput.value = '';
-        bomModelInput.value = '';
-        bomQtyInput.value = 1;
-      }
+                    if (stock) stockItems = JSON.parse(stock);
+                    if (bom) bomItems = JSON.parse(bom);
+                    if (saved) savedBoms = JSON.parse(saved);
+                    if (id) idCounter = JSON.parse(id);
+                    if (usersData) users = JSON.parse(usersData);
+                    if (activity) activityLog = JSON.parse(activity);
+                    if (att) attendance = JSON.parse(att);
 
-      function applyBom() {
-        if (bomItems.length === 0) { alert('BOM is empty.'); return; }
-        const stockCopy = [...stockItems];
-        for (let bom of bomItems) {
-          const found = stockCopy.find(it => it.category === bom.category && it.name.toLowerCase() === bom.name.toLowerCase() && it.model === bom.model);
-          if (!found || found.qty < bom.qty) {
-            alert(`Insufficient stock for ${bom.category} · ${bom.name} ${bom.model ? '['+bom.model+']' : ''} (need ${bom.qty}, have ${found ? found.qty : 0})`);
-            return;
-          } else {
-            found.qty -= bom.qty;
-          }
-        }
-        for (let bom of bomItems) {
-          const found = stockItems.find(it => it.category === bom.category && it.name.toLowerCase() === bom.name.toLowerCase() && it.model === bom.model);
-          if (found) found.qty -= bom.qty;
-        }
-        stockItems = stockItems.filter(it => it.qty > 0);
-        bomItems = [];
-        renderStock();
-        renderBom();
-        alert('✅ BOM applied. Stock updated.');
-      }
+                    stockItems.forEach(item => {
+                        if (item.id >= idCounter) idCounter = item.id + 1;
+                    });
+                    return true;
+                } catch (e) {
+                    console.error('Load error:', e);
+                    return false;
+                }
+            }
 
-      function saveBom() {
-        if (bomItems.length === 0) { alert('No BOM items to save.'); return; }
-        const name = prompt('Enter a name for this BOM:', 'BOM-' + (savedBoms.length+1));
-        const bomObj = {
-          name: name || 'BOM-' + (savedBoms.length+1),
-          items: JSON.parse(JSON.stringify(bomItems)),
-          date: new Date().toISOString()
-        };
-        savedBoms.push(bomObj);
-        localStorage.setItem('hindustan_boms', JSON.stringify(savedBoms));
-        renderSavedBoms();
-        alert('BOM saved successfully!');
-      }
+            // =============================================================
+            // DEFAULT USERS (Admin fixed: admin/admin)
+            // =============================================================
+            function initUsers() {
+                const adminExists = users.some(u => u.username === 'admin');
+                if (!adminExists) {
+                    users.push({
+                        username: 'admin',
+                        password: 'admin',
+                        role: 'admin',
+                        created: new Date().toISOString()
+                    });
+                    saveAll();
+                }
+            }
 
-      // ---------- EXCEL ----------
-      function processExcel() {
-        const file = excelUpload.files[0];
-        if (!file) { alert('Please select an Excel file first.'); return; }
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          try {
-            const data = new Uint8Array(e.target.result);
-            const workbook = XLSX.read(data, { type: 'array' });
-            const sheet = workbook.Sheets[workbook.SheetNames[0]];
-            const json = XLSX.utils.sheet_to_json(sheet);
-            if (json.length === 0) { alert('Excel is empty.'); return; }
-            let bomFromExcel = [];
-            json.forEach(row => {
-              const cat = (row['Category'] || row['category'] || '').toString().trim();
-              const name = (row['ItemName'] || row['Item'] || row['item'] || '').toString().trim();
-              const model = (row['Model'] || row['model'] || '').toString().trim();
-              const qty = parseInt(row['Qty'] || row['qty'] || 0);
-              if (cat && name && qty > 0) {
-                bomFromExcel.push({ category: cat, name, model, qty });
-              }
+            // =============================================================
+            // ACTIVITY LOGGING
+            // =============================================================
+            function logActivity(user, action, details) {
+                const entry = {
+                    user: user,
+                    action: action,
+                    details: details || '',
+                    time: new Date().toISOString(),
+                    timestamp: Date.now()
+                };
+                activityLog.push(entry);
+                if (activityLog.length > 500) {
+                    activityLog = activityLog.slice(-500);
+                }
+                saveAll();
+                if (document.getElementById('tab7').classList.contains('active')) {
+                    renderAdminDashboard();
+                }
+                return entry;
+            }
+
+            // =============================================================
+            // LOGIN / LOGOUT / REGISTER
+            // =============================================================
+            function loginUser() {
+                const username = loginUsername.value.trim();
+                const password = loginPassword.value.trim();
+
+                if (!username || !password) {
+                    loginError.textContent = 'Please enter username and password';
+                    loginError.classList.add('show');
+                    return;
+                }
+
+                const user = users.find(u => u.username === username && u.password === password);
+                if (!user) {
+                    loginError.textContent = 'Invalid username or password';
+                    loginError.classList.add('show');
+                    return;
+                }
+
+                loginError.classList.remove('show');
+                currentUser = user;
+
+                localStorage.setItem(KEYS.SESSION, JSON.stringify({
+                    username: user.username,
+                    role: user.role,
+                    loginTime: new Date().toISOString()
+                }));
+
+                logActivity(user.username, 'Login', `Logged in as ${user.role}`);
+
+                loginPage.classList.add('hidden');
+                mainApp.classList.add('show');
+
+                currentUserDisplay.textContent = user.username;
+                currentRoleDisplay.textContent = user.role.charAt(0).toUpperCase() + user.role.slice(1);
+
+                if (user.role === 'admin') {
+                    adminTab.classList.remove('hidden-tab');
+                } else {
+                    adminTab.classList.add('hidden-tab');
+                }
+
+                renderAll();
+                showStatus(`Welcome ${user.username}!`);
+            }
+
+            function registerUser() {
+                const username = regUsername.value.trim();
+                const password = regPassword.value.trim();
+                const confirm = regConfirm.value.trim();
+
+                regError.classList.remove('show');
+                regSuccess.classList.remove('show');
+
+                if (!username || !password || !confirm) {
+                    regError.textContent = 'Please fill all fields';
+                    regError.classList.add('show');
+                    return;
+                }
+
+                if (username.length < 3) {
+                    regError.textContent = 'Username must be at least 3 characters';
+                    regError.classList.add('show');
+                    return;
+                }
+
+                if (password.length < 4) {
+                    regError.textContent = 'Password must be at least 4 characters';
+                    regError.classList.add('show');
+                    return;
+                }
+
+                if (password !== confirm) {
+                    regError.textContent = 'Passwords do not match';
+                    regError.classList.add('show');
+                    return;
+                }
+
+                if (users.some(u => u.username === username)) {
+                    regError.textContent = 'Username already exists!';
+                    regError.classList.add('show');
+                    return;
+                }
+
+                users.push({
+                    username: username,
+                    password: password,
+                    role: 'user',
+                    created: new Date().toISOString()
+                });
+
+                saveAll();
+
+                regSuccess.textContent = '✅ Account created successfully! Please login.';
+                regSuccess.classList.add('show');
+
+                regUsername.value = '';
+                regPassword.value = '';
+                regConfirm.value = '';
+
+                // Switch back to login after 1.5 seconds
+                setTimeout(() => {
+                    regSuccess.classList.remove('show');
+                    showLoginForm();
+                }, 1500);
+            }
+
+            function logoutUser() {
+                if (currentUser) {
+                    logActivity(currentUser.username, 'Logout', 'Logged out');
+                }
+                currentUser = null;
+                localStorage.removeItem(KEYS.SESSION);
+                loginPage.classList.remove('hidden');
+                mainApp.classList.remove('show');
+                loginPassword.value = '';
+                showStatus('Logged out');
+            }
+
+            function showRegisterForm() {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+                regError.classList.remove('show');
+                regSuccess.classList.remove('show');
+            }
+
+            function showLoginForm() {
+                registerForm.style.display = 'none';
+                loginForm.style.display = 'block';
+                loginError.classList.remove('show');
+            }
+
+            function checkSession() {
+                const session = localStorage.getItem(KEYS.SESSION);
+                if (session) {
+                    try {
+                        const data = JSON.parse(session);
+                        const user = users.find(u => u.username === data.username);
+                        if (user) {
+                            currentUser = user;
+                            loginPage.classList.add('hidden');
+                            mainApp.classList.add('show');
+                            currentUserDisplay.textContent = user.username;
+                            currentRoleDisplay.textContent = user.role.charAt(0).toUpperCase() + user.role.slice(1);
+                            if (user.role === 'admin') {
+                                adminTab.classList.remove('hidden-tab');
+                            }
+                            renderAll();
+                            showStatus(`Welcome back ${user.username}!`);
+                            return true;
+                        }
+                    } catch (e) {
+                        localStorage.removeItem(KEYS.SESSION);
+                    }
+                }
+                return false;
+            }
+
+            // =============================================================
+            // EXPORT TO EXCEL
+            // =============================================================
+            function exportToExcel() {
+                try {
+                    const data = [];
+
+                    // Stock data
+                    stockItems.forEach(item => {
+                        data.push({
+                            'Type': 'Stock',
+                            'Category': item.category,
+                            'Item Name': item.name,
+                            'Model': item.model || '',
+                            'Quantity': item.qty,
+                            'User': currentUser?.username || 'Unknown',
+                            'Timestamp': new Date().toISOString()
+                        });
+                    });
+
+                    // BOM data
+                    bomItems.forEach(item => {
+                        data.push({
+                            'Type': 'BOM',
+                            'Category': item.category,
+                            'Item Name': item.name,
+                            'Model': item.model || '',
+                            'Quantity': item.qty,
+                            'User': currentUser?.username || 'Unknown',
+                            'Timestamp': new Date().toISOString()
+                        });
+                    });
+
+                    // Attendance data
+                    attendance.forEach(item => {
+                        data.push({
+                            'Type': 'Attendance',
+                            'Category': 'Attendance',
+                            'Item Name': item.status === 'in' ? 'Check In' : 'Check Out',
+                            'Model': item.location || '',
+                            'Quantity': 1,
+                            'User': item.user || 'Unknown',
+                            'Timestamp': new Date(item.time).toLocaleString()
+                        });
+                    });
+
+                    // Activity log
+                    activityLog.forEach(item => {
+                        data.push({
+                            'Type': 'Activity',
+                            'Category': 'Activity',
+                            'Item Name': item.action,
+                            'Model': item.details || '',
+                            'Quantity': 1,
+                            'User': item.user,
+                            'Timestamp': new Date(item.time).toLocaleString()
+                        });
+                    });
+
+                    if (data.length === 0) {
+                        alert('No data to export!');
+                        return;
+                    }
+
+                    const ws = XLSX.utils.json_to_sheet(data);
+                    const wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, ws, 'StoreData');
+
+                    const filename = `Store_Export_${new Date().toISOString().slice(0,10)}.xlsx`;
+                    XLSX.writeFile(wb, filename);
+                    showStatus(`✅ Exported ${data.length} records to ${filename}`);
+                    logActivity(currentUser?.username || 'Unknown', 'Export Data',
+                        `Exported ${data.length} records to Excel`);
+                } catch (e) {
+                    alert('Error exporting: ' + e.message);
+                }
+            }
+
+            // =============================================================
+            // RENDER FUNCTIONS
+            // =============================================================
+            function renderStock() {
+                stockTbody.innerHTML = '';
+                let total = 0;
+                stockItems.forEach((item, idx) => {
+                    total += item.qty;
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><span class="cat-badge">${item.category}</span></td>
+                        <td><strong>${item.name}</strong></td>
+                        <td>${item.model || '-'}</td>
+                        <td>${item.qty}</td>
+                        <td><button class="btn btn-danger btn-xs" data-idx="${idx}"><i class="fas fa-trash"></i></button></td>
+                    `;
+                    stockTbody.appendChild(tr);
+                });
+                totalSpan.textContent = total;
+
+                stockTbody.querySelectorAll('button[data-idx]').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const idx = parseInt(this.dataset.idx);
+                        const item = stockItems[idx];
+                        stockItems.splice(idx, 1);
+                        renderStock();
+                        saveAll();
+                        if (currentUser) {
+                            logActivity(currentUser.username, 'Delete Stock',
+                                `Deleted ${item.category} - ${item.name} (${item.model || 'No model'})`);
+                        }
+                        showStatus('Item deleted');
+                    });
+                });
+            }
+
+            function renderBom() {
+                bomList.innerHTML = '';
+                if (bomItems.length === 0) {
+                    bomList.innerHTML =
+                        '<li style="color:#1f4870;justify-content:center;font-style:italic;opacity:0.4;font-size:0.65rem;">No BOM items</li>';
+                    return;
+                }
+                bomItems.forEach((item, idx) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span><span class="cat-badge">${item.category}</span> ${item.name} ${item.model ? '['+item.model+']' : ''} × ${item.qty}</span>
+                        <button class="btn btn-danger btn-xs" data-bomidx="${idx}"><i class="fas fa-times"></i></button>
+                    `;
+                    bomList.appendChild(li);
+                });
+                bomList.querySelectorAll('button[data-bomidx]').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const idx = parseInt(this.dataset.bomidx);
+                        const item = bomItems[idx];
+                        bomItems.splice(idx, 1);
+                        renderBom();
+                        saveAll();
+                        if (currentUser) {
+                            logActivity(currentUser.username, 'Remove BOM Item',
+                                `Removed ${item.category} - ${item.name} from BOM`);
+                        }
+                    });
+                });
+            }
+
+            function renderSavedBoms() {
+                savedContainer.innerHTML = '';
+                if (savedBoms.length === 0) {
+                    savedContainer.innerHTML =
+                        '<span class="text-muted" style="font-size:0.6rem;">No saved BOMs</span>';
+                    return;
+                }
+                savedBoms.forEach((bom, idx) => {
+                    const span = document.createElement('span');
+                    span.className = 'saved-item';
+                    span.textContent = `📋 ${bom.name || 'BOM-'+(idx+1)} (${bom.items.length})`;
+                    span.dataset.idx = idx;
+                    span.addEventListener('click', function() {
+                        const i = parseInt(this.dataset.idx);
+                        const loaded = savedBoms[i];
+                        if (loaded) {
+                            bomItems = JSON.parse(JSON.stringify(loaded.items));
+                            renderBom();
+                            saveAll();
+                            if (currentUser) {
+                                logActivity(currentUser.username, 'Load BOM',
+                                    `Loaded BOM: ${loaded.name}`);
+                            }
+                            showStatus('BOM loaded: ' + loaded.name);
+                            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove(
+                            'active'));
+                            document.querySelector('[data-tab="tab2"]').classList.add('active');
+                            document.getElementById('tab2').classList.add('active');
+                        }
+                    });
+                    savedContainer.appendChild(span);
+                });
+            }
+
+            function renderMaterials() {
+                if (stockItems.length === 0) {
+                    materialList.innerHTML =
+                        '<p class="text-muted" style="text-align:center;padding:12px;">No materials in stock</p>';
+                    return;
+                }
+                const grouped = {};
+                stockItems.forEach(it => {
+                    if (!grouped[it.category]) grouped[it.category] = [];
+                    grouped[it.category].push(it);
+                });
+                let html = '';
+                for (const [cat, items] of Object.entries(grouped)) {
+                    html += `<div style="margin-bottom:6px;">
+                        <h4 style="color:#f57c00;font-size:0.75rem;margin-bottom:2px;"><i class="fas fa-folder"></i> ${cat}</h4>
+                        <div style="display:flex;flex-wrap:wrap;gap:2px;">`;
+                    items.forEach(it => {
+                        html +=
+                            `<span style="background:rgba(255,255,255,0.04);padding:2px 8px;border-radius:40px;font-size:0.65rem;">${it.name} ${it.model ? '('+it.model+')' : ''} × ${it.qty}</span>`;
+                    });
+                    html += `</div></div>`;
+                }
+                materialList.innerHTML = html;
+            }
+
+            function renderAccounts() {
+                const totalValue = stockItems.reduce((sum, it) => sum + it.qty, 0);
+                document.getElementById('totalStockValue').textContent = totalValue;
+                document.getElementById('totalTransactions').textContent = stockItems.length + bomItems.length;
+                document.getElementById('totalBOMs').textContent = savedBoms.length;
+
+                if (currentUser) {
+                    userDataUsername.textContent = currentUser.username;
+                    userDataRole.textContent = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
+                    const userActivities = activityLog.filter(a => a.user === currentUser.username);
+                    userDataActivities.textContent = userActivities.length;
+                    const lastLogin = userActivities.filter(a => a.action === 'Login');
+                    if (lastLogin.length > 0) {
+                        userDataLastLogin.textContent = new Date(lastLogin[lastLogin.length - 1].time).toLocaleString();
+                    } else {
+                        userDataLastLogin.textContent = 'Never';
+                    }
+                }
+            }
+
+            function renderLoginHistory() {
+                const userLogs = activityLog.filter(a => a.user === currentUser?.username);
+                if (userLogs.length === 0) {
+                    loginHistoryDiv.innerHTML =
+                        '<p class="text-muted" style="text-align:center;padding:12px;">No login history yet</p>';
+                    return;
+                }
+                let html = '<table><thead><tr><th>Time</th><th>Action</th><th>Details</th></tr></thead><tbody>';
+                userLogs.slice(-30).reverse().forEach(entry => {
+                    html += `<tr>
+                        <td style="font-size:0.6rem;">${new Date(entry.time).toLocaleString()}</td>
+                        <td style="font-size:0.65rem;">${entry.action}</td>
+                        <td style="font-size:0.6rem;opacity:0.5;">${entry.details || '-'}</td>
+                    </tr>`;
+                });
+                html += '</tbody></table>';
+                loginHistoryDiv.innerHTML = html;
+            }
+
+            function renderAttendance() {
+                const today = new Date().toDateString();
+                const todayAtt = attendance.filter(a => new Date(a.time).toDateString() === today);
+
+                if (todayAtt.length === 0) {
+                    attendanceStatus.textContent = 'Not Marked';
+                    attendanceStatus.style.color = '#1a4a6e';
+                    todayAttendanceDiv.innerHTML = '<p class="text-muted" style="font-size:0.65rem;">No attendance today</p>';
+                    return;
+                }
+
+                const last = todayAtt[todayAtt.length - 1];
+                attendanceStatus.textContent = last.status === 'in' ? '✅ Present' : '❌ Left';
+                attendanceStatus.style.color = last.status === 'in' ? '#2b8c5e' : '#b33c3c';
+                attendanceLocation.textContent = `Location: ${last.location || 'Unknown'}`;
+
+                let html = '';
+                todayAtt.slice().reverse().forEach(a => {
+                    html += `<div style="background:rgba(255,255,255,0.03);padding:2px 8px;border-radius:40px;margin-bottom:2px;display:flex;justify-content:space-between;font-size:0.65rem;">
+                        <span>${a.status === 'in' ? '🟢 Check In' : '🔴 Check Out'}</span>
+                        <span>${new Date(a.time).toLocaleTimeString()}</span>
+                        <span style="opacity:0.3;">${a.location || 'Unknown'}</span>
+                    </div>`;
+                });
+                todayAttendanceDiv.innerHTML = html;
+            }
+
+            function renderAdminDashboard() {
+                if (!currentUser || currentUser.role !== 'admin') return;
+
+                adminTotalUsers.textContent = users.length;
+                adminTotalActivities.textContent = activityLog.length;
+
+                const today = new Date().toDateString();
+                const todayCheckins = attendance.filter(a =>
+                    new Date(a.time).toDateString() === today && a.status === 'in'
+                );
+                adminTodayCheckins.textContent = todayCheckins.length;
+
+                if (activityLog.length === 0) {
+                    adminActivityLog.innerHTML = '<p class="text-muted" style="text-align:center;padding:8px;">No activities yet</p>';
+                } else {
+                    let html = '';
+                    activityLog.slice(-30).reverse().forEach(entry => {
+                        html += `<div class="log-item">
+                            <span class="user-tag">${entry.user}</span>
+                            <span class="action-tag">${entry.action}</span>
+                            <span style="font-size:0.55rem;opacity:0.4;">${entry.details || ''}</span>
+                            <span class="time-tag">${new Date(entry.time).toLocaleString()}</span>
+                        </div>`;
+                    });
+                    adminActivityLog.innerHTML = html;
+                }
+
+                if (users.length === 0) {
+                    adminUserList.innerHTML = '<p class="text-muted" style="font-size:0.65rem;">No users</p>';
+                } else {
+                    let html = '<div style="display:flex;flex-wrap:wrap;gap:3px;">';
+                    users.forEach(u => {
+                        const userActivity = activityLog.filter(a => a.user === u.username);
+                        html +=
+                            `<span style="background:rgba(255,255,255,0.04);padding:2px 10px;border-radius:40px;font-size:0.6rem;">
+                                <i class="fas fa-user"></i> ${u.username} 
+                                <span style="opacity:0.3;">(${u.role})</span>
+                                <span style="opacity:0.2;">${userActivity.length} acts</span>
+                            </span>`;
+                    });
+                    html += '</div>';
+                    adminUserList.innerHTML = html;
+                }
+            }
+
+            function renderAll() {
+                renderStock();
+                renderBom();
+                renderSavedBoms();
+                renderMaterials();
+                renderAccounts();
+                renderLoginHistory();
+                renderAttendance();
+                if (currentUser && currentUser.role === 'admin') {
+                    renderAdminDashboard();
+                }
+            }
+
+            // =============================================================
+            // STOCK OPERATIONS
+            // =============================================================
+            function addStock() {
+                const category = catSel.value;
+                const name = itemName.value.trim();
+                const model = itemModel.value.trim();
+                const qty = parseInt(itemQty.value) || 1;
+                const type = entryType.value;
+
+                if (!name) { alert('Please enter item name'); return; }
+                if (qty <= 0) { alert('Qty must be > 0'); return; }
+
+                const existing = stockItems.find(it =>
+                    it.category === category &&
+                    it.name.toLowerCase() === name.toLowerCase() &&
+                    it.model === model
+                );
+
+                let action = '';
+                if (existing) {
+                    if (type === 'in') existing.qty += qty;
+                    else existing.qty = Math.max(0, existing.qty - qty);
+                    action = type === 'in' ? 'Added Stock' : 'Removed Stock';
+                } else {
+                    if (type === 'out') {
+                        alert('Item not in stock. Cannot exit.');
+                        return;
+                    }
+                    stockItems.push({ id: idCounter++, category, name, model, qty });
+                    action = 'Added New Item';
+                }
+
+                renderStock();
+                saveAll();
+                if (currentUser) {
+                    logActivity(currentUser.username, action,
+                        `${category} - ${name} (${model || 'No model'}) × ${qty} ${type === 'in' ? 'IN' : 'OUT'}`);
+                }
+                itemName.value = '';
+                itemModel.value = '';
+                itemQty.value = 1;
+                showStatus('Stock updated');
+            }
+
+            // =============================================================
+            // BOM OPERATIONS
+            // =============================================================
+            function addBomItem() {
+                const category = bomCat.value;
+                const name = bomName.value.trim();
+                const model = bomModel.value.trim();
+                const qty = parseInt(bomQty.value) || 1;
+
+                if (!name) { alert('Enter BOM item name'); return; }
+                if (qty <= 0) { alert('Qty must be > 0'); return; }
+
+                bomItems.push({ category, name, model, qty });
+                renderBom();
+                saveAll();
+                if (currentUser) {
+                    logActivity(currentUser.username, 'Add BOM Item',
+                        `${category} - ${name} (${model || 'No model'}) × ${qty}`);
+                }
+                bomName.value = '';
+                bomModel.value = '';
+                bomQty.value = 1;
+                showStatus('BOM item added');
+            }
+
+            function applyBom() {
+                if (bomItems.length === 0) {
+                    alert('BOM is empty. Add items first.');
+                    return;
+                }
+
+                const stockCopy = [...stockItems];
+                for (const bom of bomItems) {
+                    const found = stockCopy.find(it =>
+                        it.category === bom.category &&
+                        it.name.toLowerCase() === bom.name.toLowerCase() &&
+                        it.model === bom.model
+                    );
+                    if (!found || found.qty < bom.qty) {
+                        alert(
+                            `❌ Insufficient stock for ${bom.category} · ${bom.name} (need ${bom.qty}, have ${found ? found.qty : 0})`);
+                        return;
+                    }
+                    found.qty -= bom.qty;
+                }
+
+                for (const bom of bomItems) {
+                    const found = stockItems.find(it =>
+                        it.category === bom.category &&
+                        it.name.toLowerCase() === bom.name.toLowerCase() &&
+                        it.model === bom.model
+                    );
+                    if (found) found.qty -= bom.qty;
+                }
+
+                const appliedItems = JSON.parse(JSON.stringify(bomItems));
+                stockItems = stockItems.filter(it => it.qty > 0);
+                bomItems = [];
+
+                renderStock();
+                renderBom();
+                saveAll();
+                if (currentUser) {
+                    logActivity(currentUser.username, 'Apply BOM',
+                        `Applied ${appliedItems.length} items to stock`);
+                }
+                alert('✅ BOM applied successfully. Stock updated.');
+            }
+
+            function saveBom() {
+                if (bomItems.length === 0) {
+                    alert('No BOM items to save.');
+                    return;
+                }
+                const name = prompt('Enter BOM name:', 'BOM-' + (savedBoms.length + 1));
+                if (!name) return;
+                const obj = {
+                    name: name,
+                    items: JSON.parse(JSON.stringify(bomItems)),
+                    date: new Date().toISOString()
+                };
+                savedBoms.push(obj);
+                renderSavedBoms();
+                saveAll();
+                if (currentUser) {
+                    logActivity(currentUser.username, 'Save BOM',
+                        `Saved BOM: ${name} with ${obj.items.length} items`);
+                }
+                alert('✅ BOM saved successfully!');
+            }
+
+            // =============================================================
+            // EXCEL
+            // =============================================================
+            function processExcel() {
+                const file = excelUpload.files[0];
+                if (!file) { alert('Please select an Excel file.'); return; }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = new Uint8Array(e.target.result);
+                        const workbook = XLSX.read(data, { type: 'array' });
+                        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                        const json = XLSX.utils.sheet_to_json(sheet);
+
+                        if (json.length === 0) { alert('Excel file is empty.'); return; }
+
+                        const items = [];
+                        json.forEach(row => {
+                            const cat = (row['Category'] || row['category'] || '').toString().trim();
+                            const name = (row['ItemName'] || row['Item'] || row['item'] || '').toString().trim();
+                            const model = (row['Model'] || row['model'] || '').toString().trim();
+                            const qty = parseInt(row['Qty'] || row['qty'] || 0);
+                            if (cat && name && qty > 0) {
+                                items.push({ category: cat, name, model, qty });
+                            }
+                        });
+
+                        if (items.length === 0) {
+                            alert('No valid data. Columns: Category, ItemName, Model, Qty');
+                            return;
+                        }
+
+                        bomItems = items;
+                        renderBom();
+                        saveAll();
+                        if (currentUser) {
+                            logActivity(currentUser.username, 'Excel Import BOM',
+                                `Imported ${items.length} items from Excel`);
+                        }
+                        alert(`✅ ${items.length} items loaded from Excel. Click "Apply BOM" to remove from stock.`);
+                    } catch (err) {
+                        alert('Error reading Excel: ' + err.message);
+                    }
+                };
+                reader.readAsArrayBuffer(file);
+            }
+
+            // =============================================================
+            // ATTENDANCE WITH LOCATION
+            // =============================================================
+            function getLocation() {
+                return new Promise((resolve) => {
+                    if (!navigator.geolocation) {
+                        resolve('Location not supported');
+                        return;
+                    }
+                    navigator.geolocation.getCurrentPosition(
+                        (pos) => {
+                            resolve(`Lat: ${pos.coords.latitude.toFixed(4)}, Lng: ${pos.coords.longitude.toFixed(4)}`);
+                        },
+                        () => { resolve('Location unavailable'); },
+                        { enableHighAccuracy: true, timeout: 10000 }
+                    );
+                });
+            }
+
+            async function checkIn() {
+                const location = await getLocation();
+                const entry = {
+                    time: new Date().toISOString(),
+                    status: 'in',
+                    location: location,
+                    user: currentUser?.username || 'Unknown'
+                };
+                attendance.push(entry);
+                if (currentUser) {
+                    logActivity(currentUser.username, 'Check In',
+                        `Checked in at ${location}`);
+                }
+                saveAll();
+                renderAttendance();
+                showStatus('✅ Checked In at ' + location);
+                attendanceStatus.textContent = '✅ Present';
+                attendanceStatus.style.color = '#2b8c5e';
+            }
+
+            async function checkOut() {
+                const location = await getLocation();
+                const entry = {
+                    time: new Date().toISOString(),
+                    status: 'out',
+                    location: location,
+                    user: currentUser?.username || 'Unknown'
+                };
+                attendance.push(entry);
+                if (currentUser) {
+                    logActivity(currentUser.username, 'Check Out',
+                        `Checked out at ${location}`);
+                }
+                saveAll();
+                renderAttendance();
+                showStatus('✅ Checked Out at ' + location);
+                attendanceStatus.textContent = '❌ Left';
+                attendanceStatus.style.color = '#b33c3c';
+            }
+
+            // =============================================================
+            // NOTIFICATION SYSTEM
+            // =============================================================
+            function showAttendanceNotification() {
+                const notif = document.getElementById('notification');
+                notif.classList.add('show');
+                setTimeout(() => {
+                    notif.classList.remove('show');
+                }, 30000);
+            }
+
+            // =============================================================
+            // EVENT BINDINGS
+            // =============================================================
+            // Login/Register
+            loginBtn.addEventListener('click', loginUser);
+            loginPassword.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') loginUser();
             });
-            if (bomFromExcel.length === 0) { alert('No valid data. Columns: Category, ItemName, Model, Qty'); return; }
-            bomItems = bomFromExcel;
-            renderBom();
-            alert(`✅ ${bomItems.length} items loaded from Excel. Click "Apply BOM" to remove from stock.`);
-          } catch(err) {
-            alert('Error reading Excel: ' + err.message);
-          }
-        };
-        reader.readAsArrayBuffer(file);
-      }
-
-      // ---------- EMAIL (Sends to devanshusuvagya5@gmail.com) ----------
-      function sendEmail() {
-        const email = emailInput.value.trim();
-        if (!email || !email.includes('@')) { alert('Please enter a valid email address.'); return; }
-        
-        let report = '📦 HINDUSTAN INDUSTRIAL SOLUTION · STORE REPORT\n';
-        report += `Date: ${new Date().toLocaleDateString()}\n`;
-        report += `Time: ${new Date().toLocaleTimeString()}\n\n`;
-        report += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-        report += `📊 STOCK SUMMARY\n`;
-        report += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-        
-        if (stockItems.length === 0) {
-          report += 'No items in stock.\n';
-        } else {
-          // Group by category
-          const grouped = {};
-          stockItems.forEach(it => {
-            if (!grouped[it.category]) grouped[it.category] = [];
-            grouped[it.category].push(it);
-          });
-          for (const [cat, items] of Object.entries(grouped)) {
-            report += `\n【 ${cat} 】\n`;
-            items.forEach(it => {
-              report += `  • ${it.name} ${it.model ? '['+it.model+']' : ''} → ${it.qty} pcs\n`;
+            loginUsername.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') loginUser();
             });
-          }
-        }
-        
-        report += `\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-        report += `📋 CURRENT BOM (${bomItems.length} items)\n`;
-        report += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-        if (bomItems.length === 0) {
-          report += 'No BOM items.\n';
-        } else {
-          bomItems.forEach(it => {
-            report += `  • ${it.category} | ${it.name} ${it.model ? '['+it.model+']' : ''} × ${it.qty}\n`;
-          });
-        }
-        
-        report += `\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-        report += `📈 Total Stock Items: ${stockItems.reduce((sum, it) => sum + it.qty, 0)}\n`;
-        report += `📋 Total BOM Items: ${bomItems.reduce((sum, it) => sum + it.qty, 0)}\n`;
-        report += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-        report += `\n🔹 Hindustan Industrial Solution 🔹\n`;
-        report += `📧 ${email}\n`;
-        report += `📅 Report generated: ${new Date().toLocaleString()}`;
 
-        // Send email using mailto (opens default email client)
-        const subject = encodeURIComponent('Hindustan Industrial Solution - Store Report');
-        const body = encodeURIComponent(report);
-        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-        
-        // Also show alert with report preview
-        alert(`📨 Report sent to ${email}\n\n${report}`);
-      }
+            registerBtn.addEventListener('click', registerUser);
+            regConfirm.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') registerUser();
+            });
 
-      // ---------- EVENTS ----------
-      addStockBtn.addEventListener('click', addStock);
-      addBomBtn.addEventListener('click', addBomItem);
-      clearBomBtn.addEventListener('click', function() { bomItems = []; renderBom(); });
-      applyBomBtn.addEventListener('click', applyBom);
-      saveBomBtn.addEventListener('click', saveBom);
-      sendTestEmailBtn.addEventListener('click', sendEmail);
-      processExcelBtn.addEventListener('click', processExcel);
+            showRegister.addEventListener('click', showRegisterForm);
+            showLogin.addEventListener('click', showLoginForm);
 
-      document.querySelectorAll('input, select').forEach(el => {
-        el.addEventListener('keypress', function(e) {
-          if (e.key === 'Enter') {
-            if (this.closest('.entry-row')) addStock();
-            else if (this.closest('.bom-row')) addBomItem();
-          }
-        });
-      });
+            logoutBtn.addEventListener('click', logoutUser);
 
-      // ---------- SEED ----------
-      function seedDemo() {
-        stockItems = [
-          { id: idCounter++, category: 'MCB', name: '10A MCB', model: 'MOD-101', qty: 25 },
-          { id: idCounter++, category: 'LIGHT', name: 'LED 12W', model: 'L12W', qty: 40 },
-          { id: idCounter++, category: 'CONTACTOR', name: '9A Contactor', model: 'C9A', qty: 12 },
-          { id: idCounter++, category: 'SALZER OLR', name: 'OLR 2.5-4A', model: 'S-OLR-01', qty: 10 },
-          { id: idCounter++, category: 'CONTACTOR ADDON BLOCK', name: 'Addon Block 4P', model: 'AB-4P', qty: 8 },
-          { id: idCounter++, category: 'SSR', name: 'SSR-40DA', model: 'SSR40', qty: 8 },
-          { id: idCounter++, category: 'WIRE', name: '1.5 sqmm', model: 'W1.5', qty: 200 },
-          { id: idCounter++, category: 'TERMINAL', name: 'Terminal Block', model: 'TB-10', qty: 50 },
-          { id: idCounter++, category: 'SMPS', name: 'SMPS 24V 5A', model: 'S24-5', qty: 14 },
-          { id: idCounter++, category: 'TRANSFORMER', name: 'Control Transformer', model: 'CT-230/24', qty: 7 },
-        ];
-        renderStock();
-        bomItems = [
-          { category: 'MCB', name: '10A MCB', model: 'MOD-101', qty: 2 },
-          { category: 'WIRE', name: '1.5 sqmm', model: 'W1.5', qty: 10 },
-          { category: 'TERMINAL', name: 'Terminal Block', model: 'TB-10', qty: 6 },
-        ];
-        renderBom();
-        renderSavedBoms();
-      }
-      seedDemo();
-    })();
-  </script>
+            // Stock
+            addStockBtn.addEventListener('click', addStock);
+
+            // BOM
+            addBomBtn.addEventListener('click', addBomItem);
+            clearBomBtn.addEventListener('click', function() {
+                bomItems = [];
+                renderBom();
+                saveAll();
+                if (currentUser) {
+                    logActivity(currentUser.username, 'Clear BOM', 'Cleared all BOM items');
+                }
+                showStatus('BOM cleared');
+            });
+            applyBomBtn.addEventListener('click', applyBom);
+            saveBomBtn.addEventListener('click', saveBom);
+            processExcelBtn.addEventListener('click', processExcel);
+
+            // Attendance
+            checkInBtn.addEventListener('click', checkIn);
+            checkOutBtn.addEventListener('click', checkOut);
+
+            // Export
+            exportBtn.addEventListener('click', exportToExcel);
+
+            // Notification buttons
+            document.getElementById('attendanceYes').addEventListener('click', function() {
+                document.getElementById('notification').classList.remove('show');
+                checkIn();
+            });
+            document.getElementById('attendanceNo').addEventListener('click', function() {
+                document.getElementById('notification').classList.remove('show');
+                showStatus('Attendance not marked');
+            });
+
+            // Tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    const tabId = this.dataset.tab;
+                    document.getElementById(tabId).classList.add('active');
+                    if (tabId === 'tab3') renderMaterials();
+                    if (tabId === 'tab4') renderAccounts();
+                    if (tabId === 'tab5') renderLoginHistory();
+                    if (tabId === 'tab6') renderAttendance();
+                    if (tabId === 'tab7' && currentUser?.role === 'admin') renderAdminDashboard();
+                });
+            });
+
+            // Enter key support
+            document.querySelectorAll('input, select').forEach(el => {
+                el.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        if (this.closest('#tab1')) addStock();
+                        else if (this.closest('#tab2')) addBomItem();
+                    }
+                });
+            });
+
+            // Auto-save on page unload
+            window.addEventListener('beforeunload', function() {
+                saveAll();
+            });
+
+            // Periodic auto-save
+            setInterval(saveAll, 30000);
+
+            // =============================================================
+            // INITIALIZATION
+            // =============================================================
+            function init() {
+                loadAll();
+                initUsers();
+
+                const hasSession = checkSession();
+
+                if (!hasSession) {
+                    loginPage.classList.remove('hidden');
+                    mainApp.classList.remove('show');
+                    showLoginForm();
+                }
+
+                renderAll();
+                showStatus('Ready');
+
+                if (currentUser) {
+                    setTimeout(() => {
+                        showAttendanceNotification();
+                    }, 3000);
+                }
+            }
+
+            init();
+
+        })();
+    </script>
+
 </body>
 </html>
