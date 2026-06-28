@@ -17,12 +17,12 @@
         body {
             min-height: 100vh;
             background: radial-gradient(ellipse at 30% 20%, #e8f0fe 0%, #c5d8ed 100%);
-            padding: 12px;
+            padding: 10px;
             position: relative;
             overflow-x: hidden;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
         }
 
         /* ===== BACKGROUND WATERMARK ===== */
@@ -45,7 +45,7 @@
             letter-spacing: 10px;
             white-space: nowrap;
             user-select: none;
-            opacity: 0.07;
+            opacity: 0.06;
             display: flex;
             align-items: center;
             gap: 6px;
@@ -93,7 +93,7 @@
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
             border-radius: 40px;
-            padding: 32px 28px;
+            padding: 30px 24px;
             max-width: 400px;
             width: 92%;
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -161,11 +161,6 @@
         .login-box .btn-login:hover {
             background: #e06b00;
             transform: translateY(-2px);
-        }
-        .login-box .btn-login:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
         }
         .login-box .error-msg {
             color: #b33c3c;
@@ -279,10 +274,10 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
             padding-bottom: 10px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
         .logo {
             display: flex;
@@ -325,12 +320,12 @@
         .header-right {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
         }
         .user-badge {
             background: rgba(255, 255, 255, 0.1);
-            padding: 3px 14px;
+            padding: 3px 12px;
             border-radius: 60px;
             font-size: 0.7rem;
             font-weight: 500;
@@ -349,7 +344,7 @@
             color: #f57c00;
         }
         .btn-logout {
-            padding: 3px 14px;
+            padding: 3px 12px;
             border-radius: 60px;
             border: 1px solid rgba(200, 80, 80, 0.15);
             background: rgba(200, 80, 80, 0.04);
@@ -362,7 +357,7 @@
             background: rgba(200, 80, 80, 0.08);
         }
         .btn-export {
-            padding: 3px 14px;
+            padding: 3px 12px;
             border-radius: 60px;
             border: 1px solid rgba(43, 140, 94, 0.2);
             background: rgba(43, 140, 94, 0.08);
@@ -383,7 +378,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 4px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             background: rgba(255, 255, 255, 0.06);
             backdrop-filter: blur(8px);
             padding: 4px;
@@ -482,7 +477,7 @@
             font-weight: 600;
         }
 
-        /* ===== 3-LINE SECTIONS ===== */
+        /* ===== 3-LINE SECTIONS (Clickable) ===== */
         .section-3line {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -491,11 +486,17 @@
         }
         .section-3line .line-item {
             background: rgba(255, 255, 255, 0.04);
-            padding: 6px 10px;
+            padding: 8px 10px;
             border-radius: 14px;
             border: 1px solid rgba(255, 255, 255, 0.04);
             text-align: center;
             font-size: 0.7rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .section-3line .line-item:hover {
+            background: rgba(245, 124, 0, 0.06);
+            border-color: rgba(245, 124, 0, 0.1);
         }
         .section-3line .line-item .num {
             font-size: 1.2rem;
@@ -508,13 +509,48 @@
             opacity: 0.5;
         }
 
+        /* ===== EXPANDABLE DETAILS ===== */
+        .expandable-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+            padding: 0 4px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+        }
+        .expandable-details.open {
+            max-height: 400px;
+            padding: 8px 4px;
+            overflow-y: auto;
+        }
+        .expandable-details table {
+            width: 100%;
+            font-size: 0.65rem;
+            border-collapse: collapse;
+        }
+        .expandable-details table th {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 6px;
+            text-align: left;
+            font-weight: 600;
+            color: #0e3250;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+        .expandable-details table td {
+            padding: 3px 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            color: #0b2b4f;
+        }
+
         @media(max-width:500px) {
             .section-3line {
                 grid-template-columns: 1fr 1fr 1fr;
                 gap: 4px;
             }
             .section-3line .line-item {
-                padding: 4px 6px;
+                padding: 6px 6px;
                 font-size: 0.6rem;
             }
             .section-3line .line-item .num {
@@ -533,6 +569,11 @@
             border-radius: 18px;
             border: 1px solid rgba(255, 255, 255, 0.05);
             margin-bottom: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
         }
         .entry-row .field {
             flex: 1 0 60px;
@@ -621,7 +662,7 @@
 
         /* ===== TABLE ===== */
         .table-wrap {
-            max-height: 160px;
+            max-height: 200px;
             overflow-y: auto;
             border-radius: 12px;
             background: rgba(255, 255, 255, 0.02);
@@ -847,6 +888,45 @@
             opacity: 0.3;
             font-size: 0.55rem;
         }
+
+        /* ===== STOCK HISTORY (Bottom of Entry Page) ===== */
+        .stock-history {
+            max-height: 150px;
+            overflow-y: auto;
+            font-size: 0.65rem;
+            margin-top: 6px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 6px;
+        }
+        .stock-history .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            border-radius: 4px;
+            flex-wrap: wrap;
+            gap: 2px;
+        }
+        .stock-history .history-item .h-user {
+            font-weight: 600;
+            color: #f57c00;
+        }
+        .stock-history .history-item .h-action {
+            color: #0b2b4f;
+        }
+        .stock-history .history-item .h-time {
+            opacity: 0.3;
+            font-size: 0.55rem;
+        }
+        .stock-history .history-item .h-qty {
+            font-weight: 600;
+        }
+        .stock-history .history-item .h-in {
+            color: #2b8c5e;
+        }
+        .stock-history .history-item .h-out {
+            color: #b33c3c;
+        }
     </style>
 </head>
 <body>
@@ -1023,6 +1103,16 @@
                 <div class="flex mt-2">
                     <span class="text-muted"><i class="fas fa-database"></i> Total: <span id="totalItems">0</span></span>
                 </div>
+
+                <!-- ===== STOCK HISTORY (Every Entry Record) ===== -->
+                <div style="margin-top:10px;border-top:1px solid rgba(255,255,255,0.06);padding-top:8px;">
+                    <div class="card-title" style="font-size:0.75rem;border-bottom:none;padding-bottom:0;margin-bottom:4px;">
+                        <i class="fas fa-clock"></i> Entry/Exit History <span class="badge">all records</span>
+                    </div>
+                    <div id="stockHistory" class="stock-history">
+                        <p class="text-muted" style="text-align:center;padding:8px;font-size:0.65rem;">No records yet</p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1096,8 +1186,38 @@
         <div id="tab3" class="tab-content">
             <div class="card">
                 <div class="card-title"><i class="fas fa-list-ul"></i> All Materials <span class="badge">category wise</span></div>
-                <div id="materialList" style="font-size:0.75rem;">
-                    <p class="text-muted" style="text-align:center;padding:12px;">Loading materials...</p>
+
+                <!-- 3-Line Clickable Sections -->
+                <div class="section-3line" id="materialStats">
+                    <div class="line-item" data-section="mcb">
+                        <div class="num" id="mcbCount">0</div>
+                        <div class="label">MCB</div>
+                    </div>
+                    <div class="line-item" data-section="light">
+                        <div class="num" id="lightCount">0</div>
+                        <div class="label">LIGHT</div>
+                    </div>
+                    <div class="line-item" data-section="wire">
+                        <div class="num" id="wireCount">0</div>
+                        <div class="label">WIRE</div>
+                    </div>
+                    <div class="line-item" data-section="contactor">
+                        <div class="num" id="contactorCount">0</div>
+                        <div class="label">CONTACTOR</div>
+                    </div>
+                    <div class="line-item" data-section="ssr">
+                        <div class="num" id="ssrCount">0</div>
+                        <div class="label">SSR</div>
+                    </div>
+                    <div class="line-item" data-section="other">
+                        <div class="num" id="otherCount">0</div>
+                        <div class="label">OTHER</div>
+                    </div>
+                </div>
+
+                <!-- Expandable Details -->
+                <div id="materialDetails" class="expandable-details">
+                    <div id="materialList" style="font-size:0.75rem;"></div>
                 </div>
             </div>
         </div>
@@ -1109,17 +1229,24 @@
             <div class="card">
                 <div class="card-title"><i class="fas fa-coins"></i> Accounts Overview</div>
                 <div class="section-3line">
-                    <div class="line-item">
+                    <div class="line-item" id="accStock">
                         <div class="num" id="totalStockValue">0</div>
                         <div class="label">Total Stock Value</div>
                     </div>
-                    <div class="line-item">
+                    <div class="line-item" id="accTransactions">
                         <div class="num" id="totalTransactions">0</div>
                         <div class="label">Total Transactions</div>
                     </div>
-                    <div class="line-item">
+                    <div class="line-item" id="accBOMs">
                         <div class="num" id="totalBOMs">0</div>
                         <div class="label">Total BOMs</div>
+                    </div>
+                </div>
+                <!-- Expandable Details -->
+                <div id="accountDetails" class="expandable-details">
+                    <div style="font-size:0.75rem;padding:4px;">
+                        <p><strong>Account Summary</strong></p>
+                        <div id="accountDetailContent"></div>
                     </div>
                 </div>
             </div>
@@ -1191,34 +1318,36 @@
                 <div class="card-title"><i class="fas fa-users-cog"></i> Admin Dashboard <span class="badge">all users</span></div>
 
                 <div class="section-3line">
-                    <div class="line-item">
+                    <div class="line-item" id="adminUsers">
                         <div class="num" id="adminTotalUsers">0</div>
                         <div class="label">Total Users</div>
                     </div>
-                    <div class="line-item">
+                    <div class="line-item" id="adminActivities">
                         <div class="num" id="adminTotalActivities">0</div>
                         <div class="label">Total Activities</div>
                     </div>
-                    <div class="line-item">
+                    <div class="line-item" id="adminCheckins">
                         <div class="num" id="adminTodayCheckins">0</div>
                         <div class="label">Today Check-ins</div>
                     </div>
                 </div>
 
-                <div style="margin-top:8px;">
-                    <div class="card-title" style="font-size:0.75rem;border-bottom:none;padding-bottom:0;margin-bottom:4px;">
-                        <i class="fas fa-stream"></i> All User Activities
+                <!-- Expandable Details -->
+                <div id="adminDetails" class="expandable-details">
+                    <div style="margin-top:6px;">
+                        <div class="card-title" style="font-size:0.75rem;border-bottom:none;padding-bottom:0;margin-bottom:4px;">
+                            <i class="fas fa-stream"></i> All User Activities
+                        </div>
+                        <div id="adminActivityLog" class="activity-log">
+                            <p class="text-muted" style="text-align:center;padding:8px;">No activities yet</p>
+                        </div>
                     </div>
-                    <div id="adminActivityLog" class="activity-log">
-                        <p class="text-muted" style="text-align:center;padding:8px;">No activities yet</p>
+                    <div style="margin-top:6px;">
+                        <div class="card-title" style="font-size:0.75rem;border-bottom:none;padding-bottom:0;margin-bottom:4px;">
+                            <i class="fas fa-users"></i> All Users
+                        </div>
+                        <div id="adminUserList" style="font-size:0.7rem;max-height:120px;overflow-y:auto;"></div>
                     </div>
-                </div>
-
-                <div style="margin-top:8px;">
-                    <div class="card-title" style="font-size:0.75rem;border-bottom:none;padding-bottom:0;margin-bottom:4px;">
-                        <i class="fas fa-users"></i> All Users
-                    </div>
-                    <div id="adminUserList" style="font-size:0.7rem;max-height:120px;overflow-y:auto;"></div>
                 </div>
             </div>
         </div>
@@ -1243,7 +1372,8 @@
                 USERS: 'hindustan_users',
                 ACTIVITY: 'hindustan_activity',
                 ATTENDANCE: 'hindustan_attendance',
-                SESSION: 'hindustan_session'
+                SESSION: 'hindustan_session',
+                STOCK_HISTORY: 'hindustan_stock_history'
             };
 
             // =============================================================
@@ -1256,6 +1386,7 @@
             let users = [];
             let activityLog = [];
             let attendance = [];
+            let stockHistory = [];
             let currentUser = null;
 
             // =============================================================
@@ -1270,6 +1401,7 @@
             const materialList = $('materialList');
             const loginHistoryDiv = $('loginHistory');
             const todayAttendanceDiv = $('todayAttendance');
+            const stockHistoryDiv = $('stockHistory');
 
             // Stock
             const catSel = $('categorySelect');
@@ -1370,6 +1502,7 @@
                     localStorage.setItem(KEYS.USERS, JSON.stringify(users));
                     localStorage.setItem(KEYS.ACTIVITY, JSON.stringify(activityLog));
                     localStorage.setItem(KEYS.ATTENDANCE, JSON.stringify(attendance));
+                    localStorage.setItem(KEYS.STOCK_HISTORY, JSON.stringify(stockHistory));
                     return true;
                 } catch (e) {
                     console.error('Save error:', e);
@@ -1386,6 +1519,7 @@
                     const usersData = localStorage.getItem(KEYS.USERS);
                     const activity = localStorage.getItem(KEYS.ACTIVITY);
                     const att = localStorage.getItem(KEYS.ATTENDANCE);
+                    const hist = localStorage.getItem(KEYS.STOCK_HISTORY);
 
                     if (stock) stockItems = JSON.parse(stock);
                     if (bom) bomItems = JSON.parse(bom);
@@ -1394,6 +1528,7 @@
                     if (usersData) users = JSON.parse(usersData);
                     if (activity) activityLog = JSON.parse(activity);
                     if (att) attendance = JSON.parse(att);
+                    if (hist) stockHistory = JSON.parse(hist);
 
                     stockItems.forEach(item => {
                         if (item.id >= idCounter) idCounter = item.id + 1;
@@ -1406,7 +1541,7 @@
             }
 
             // =============================================================
-            // DEFAULT USERS (Admin fixed: admin/admin)
+            // DEFAULT USERS
             // =============================================================
             function initUsers() {
                 const adminExists = users.some(u => u.username === 'admin');
@@ -1437,10 +1572,50 @@
                     activityLog = activityLog.slice(-500);
                 }
                 saveAll();
-                if (document.getElementById('tab7').classList.contains('active')) {
-                    renderAdminDashboard();
-                }
                 return entry;
+            }
+
+            // =============================================================
+            // STOCK HISTORY
+            // =============================================================
+            function addStockHistory(category, name, model, qty, type, user) {
+                const entry = {
+                    category: category,
+                    name: name,
+                    model: model || '',
+                    qty: qty,
+                    type: type,
+                    user: user || currentUser?.username || 'Unknown',
+                    time: new Date().toISOString(),
+                    timestamp: Date.now()
+                };
+                stockHistory.push(entry);
+                if (stockHistory.length > 1000) {
+                    stockHistory = stockHistory.slice(-1000);
+                }
+                saveAll();
+                renderStockHistory();
+                return entry;
+            }
+
+            function renderStockHistory() {
+                if (stockHistory.length === 0) {
+                    stockHistoryDiv.innerHTML =
+                        '<p class="text-muted" style="text-align:center;padding:8px;font-size:0.65rem;">No records yet</p>';
+                    return;
+                }
+                let html = '';
+                const display = stockHistory.slice(-30).reverse();
+                display.forEach(entry => {
+                    const isIn = entry.type === 'in';
+                    html += `<div class="history-item">
+                        <span class="h-user">${entry.user}</span>
+                        <span class="h-action">${entry.category} - ${entry.name} ${entry.model ? '('+entry.model+')' : ''}</span>
+                        <span class="h-qty ${isIn ? 'h-in' : 'h-out'}">${isIn ? '+' : '-'}${entry.qty}</span>
+                        <span class="h-time">${new Date(entry.time).toLocaleString()}</span>
+                    </div>`;
+                });
+                stockHistoryDiv.innerHTML = html;
             }
 
             // =============================================================
@@ -1544,7 +1719,6 @@
                 regPassword.value = '';
                 regConfirm.value = '';
 
-                // Switch back to login after 1.5 seconds
                 setTimeout(() => {
                     regSuccess.classList.remove('show');
                     showLoginForm();
@@ -1609,7 +1783,6 @@
                 try {
                     const data = [];
 
-                    // Stock data
                     stockItems.forEach(item => {
                         data.push({
                             'Type': 'Stock',
@@ -1622,7 +1795,6 @@
                         });
                     });
 
-                    // BOM data
                     bomItems.forEach(item => {
                         data.push({
                             'Type': 'BOM',
@@ -1635,7 +1807,6 @@
                         });
                     });
 
-                    // Attendance data
                     attendance.forEach(item => {
                         data.push({
                             'Type': 'Attendance',
@@ -1648,7 +1819,6 @@
                         });
                     });
 
-                    // Activity log
                     activityLog.forEach(item => {
                         data.push({
                             'Type': 'Activity',
@@ -1656,6 +1826,18 @@
                             'Item Name': item.action,
                             'Model': item.details || '',
                             'Quantity': 1,
+                            'User': item.user,
+                            'Timestamp': new Date(item.time).toLocaleString()
+                        });
+                    });
+
+                    stockHistory.forEach(item => {
+                        data.push({
+                            'Type': 'Stock History',
+                            'Category': item.category,
+                            'Item Name': item.name,
+                            'Model': item.model || '',
+                            'Quantity': (item.type === 'in' ? '+' : '-') + item.qty,
                             'User': item.user,
                             'Timestamp': new Date(item.time).toLocaleString()
                         });
@@ -1714,6 +1896,7 @@
                         showStatus('Item deleted');
                     });
                 });
+                renderStockHistory();
             }
 
             function renderBom() {
@@ -1782,6 +1965,26 @@
             }
 
             function renderMaterials() {
+                // Count items by category
+                const counts = {};
+                stockItems.forEach(it => {
+                    counts[it.category] = (counts[it.category] || 0) + it.qty;
+                });
+
+                // Update 3-line stats
+                const mainCats = ['MCB', 'LIGHT', 'WIRE', 'CONTACTOR', 'SSR'];
+                mainCats.forEach(cat => {
+                    const el = document.getElementById(cat.toLowerCase() + 'Count');
+                    if (el) el.textContent = counts[cat] || 0;
+                });
+                // Other count
+                let otherTotal = 0;
+                Object.keys(counts).forEach(cat => {
+                    if (!mainCats.includes(cat)) otherTotal += counts[cat];
+                });
+                document.getElementById('otherCount').textContent = otherTotal;
+
+                // Full material list
                 if (stockItems.length === 0) {
                     materialList.innerHTML =
                         '<p class="text-muted" style="text-align:center;padding:12px;">No materials in stock</p>';
@@ -1812,6 +2015,14 @@
                 document.getElementById('totalTransactions').textContent = stockItems.length + bomItems.length;
                 document.getElementById('totalBOMs').textContent = savedBoms.length;
 
+                // Account details
+                document.getElementById('accountDetailContent').innerHTML = `
+                    <p>Total Stock Items: ${stockItems.length}</p>
+                    <p>Total BOM Items: ${bomItems.length}</p>
+                    <p>Total Saved BOMs: ${savedBoms.length}</p>
+                    <p>Total Activities: ${activityLog.length}</p>
+                `;
+
                 if (currentUser) {
                     userDataUsername.textContent = currentUser.username;
                     userDataRole.textContent = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
@@ -1827,16 +2038,25 @@
             }
 
             function renderLoginHistory() {
-                const userLogs = activityLog.filter(a => a.user === currentUser?.username);
+                // Normal users see only their own history
+                // Admin sees all history
+                let userLogs;
+                if (currentUser?.role === 'admin') {
+                    userLogs = activityLog;
+                } else {
+                    userLogs = activityLog.filter(a => a.user === currentUser?.username);
+                }
+
                 if (userLogs.length === 0) {
                     loginHistoryDiv.innerHTML =
                         '<p class="text-muted" style="text-align:center;padding:12px;">No login history yet</p>';
                     return;
                 }
-                let html = '<table><thead><tr><th>Time</th><th>Action</th><th>Details</th></tr></thead><tbody>';
+                let html = '<table><thead><tr><th>Time</th><th>User</th><th>Action</th><th>Details</th></tr></thead><tbody>';
                 userLogs.slice(-30).reverse().forEach(entry => {
                     html += `<tr>
                         <td style="font-size:0.6rem;">${new Date(entry.time).toLocaleString()}</td>
+                        <td style="font-size:0.65rem;font-weight:600;color:#f57c00;">${entry.user}</td>
                         <td style="font-size:0.65rem;">${entry.action}</td>
                         <td style="font-size:0.6rem;opacity:0.5;">${entry.details || '-'}</td>
                     </tr>`;
@@ -1867,6 +2087,7 @@
                         <span>${a.status === 'in' ? '🟢 Check In' : '🔴 Check Out'}</span>
                         <span>${new Date(a.time).toLocaleTimeString()}</span>
                         <span style="opacity:0.3;">${a.location || 'Unknown'}</span>
+                        <span style="font-size:0.55rem;opacity:0.4;">${a.user || 'Unknown'}</span>
                     </div>`;
                 });
                 todayAttendanceDiv.innerHTML = html;
@@ -1905,11 +2126,12 @@
                     let html = '<div style="display:flex;flex-wrap:wrap;gap:3px;">';
                     users.forEach(u => {
                         const userActivity = activityLog.filter(a => a.user === u.username);
+                        const userAtt = attendance.filter(a => a.user === u.username);
                         html +=
                             `<span style="background:rgba(255,255,255,0.04);padding:2px 10px;border-radius:40px;font-size:0.6rem;">
                                 <i class="fas fa-user"></i> ${u.username} 
                                 <span style="opacity:0.3;">(${u.role})</span>
-                                <span style="opacity:0.2;">${userActivity.length} acts</span>
+                                <span style="opacity:0.2;">${userActivity.length} acts, ${userAtt.length} att</span>
                             </span>`;
                     });
                     html += '</div>';
@@ -1925,9 +2147,48 @@
                 renderAccounts();
                 renderLoginHistory();
                 renderAttendance();
+                renderStockHistory();
                 if (currentUser && currentUser.role === 'admin') {
                     renderAdminDashboard();
                 }
+            }
+
+            // =============================================================
+            // 3-LINE CLICK HANDLERS (Expandable Details)
+            // =============================================================
+            function setupExpandableSections() {
+                // Materials section
+                document.querySelectorAll('#materialStats .line-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        const details = document.getElementById('materialDetails');
+                        details.classList.toggle('open');
+                        if (details.classList.contains('open')) {
+                            renderMaterials();
+                        }
+                    });
+                });
+
+                // Accounts section
+                document.querySelectorAll('#tab4 .section-3line .line-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        const details = document.getElementById('accountDetails');
+                        details.classList.toggle('open');
+                        if (details.classList.contains('open')) {
+                            renderAccounts();
+                        }
+                    });
+                });
+
+                // Admin section
+                document.querySelectorAll('#tab7 .section-3line .line-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        const details = document.getElementById('adminDetails');
+                        details.classList.toggle('open');
+                        if (details.classList.contains('open')) {
+                            renderAdminDashboard();
+                        }
+                    });
+                });
             }
 
             // =============================================================
@@ -1962,6 +2223,9 @@
                     stockItems.push({ id: idCounter++, category, name, model, qty });
                     action = 'Added New Item';
                 }
+
+                // Add to stock history
+                addStockHistory(category, name, model, qty, type, currentUser?.username || 'Unknown');
 
                 renderStock();
                 saveAll();
@@ -2027,7 +2291,12 @@
                         it.name.toLowerCase() === bom.name.toLowerCase() &&
                         it.model === bom.model
                     );
-                    if (found) found.qty -= bom.qty;
+                    if (found) {
+                        // Log stock history for BOM removal
+                        addStockHistory(bom.category, bom.name, bom.model, bom.qty, 'out', currentUser?.username ||
+                            'BOM');
+                        found.qty -= bom.qty;
+                    }
                 }
 
                 const appliedItems = JSON.parse(JSON.stringify(bomItems));
@@ -2273,6 +2542,9 @@
 
             // Periodic auto-save
             setInterval(saveAll, 30000);
+
+            // Setup expandable sections
+            setupExpandableSections();
 
             // =============================================================
             // INITIALIZATION
