@@ -1,30 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Hindustan Industrial Solution</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Hindustan Industrial Solution - Store Management</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    
     <style>
+        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
         }
-
+        
         body {
+            font-family: 'Inter', sans-serif;
+            color: #1e1e2f;
+            line-height: 1.6;
+            background: #f0f2f5;
             min-height: 100vh;
-            background: radial-gradient(ellipse at 30% 20%, #e8f0fe 0%, #c5d8ed 100%);
-            padding: 10px;
-            position: relative;
-            overflow-x: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
         }
-
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* ===== BUTTONS ===== */
+        .btn-primary {
+            display: inline-block;
+            background: #f57c00;
+            color: #fff;
+            padding: 10px 28px;
+            border-radius: 40px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-primary:hover {
+            background: #e06b00;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 124, 0, 0.3);
+        }
+        
+        .btn-secondary {
+            display: inline-block;
+            background: #0a2647;
+            color: #fff;
+            padding: 10px 28px;
+            border-radius: 40px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-secondary:hover {
+            background: #1a3a6e;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: #2b8c5e;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-success:hover {
+            background: #1f724b;
+        }
+        
+        .btn-danger {
+            background: #b33c3c;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-danger:hover {
+            background: #8a2e2e;
+        }
+        
+        .btn-sm {
+            padding: 4px 14px;
+            font-size: 12px;
+        }
+        
         /* ===== BACKGROUND WATERMARK ===== */
         .watermark-wrapper {
             position: fixed;
@@ -45,11 +122,11 @@
             letter-spacing: 10px;
             white-space: nowrap;
             user-select: none;
-            opacity: 0.06;
+            opacity: 0.04;
             display: flex;
             align-items: center;
             gap: 6px;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Inter', sans-serif;
             filter: blur(3px);
         }
         .watermark-text .h-char {
@@ -69,856 +146,293 @@
             filter: blur(4px);
             opacity: 0.15;
         }
-
-        /* ===== LOGIN PAGE ===== */
-        #loginPage {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.25);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-        #loginPage.hidden {
-            display: none;
-        }
-        .login-box {
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border-radius: 40px;
-            padding: 30px 24px;
-            max-width: 400px;
-            width: 92%;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.15);
-            text-align: center;
-            max-height: 95vh;
-            overflow-y: auto;
-        }
-        .login-box .logo-icon {
-            font-size: 2.8rem;
-            color: #f57c00;
-            margin-bottom: 4px;
-        }
-        .login-box h2 {
-            color: #0a2647;
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-        .login-box .sub-title {
-            color: #1a3f5e;
-            font-size: 0.8rem;
-            opacity: 0.6;
-            margin-bottom: 16px;
-        }
-        .login-box .field {
-            margin-bottom: 12px;
-            text-align: left;
-        }
-        .login-box .field label {
-            font-size: 0.65rem;
-            font-weight: 600;
-            color: #1a4a6e;
-            display: block;
-            margin-bottom: 3px;
-        }
-        .login-box .field input {
-            width: 100%;
-            padding: 9px 14px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 60px;
-            font-size: 0.85rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(4px);
-            color: #0b2b4f;
-        }
-        .login-box .field input:focus {
-            border-color: #f57c00;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(245, 124, 0, 0.06);
-        }
-        .login-box .btn-login {
-            width: 100%;
-            padding: 10px;
-            border-radius: 60px;
-            border: none;
-            background: #f57c00;
-            color: #fff;
-            font-size: 0.95rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 4px 20px rgba(245, 124, 0, 0.25);
-        }
-        .login-box .btn-login:hover {
-            background: #e06b00;
-            transform: translateY(-2px);
-        }
-        .login-box .error-msg {
-            color: #b33c3c;
-            font-size: 0.75rem;
-            margin-top: 6px;
-            display: none;
-        }
-        .login-box .error-msg.show {
-            display: block;
-        }
-        .login-box .success-msg {
-            color: #2b8c5e;
-            font-size: 0.75rem;
-            margin-top: 6px;
-            display: none;
-        }
-        .login-box .success-msg.show {
-            display: block;
-        }
-        .login-box .toggle-form {
-            margin-top: 12px;
-            font-size: 0.75rem;
-            color: #1a4a6e;
-        }
-        .login-box .toggle-form a {
-            color: #f57c00;
-            cursor: pointer;
-            font-weight: 600;
-            text-decoration: none;
-        }
-        .login-box .toggle-form a:hover {
-            text-decoration: underline;
-        }
-        .login-box .demo-info {
-            margin-top: 10px;
-            font-size: 0.6rem;
-            opacity: 0.4;
-            color: #1a4a6e;
-        }
-
+        
         /* ===== MAIN APP ===== */
         #mainApp {
-            display: none;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border-radius: 40px;
-            padding: 14px 16px 20px;
-            box-shadow: 0 30px 60px rgba(0, 20, 40, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.4) inset;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: block;
             position: relative;
             z-index: 2;
         }
-        #mainApp.show {
-            display: block;
-        }
-
-        /* Water drop reflections */
-        #mainApp::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: 6%;
-            width: 40%;
-            height: 30px;
-            background: radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.5), transparent 70%);
-            border-radius: 50%;
-            filter: blur(8px);
-            opacity: 0.3;
-            pointer-events: none;
-        }
-        #mainApp::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            right: 4%;
-            width: 25%;
-            height: 18px;
-            background: radial-gradient(circle at 70% 100%, rgba(255, 255, 255, 0.2), transparent 70%);
-            border-radius: 50%;
-            filter: blur(10px);
-            pointer-events: none;
-        }
-
-        /* ===== SAVE STATUS ===== */
-        .save-status {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(12px);
-            color: #fff;
-            padding: 6px 16px;
-            border-radius: 60px;
-            font-size: 0.7rem;
-            z-index: 999;
-            opacity: 0;
-            transition: opacity 0.4s;
-            pointer-events: none;
-        }
-        .save-status.show {
-            opacity: 1;
-        }
-
+        
         /* ===== HEADER ===== */
-        .header {
+        .main-header {
+            background: #0a2647;
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid #f57c00;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .main-header .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 8px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-            margin-bottom: 12px;
+            gap: 10px;
         }
-        .logo {
+        .main-header .logo {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 800;
             display: flex;
             align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(8px);
-            padding: 4px 14px 4px 10px;
-            border-radius: 60px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 10px;
         }
-        .logo i {
-            font-size: 1.5rem;
+        .main-header .logo .logo-icon {
             color: #f57c00;
-            filter: drop-shadow(0 4px 12px rgba(245, 124, 0, 0.15));
+            font-size: 28px;
         }
-        .logo h1 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #0a2647;
+        .main-header .logo .brand-name {
             display: flex;
-            align-items: center;
-            gap: 2px;
-            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 4px;
         }
-        .logo .dot {
+        .main-header .logo .brand-name .h {
+            font-size: 24px;
+            color: #fff;
+        }
+        .main-header .logo .brand-name .industan {
+            font-weight: 400;
+            color: #aac;
+            font-size: 18px;
+        }
+        .main-header .logo .brand-name .dot {
             display: inline-block;
             width: 8px;
             height: 8px;
             background: #f57c00;
             border-radius: 50%;
             box-shadow: 0 0 16px rgba(245, 124, 0, 0.3);
-            flex-shrink: 0;
+            margin: 0 2px;
         }
-        .logo .sub {
+        .main-header .logo .brand-name .sub {
             font-weight: 300;
-            color: #1a3f5e;
-            font-size: 0.75rem;
+            color: #88aacc;
+            font-size: 14px;
+            letter-spacing: 1px;
         }
-        .header-right {
+        .main-header .nav-buttons {
             display: flex;
-            align-items: center;
-            gap: 6px;
+            gap: 8px;
             flex-wrap: wrap;
         }
-        .user-badge {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 3px 12px;
-            border-radius: 60px;
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: #1a3f5e;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(4px);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .user-badge .role {
-            font-size: 0.55rem;
-            background: rgba(245, 124, 0, 0.12);
-            padding: 1px 8px;
+        .main-header .nav-buttons button {
+            padding: 6px 16px;
             border-radius: 40px;
-            color: #f57c00;
-        }
-        .btn-logout {
-            padding: 3px 12px;
-            border-radius: 60px;
-            border: 1px solid rgba(200, 80, 80, 0.15);
-            background: rgba(200, 80, 80, 0.04);
-            color: #b33c3c;
-            font-size: 0.65rem;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .btn-logout:hover {
-            background: rgba(200, 80, 80, 0.08);
-        }
-        .btn-export {
-            padding: 3px 12px;
-            border-radius: 60px;
-            border: 1px solid rgba(43, 140, 94, 0.2);
-            background: rgba(43, 140, 94, 0.08);
-            color: #2b8c5e;
-            font-size: 0.65rem;
-            cursor: pointer;
-            transition: 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .btn-export:hover {
-            background: rgba(43, 140, 94, 0.15);
-        }
-
-        /* ===== TABS ===== */
-        .tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            margin-bottom: 12px;
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(8px);
-            padding: 4px;
-            border-radius: 60px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-        .tab-btn {
-            flex: 1;
-            min-width: 40px;
-            padding: 6px 8px;
-            border: none;
-            border-radius: 60px;
-            font-size: 0.6rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            color: #ccc;
             font-weight: 600;
+            font-size: 13px;
             cursor: pointer;
             transition: 0.3s;
-            background: transparent;
-            color: #1a3f5e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 3px;
-            text-align: center;
         }
-        .tab-btn i {
-            font-size: 0.7rem;
+        .main-header .nav-buttons button:hover,
+        .main-header .nav-buttons button.active {
+            background: #f57c00;
+            color: #fff;
+            border-color: #f57c00;
         }
-        .tab-btn.active {
-            background: rgba(245, 124, 0, 0.15);
-            color: #f57c00;
-            box-shadow: 0 0 16px rgba(245, 124, 0, 0.06);
+        
+        /* ===== PAGE CONTENT ===== */
+        .page-content {
+            padding: 20px 0;
         }
-        .tab-btn:hover {
-            background: rgba(255, 255, 255, 0.06);
-        }
-        .tab-btn.hidden-tab {
-            display: none;
-        }
-
-        /* ===== TAB CONTENT ===== */
-        .tab-content {
+        .page {
             display: none;
             animation: fadeIn 0.3s ease;
         }
-        .tab-content.active {
+        .page.active {
             display: block;
         }
-
+        
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
+        
         /* ===== CARDS ===== */
         .card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(14px) saturate(160%);
-            -webkit-backdrop-filter: blur(14px) saturate(160%);
-            border-radius: 24px;
-            padding: 12px 14px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 4px 16px rgba(0, 20, 30, 0.03), 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
-            margin-bottom: 10px;
-            transition: 0.3s;
-        }
-        .card:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.3);
         }
         .card-title {
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: #0e3250;
+            font-size: 18px;
+            font-weight: 700;
+            color: #0a2647;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
-            gap: 6px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            padding-bottom: 5px;
-            margin-bottom: 8px;
+            gap: 10px;
+            border-bottom: 2px solid #f57c00;
+            padding-bottom: 10px;
         }
         .card-title i {
             color: #f57c00;
-            font-size: 0.85rem;
         }
-        .badge {
-            font-size: 0.5rem;
-            background: rgba(255, 255, 255, 0.08);
-            padding: 1px 8px;
+        .card-title .badge {
+            font-size: 11px;
+            background: #f57c00;
+            color: #fff;
+            padding: 2px 12px;
             border-radius: 40px;
-            color: #004d99;
             font-weight: 600;
         }
-
-        /* ===== 3-LINE SECTIONS (Clickable) ===== */
-        .section-3line {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-        .section-3line .line-item {
-            background: rgba(255, 255, 255, 0.04);
-            padding: 8px 10px;
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            text-align: center;
-            font-size: 0.7rem;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .section-3line .line-item:hover {
-            background: rgba(245, 124, 0, 0.06);
-            border-color: rgba(245, 124, 0, 0.1);
-        }
-        .section-3line .line-item .num {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #0a2647;
-        }
-        .section-3line .line-item .label {
-            font-size: 0.55rem;
-            color: #1a4a6e;
-            opacity: 0.5;
-        }
-
-        /* ===== EXPANDABLE DETAILS ===== */
-        .expandable-details {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.3s ease;
-            padding: 0 4px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 12px;
-        }
-        .expandable-details.open {
-            max-height: 400px;
-            padding: 8px 4px;
-            overflow-y: auto;
-        }
-        .expandable-details table {
-            width: 100%;
-            font-size: 0.65rem;
-            border-collapse: collapse;
-        }
-        .expandable-details table th {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 4px 6px;
-            text-align: left;
-            font-weight: 600;
-            color: #0e3250;
-            position: sticky;
-            top: 0;
-            z-index: 2;
-        }
-        .expandable-details table td {
-            padding: 3px 6px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            color: #0b2b4f;
-        }
-
-        @media(max-width:500px) {
-            .section-3line {
-                grid-template-columns: 1fr 1fr 1fr;
-                gap: 4px;
-            }
-            .section-3line .line-item {
-                padding: 6px 6px;
-                font-size: 0.6rem;
-            }
-            .section-3line .line-item .num {
-                font-size: 1rem;
-            }
-        }
-
+        
         /* ===== ENTRY ROW ===== */
         .entry-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 4px 6px;
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(8px);
-            padding: 8px 10px;
-            border-radius: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 8px;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(12px);
+            gap: 10px;
+            background: rgba(245, 124, 0, 0.05);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            align-items: flex-end;
+            border: 1px solid rgba(245, 124, 0, 0.1);
         }
         .entry-row .field {
-            flex: 1 0 60px;
-            min-width: 50px;
+            flex: 1 0 100px;
+            min-width: 80px;
         }
         .entry-row label {
-            font-size: 0.5rem;
+            font-size: 11px;
             font-weight: 600;
-            color: #1a4a6e;
+            color: #0a2647;
             display: block;
-            margin-bottom: 1px;
+            margin-bottom: 3px;
         }
         .entry-row input,
         .entry-row select {
             width: 100%;
-            padding: 4px 8px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 60px;
-            font-size: 0.7rem;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(4px);
-            color: #0b2b4f;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 13px;
+            background: #fff;
+            transition: 0.3s;
         }
         .entry-row input:focus,
         .entry-row select:focus {
             border-color: #f57c00;
             outline: none;
-            box-shadow: 0 0 0 2px rgba(245, 124, 0, 0.05);
+            box-shadow: 0 0 0 3px rgba(245, 124, 0, 0.1);
         }
-
-        /* ===== BUTTONS ===== */
-        .btn {
-            padding: 4px 12px;
-            border-radius: 60px;
-            font-weight: 600;
-            font-size: 0.7rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.06);
-            cursor: pointer;
-            transition: 0.25s;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .btn-primary {
-            background: #f57c00;
-            border-color: #f57c00;
-            color: #fff;
-            box-shadow: 0 4px 12px rgba(245, 124, 0, 0.15);
-        }
-        .btn-primary:hover {
-            background: #e06b00;
-            transform: translateY(-1px);
-        }
-        .btn-success {
-            background: #2b8c5e;
-            border-color: #2b8c5e;
-            color: #fff;
-        }
-        .btn-success:hover {
-            background: #1f724b;
-        }
-        .btn-danger {
-            color: #b33c3c;
-            border-color: rgba(200, 80, 80, 0.1);
-        }
-        .btn-danger:hover {
-            background: rgba(200, 80, 80, 0.05);
-        }
-        .btn-warning {
-            background: #d4a017;
-            border-color: #d4a017;
-            color: #fff;
-        }
-        .btn-warning:hover {
-            background: #b8890e;
-        }
-        .btn-sm {
-            padding: 2px 8px;
-            font-size: 0.6rem;
-        }
-        .btn-xs {
-            padding: 1px 6px;
-            font-size: 0.55rem;
-        }
-
+        
         /* ===== TABLE ===== */
         .table-wrap {
-            max-height: 200px;
+            max-height: 350px;
             overflow-y: auto;
             border-radius: 12px;
-            background: rgba(255, 255, 255, 0.02);
-            padding: 2px;
+            border: 1px solid #eee;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.65rem;
+            font-size: 13px;
         }
         th {
-            background: rgba(255, 255, 255, 0.05);
-            color: #0e3250;
-            font-weight: 600;
-            padding: 4px 5px;
+            background: #f8f9fa;
+            color: #0a2647;
+            font-weight: 700;
+            padding: 10px 12px;
             text-align: left;
             position: sticky;
             top: 0;
             z-index: 2;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 2px solid #f57c00;
         }
         td {
-            padding: 4px 5px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            color: #0b2b4f;
+            padding: 8px 12px;
+            border-bottom: 1px solid #eee;
+            color: #333;
         }
         .cat-badge {
-            background: rgba(255, 255, 255, 0.08);
-            padding: 1px 6px;
+            background: #f57c00;
+            color: #fff;
+            padding: 2px 10px;
             border-radius: 40px;
-            font-size: 0.5rem;
+            font-size: 11px;
             font-weight: 600;
-            color: #1f4870;
-            display: inline-block;
         }
-
-        /* ===== GRID ===== */
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1.8fr 1fr;
-            gap: 10px;
-        }
-        @media(max-width:768px) {
-            .grid-2 {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* ===== BOM LIST ===== */
-        #bomList {
-            list-style: none;
-            padding: 0;
-            max-height: 110px;
-            overflow-y: auto;
-        }
-        #bomList li {
-            background: rgba(255, 255, 255, 0.04);
-            padding: 3px 10px;
-            border-radius: 60px;
-            margin-bottom: 2px;
+        
+        /* ===== CATEGORY TAGS ===== */
+        .category-tags {
             display: flex;
-            justify-content: space-between;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            font-size: 0.68rem;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
         }
-
-        /* ===== SAVED BOMS ===== */
-        .saved-item {
-            background: rgba(255, 255, 255, 0.04);
-            padding: 1px 10px;
-            border-radius: 60px;
-            display: inline-block;
-            margin: 1px 3px 1px 0;
-            font-size: 0.6rem;
+        .category-tag {
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 600;
+            background: #f0f0f0;
+            color: #333;
             cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            transition: 0.2s;
+            transition: 0.3s;
+            border: 1px solid transparent;
         }
-        .saved-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        /* ===== FILE UPLOAD ===== */
-        .file-upload-area {
-            background: rgba(255, 255, 255, 0.04);
-            padding: 3px 12px;
-            border-radius: 60px;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            flex-wrap: wrap;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            margin-top: 3px;
-        }
-        .file-upload-area input[type="file"] {
-            border: none;
-            background: transparent;
-            font-size: 0.6rem;
-            color: #1a3a5e;
-            max-width: 80px;
-        }
-
-        .text-muted {
-            color: #1f4870;
-            opacity: 0.4;
-        }
-        .flex {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            flex-wrap: wrap;
-        }
-        .mt-2 {
-            margin-top: 6px;
-        }
-        .mb-2 {
-            margin-bottom: 6px;
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 3px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(245, 124, 0, 0.15);
-            border-radius: 10px;
-        }
-
-        /* ===== NOTIFICATION ===== */
-        .notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(16px);
+        .category-tag:hover {
+            background: #f57c00;
             color: #fff;
-            padding: 12px 18px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            max-width: 90%;
-            display: none;
-            animation: slideDown 0.4s ease;
         }
-        .notification.show {
-            display: block;
-        }
-        .notification .notif-title {
-            font-weight: 700;
-            font-size: 0.9rem;
-            margin-bottom: 2px;
-        }
-        .notification .notif-btns {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            margin-top: 6px;
-        }
-        .notification .notif-btns .btn {
-            min-width: 50px;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.08);
+        .category-tag.active {
+            background: #f57c00;
             color: #fff;
-            border-color: rgba(255, 255, 255, 0.06);
         }
-        .notification .notif-btns .btn-yes {
-            background: #2b8c5e;
-            border-color: #2b8c5e;
-        }
-        .notification .notif-btns .btn-no {
-            background: #b33c3c;
-            border-color: #b33c3c;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-        }
-
-        /* ===== ACTIVITY LOG ===== */
-        .activity-log {
-            max-height: 160px;
-            overflow-y: auto;
-            font-size: 0.65rem;
-        }
-        .activity-log .log-item {
+        
+        /* ===== SEARCH/FILTER ===== */
+        .search-filter {
             display: flex;
-            justify-content: space-between;
-            padding: 3px 6px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            border-radius: 6px;
+            gap: 10px;
             flex-wrap: wrap;
-            gap: 2px;
+            margin-bottom: 16px;
+            align-items: center;
         }
-        .activity-log .log-item .user-tag {
-            background: rgba(245, 124, 0, 0.08);
-            padding: 0px 6px;
+        .search-filter input {
+            flex: 1;
+            min-width: 150px;
+            padding: 8px 14px;
+            border: 1px solid #ddd;
             border-radius: 40px;
-            font-weight: 600;
-            color: #f57c00;
-            font-size: 0.6rem;
+            font-size: 13px;
         }
-        .activity-log .log-item .action-tag {
-            background: rgba(255, 255, 255, 0.04);
-            padding: 0px 6px;
+        .search-filter input:focus {
+            border-color: #f57c00;
+            outline: none;
+        }
+        .search-filter select {
+            padding: 8px 14px;
+            border: 1px solid #ddd;
             border-radius: 40px;
-            font-size: 0.6rem;
+            font-size: 13px;
+            background: #fff;
         }
-        .activity-log .log-item .time-tag {
-            opacity: 0.3;
-            font-size: 0.55rem;
-        }
-
-        /* ===== STOCK HISTORY (Bottom of Entry Page) ===== */
+        
+        /* ===== STOCK HISTORY ===== */
         .stock-history {
-            max-height: 150px;
+            max-height: 200px;
             overflow-y: auto;
-            font-size: 0.65rem;
-            margin-top: 6px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            padding-top: 6px;
+            font-size: 13px;
         }
         .stock-history .history-item {
             display: flex;
             justify-content: space-between;
-            padding: 2px 6px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-            border-radius: 4px;
+            padding: 6px 10px;
+            border-bottom: 1px solid #f0f0f0;
             flex-wrap: wrap;
-            gap: 2px;
+            gap: 4px;
         }
         .stock-history .history-item .h-user {
-            font-weight: 600;
             color: #f57c00;
-        }
-        .stock-history .history-item .h-action {
-            color: #0b2b4f;
-        }
-        .stock-history .history-item .h-time {
-            opacity: 0.3;
-            font-size: 0.55rem;
-        }
-        .stock-history .history-item .h-qty {
             font-weight: 600;
         }
         .stock-history .history-item .h-in {
@@ -927,6 +441,62 @@
         .stock-history .history-item .h-out {
             color: #b33c3c;
         }
+        
+        /* ===== BOM LIST ===== */
+        .bom-list {
+            list-style: none;
+            padding: 0;
+        }
+        .bom-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 14px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            font-size: 13px;
+            align-items: center;
+        }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .main-header .container {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .main-header .nav-buttons {
+                justify-content: center;
+            }
+            .main-header .nav-buttons button {
+                font-size: 11px;
+                padding: 4px 12px;
+            }
+            .entry-row .field {
+                flex: 1 0 60px;
+                min-width: 60px;
+            }
+            .card {
+                padding: 14px 16px;
+            }
+            .main-header .logo .brand-name .sub {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-header .logo {
+                font-size: 16px;
+            }
+            .main-header .logo .brand-name .industan {
+                font-size: 14px;
+            }
+        }
+        
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f0f0f0; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #f57c00; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #e06b00; }
     </style>
 </head>
 <body>
@@ -941,417 +511,250 @@
         </div>
     </div>
 
-    <!-- ===== SAVE STATUS ===== -->
-    <div id="saveStatus" class="save-status"><i class="fas fa-check"></i> Auto-saved</div>
-
-    <!-- ===== NOTIFICATION ===== -->
-    <div id="notification" class="notification">
-        <div class="notif-title"><i class="fas fa-map-marker-alt" style="color:#f57c00;"></i> Are you at office?</div>
-        <div class="notif-btns">
-            <button class="btn btn-yes" id="attendanceYes"><i class="fas fa-check"></i> Yes</button>
-            <button class="btn btn-no" id="attendanceNo"><i class="fas fa-times"></i> No</button>
-        </div>
-    </div>
-
-    <!-- ============================================================= -->
-    <!-- ===== LOGIN PAGE ===== -->
-    <!-- ============================================================= -->
-    <div id="loginPage">
-        <div class="login-box">
-            <div class="logo-icon"><i class="fas fa-industry"></i></div>
-            <h2>Hindustan Industrial Solution</h2>
-            <div class="sub-title">Store &amp; BOM Management System</div>
-
-            <!-- Login Form -->
-            <div id="loginForm">
-                <div class="field">
-                    <label><i class="fas fa-user"></i> Username</label>
-                    <input type="text" id="loginUsername" placeholder="Enter username" />
-                </div>
-                <div class="field">
-                    <label><i class="fas fa-lock"></i> Password</label>
-                    <input type="password" id="loginPassword" placeholder="Enter password" />
-                </div>
-                <div class="error-msg" id="loginError">Invalid username or password</div>
-                <button class="btn-login" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Login</button>
-                <div class="toggle-form">
-                    Don't have an account? <a id="showRegister">Create New Account</a>
-                </div>
-            </div>
-
-            <!-- Register Form -->
-            <div id="registerForm" style="display:none;">
-                <div class="field">
-                    <label><i class="fas fa-user"></i> Username</label>
-                    <input type="text" id="regUsername" placeholder="Choose username" />
-                </div>
-                <div class="field">
-                    <label><i class="fas fa-lock"></i> Password</label>
-                    <input type="password" id="regPassword" placeholder="Choose password" />
-                </div>
-                <div class="field">
-                    <label><i class="fas fa-lock"></i> Confirm Password</label>
-                    <input type="password" id="regConfirm" placeholder="Confirm password" />
-                </div>
-                <div class="error-msg" id="regError"></div>
-                <div class="success-msg" id="regSuccess"></div>
-                <button class="btn-login" id="registerBtn"><i class="fas fa-user-plus"></i> Create Account</button>
-                <div class="toggle-form">
-                    Already have an account? <a id="showLogin">Back to Login</a>
-                </div>
-            </div>
-
-            <div class="demo-info">
-                <i class="fas fa-info-circle"></i> Admin: admin / admin &nbsp;|&nbsp; Register to create user account
-            </div>
-        </div>
-    </div>
-
     <!-- ============================================================= -->
     <!-- ===== MAIN APP ===== -->
     <!-- ============================================================= -->
     <div id="mainApp">
 
         <!-- ===== HEADER ===== -->
-        <div class="header">
-            <div class="logo">
-                <i class="fas fa-industry"></i>
-                <h1>
-                    <span style="font-weight:800;">H</span>
-                    <span style="font-weight:300;">industan</span>
-                    <span class="dot"></span>
-                    <span class="sub">Industrial Solution</span>
-                </h1>
+        <header class="main-header">
+            <div class="container">
+                <div class="logo">
+                    <span class="logo-icon"><i class="fas fa-industry"></i></span>
+                    <div class="brand-name">
+                        <span class="h">H</span>
+                        <span class="industan">industan</span>
+                        <span class="dot"></span>
+                        <span class="sub">Industrial Solution</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="active" data-page="store"><i class="fas fa-boxes"></i> Store</button>
+                    <button data-page="bom"><i class="fas fa-clipboard-list"></i> BOM</button>
+                    <button data-page="transactions"><i class="fas fa-exchange-alt"></i> Transactions</button>
+                </div>
             </div>
-            <div class="header-right">
-                <button class="btn-export" id="exportBtn"><i class="fas fa-file-excel"></i> Export</button>
-                <span class="user-badge">
-                    <i class="fas fa-user-circle"></i>
-                    <span id="currentUserDisplay">admin</span>
-                    <span class="role" id="currentRoleDisplay">Admin</span>
-                </span>
-                <button class="btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
-            </div>
-        </div>
+        </header>
 
-        <!-- ===== TABS ===== -->
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="tab1"><i class="fas fa-boxes"></i> Stock</button>
-            <button class="tab-btn" data-tab="tab2"><i class="fas fa-clipboard-list"></i> BOM</button>
-            <button class="tab-btn" data-tab="tab3"><i class="fas fa-list-ul"></i> Materials</button>
-            <button class="tab-btn" data-tab="tab4"><i class="fas fa-chart-pie"></i> Accounts</button>
-            <button class="tab-btn" data-tab="tab5"><i class="fas fa-history"></i> History</button>
-            <button class="tab-btn" data-tab="tab6"><i class="fas fa-user-check"></i> Attendance</button>
-            <button class="tab-btn hidden-tab" data-tab="tab7" id="adminTab"><i class="fas fa-users-cog"></i> Admin</button>
-        </div>
+        <!-- ===== PAGE CONTENT ===== -->
+        <div class="page-content container">
 
-        <!-- ============================================================= -->
-        <!-- ===== TAB 1: STOCK ===== -->
-        <!-- ============================================================= -->
-        <div id="tab1" class="tab-content active">
-            <div class="card">
-                <div class="card-title"><i class="fas fa-pen-alt"></i> Daily Entry / Out <span class="badge">with Model</span></div>
-                <div class="entry-row">
-                    <div class="field">
-                        <label>Category</label>
-                        <select id="categorySelect">
-                            <option value="MCB">MCB</option><option value="LIGHT">LIGHT</option>
-                            <option value="CONTACTOR">CONTACTOR</option><option value="SSR">SSR</option>
-                            <option value="WIRE">WIRE</option><option value="MULTI-CORE">MULTI-CORE</option>
-                            <option value="SINGLE-CORE">SINGLE-CORE</option><option value="LAMP">LAMP</option>
-                            <option value="SWITCH">SWITCH</option><option value="METER">METER</option>
-                            <option value="LOCK">LOCK</option><option value="PLC">PLC</option>
-                            <option value="HMI">HMI</option><option value="SOCKET">SOCKET</option>
-                            <option value="FAN">FAN</option><option value="AIRVENT">AIRVENT</option>
-                            <option value="TERMINAL">TERMINAL</option><option value="LUG">LUG</option>
-                            <option value="DRIVE">DRIVE</option><option value="STRETCH ROLL">STRETCH ROLL</option>
-                            <option value="SMPS">SMPS</option><option value="TIE">TIE</option>
-                            <option value="SPIRAL">SPIRAL</option><option value="GLAN">GLAN</option>
-                            <option value="TRANSFORMER">TRANSFORMER</option><option value="LINE CHOKE">LINE CHOKE</option>
-                            <option value="SALZER OLR">SALZER OLR</option>
-                            <option value="CONTACTOR ADDON BLOCK">CONTACTOR ADDON BLOCK</option>
+            <!-- ============================================================= -->
+            <!-- ===== STORE PAGE (Material) ===== -->
+            <!-- ============================================================= -->
+            <div id="page-store" class="page active">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-plus-circle"></i> Add Material <span class="badge">with category & company</span></div>
+                    
+                    <!-- Category Selector -->
+                    <div style="margin-bottom:12px;">
+                        <label style="font-size:12px; font-weight:600; color:#0a2647;">Select Category:</label>
+                        <select id="materialCategory" style="padding:8px 14px; border:1px solid #ddd; border-radius:8px; font-size:13px; width:100%; max-width:300px;">
+                            <option value="MCB">MCB</option>
+                            <option value="CONTACTOR">CONTACTOR</option>
+                            <option value="PUSH BUTTON & SWITCHES">PUSH BUTTON & SWITCHES</option>
+                            <option value="LAMP & LIGHT">LAMP & LIGHT</option>
+                            <option value="SMPS">SMPS</option>
+                            <option value="FAN & AIRVENT">FAN & AIRVENT</option>
+                            <option value="METER">METER</option>
+                            <option value="WIRES">WIRES</option>
+                            <option value="MCCB">MCCB</option>
+                            <option value="PIPES">PIPES</option>
+                            <option value="DRIVE">DRIVE</option>
+                            <option value="POTSET">POTSET</option>
+                            <option value="SALZER">SALZER</option>
+                            <option value="LUG">LUG</option>
+                            <option value="TIE & SPIRAL">TIE & SPIRAL</option>
+                            <option value="GLANS">GLANS</option>
+                            <option value="TERMINALS & ENDPLATE">TERMINALS & ENDPLATE</option>
+                            <option value="SENSORS">SENSORS</option>
+                            <option value="PLC & HMI">PLC & HMI</option>
                         </select>
                     </div>
-                    <div class="field">
-                        <label>Item name</label>
-                        <input type="text" id="itemName" placeholder="e.g. 10A MCB" />
+
+                    <div class="entry-row">
+                        <div class="field">
+                            <label>Material Name</label>
+                            <input type="text" id="matName" placeholder="e.g. 10A MCB" />
+                        </div>
+                        <div class="field">
+                            <label>Company/Make</label>
+                            <input type="text" id="matMake" placeholder="e.g. Schneider" />
+                        </div>
+                        <div class="field" style="flex:0.7;">
+                            <label>Rack No</label>
+                            <input type="text" id="matRack" placeholder="R-101" />
+                        </div>
+                        <div class="field" style="flex:0.5;">
+                            <label>Qty</label>
+                            <input type="number" id="matQty" value="1" min="1" />
+                        </div>
+                        <div class="field" style="flex:0.6;">
+                            <label>Action</label>
+                            <select id="matAction">
+                                <option value="add">Add</option>
+                                <option value="remove">Remove</option>
+                            </select>
+                        </div>
+                        <button class="btn-primary" id="addMaterialBtn"><i class="fas fa-plus"></i> Add/Remove</button>
                     </div>
-                    <div class="field" style="flex:0.5;">
-                        <label>Model</label>
-                        <input type="text" id="itemModel" placeholder="MOD-101" />
-                    </div>
-                    <div class="field" style="flex:0.4;">
-                        <label>Qty</label>
-                        <input type="number" id="itemQty" value="1" min="1" />
-                    </div>
-                    <div class="field" style="flex:0.5;">
-                        <label>Type</label>
-                        <select id="entryType">
-                            <option value="in">IN</option>
-                            <option value="out">OUT</option>
+                </div>
+
+                <!-- Material List -->
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-list"></i> Material Stock <span class="badge">category wise</span></div>
+                    
+                    <div class="search-filter">
+                        <input type="text" id="materialSearch" placeholder="Search materials..." />
+                        <select id="materialFilterCategory">
+                            <option value="all">All Categories</option>
+                            <option value="MCB">MCB</option>
+                            <option value="CONTACTOR">CONTACTOR</option>
+                            <option value="PUSH BUTTON & SWITCHES">PUSH BUTTON & SWITCHES</option>
+                            <option value="LAMP & LIGHT">LAMP & LIGHT</option>
+                            <option value="SMPS">SMPS</option>
+                            <option value="FAN & AIRVENT">FAN & AIRVENT</option>
+                            <option value="METER">METER</option>
+                            <option value="WIRES">WIRES</option>
+                            <option value="MCCB">MCCB</option>
+                            <option value="PIPES">PIPES</option>
+                            <option value="DRIVE">DRIVE</option>
+                            <option value="POTSET">POTSET</option>
+                            <option value="SALZER">SALZER</option>
+                            <option value="LUG">LUG</option>
+                            <option value="TIE & SPIRAL">TIE & SPIRAL</option>
+                            <option value="GLANS">GLANS</option>
+                            <option value="TERMINALS & ENDPLATE">TERMINALS & ENDPLATE</option>
+                            <option value="SENSORS">SENSORS</option>
+                            <option value="PLC & HMI">PLC & HMI</option>
                         </select>
+                        <button class="btn-primary btn-sm" id="clearFilterBtn"><i class="fas fa-times"></i> Clear</button>
                     </div>
-                    <button class="btn btn-primary" id="addStockBtn"><i class="fas fa-plus-circle"></i> Add</button>
-                </div>
 
-                <div class="table-wrap">
-                    <table>
-                        <thead><tr><th>Category</th><th>Item</th><th>Model</th><th>Qty</th><th style="width:30px;"></th></tr></thead>
-                        <tbody id="stockTableBody"></tbody>
-                    </table>
-                </div>
-                <div class="flex mt-2">
-                    <span class="text-muted"><i class="fas fa-database"></i> Total: <span id="totalItems">0</span></span>
-                </div>
+                    <!-- Category Tags -->
+                    <div class="category-tags" id="categoryTags">
+                        <span class="category-tag active" data-cat="all">All</span>
+                        <span class="category-tag" data-cat="MCB">MCB</span>
+                        <span class="category-tag" data-cat="CONTACTOR">CONTACTOR</span>
+                        <span class="category-tag" data-cat="PUSH BUTTON & SWITCHES">Switches</span>
+                        <span class="category-tag" data-cat="LAMP & LIGHT">Lamps</span>
+                        <span class="category-tag" data-cat="SMPS">SMPS</span>
+                        <span class="category-tag" data-cat="FAN & AIRVENT">Fans</span>
+                        <span class="category-tag" data-cat="METER">Meters</span>
+                        <span class="category-tag" data-cat="WIRES">Wires</span>
+                        <span class="category-tag" data-cat="MCCB">MCCB</span>
+                        <span class="category-tag" data-cat="DRIVE">Drive</span>
+                        <span class="category-tag" data-cat="SALZER">Salzer</span>
+                        <span class="category-tag" data-cat="LUG">Lug</span>
+                        <span class="category-tag" data-cat="TERMINALS & ENDPLATE">Terminals</span>
+                        <span class="category-tag" data-cat="SENSORS">Sensors</span>
+                        <span class="category-tag" data-cat="PLC & HMI">PLC/HMI</span>
+                    </div>
 
-                <!-- ===== STOCK HISTORY (Every Entry Record) ===== -->
-                <div style="margin-top:10px;border-top:1px solid rgba(255,255,255,0.06);padding-top:8px;">
-                    <div class="card-title" style="font-size:0.75rem;border-bottom:none;padding-bottom:0;margin-bottom:4px;">
-                        <i class="fas fa-clock"></i> Entry/Exit History <span class="badge">all records</span>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Material</th>
+                                    <th>Make/Company</th>
+                                    <th>Rack</th>
+                                    <th>Qty</th>
+                                    <th style="width:80px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="materialTableBody"></tbody>
+                        </table>
                     </div>
-                    <div id="stockHistory" class="stock-history">
-                        <p class="text-muted" style="text-align:center;padding:8px;font-size:0.65rem;">No records yet</p>
+                    <div style="margin-top:8px; font-size:13px; color:#666;">
+                        <i class="fas fa-database"></i> Total: <span id="totalMaterials">0</span> items
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- ============================================================= -->
-        <!-- ===== TAB 2: BOM ===== -->
-        <!-- ============================================================= -->
-        <div id="tab2" class="tab-content">
-            <div class="card">
-                <div class="card-title"><i class="fas fa-clipboard-list"></i> BOM Builder <span class="badge">auto stock remove</span></div>
-                <div class="entry-row">
-                    <div class="field">
-                        <label>Category</label>
-                        <select id="bomCategorySelect">
-                            <option value="MCB">MCB</option><option value="LIGHT">LIGHT</option>
-                            <option value="CONTACTOR">CONTACTOR</option><option value="SSR">SSR</option>
-                            <option value="WIRE">WIRE</option><option value="MULTI-CORE">MULTI-CORE</option>
-                            <option value="SINGLE-CORE">SINGLE-CORE</option><option value="LAMP">LAMP</option>
-                            <option value="SWITCH">SWITCH</option><option value="METER">METER</option>
-                            <option value="LOCK">LOCK</option><option value="PLC">PLC</option>
-                            <option value="HMI">HMI</option><option value="SOCKET">SOCKET</option>
-                            <option value="FAN">FAN</option><option value="AIRVENT">AIRVENT</option>
-                            <option value="TERMINAL">TERMINAL</option><option value="LUG">LUG</option>
-                            <option value="DRIVE">DRIVE</option><option value="STRETCH ROLL">STRETCH ROLL</option>
-                            <option value="SMPS">SMPS</option><option value="TIE">TIE</option>
-                            <option value="SPIRAL">SPIRAL</option><option value="GLAN">GLAN</option>
-                            <option value="TRANSFORMER">TRANSFORMER</option><option value="LINE CHOKE">LINE CHOKE</option>
-                            <option value="SALZER OLR">SALZER OLR</option>
-                            <option value="CONTACTOR ADDON BLOCK">CONTACTOR ADDON BLOCK</option>
-                        </select>
-                    </div>
-                    <div class="field">
-                        <label>Item name</label>
-                        <input type="text" id="bomItemName" placeholder="item name" />
-                    </div>
-                    <div class="field" style="flex:0.5;">
-                        <label>Model</label>
-                        <input type="text" id="bomModel" placeholder="Model" />
-                    </div>
-                    <div class="field" style="flex:0.4;">
-                        <label>Qty</label>
-                        <input type="number" id="bomQty" value="1" min="1" />
-                    </div>
-                    <button class="btn btn-primary btn-sm" id="addBomBtn"><i class="fas fa-plus"></i> Add</button>
-                </div>
-
-                <div class="flex" style="gap:3px;flex-wrap:wrap;margin-bottom:6px;">
-                    <button class="btn btn-outline btn-sm" id="clearBomBtn"><i class="fas fa-undo-alt"></i> Clear</button>
-                    <button class="btn btn-success btn-sm" id="applyBomBtn"><i class="fas fa-check-double"></i> Apply</button>
-                    <button class="btn btn-warning btn-sm" id="saveBomBtn"><i class="fas fa-save"></i> Save</button>
-                </div>
-
-                <div class="file-upload-area">
-                    <i class="fas fa-file-excel" style="color:#1f7b3a;"></i>
-                    <span style="font-size:0.6rem;font-weight:500;">Excel</span>
-                    <input type="file" id="excelUpload" accept=".xlsx,.xls" />
-                    <button class="btn btn-success btn-sm" id="processExcelBtn"><i class="fas fa-play"></i> Process</button>
-                </div>
-
-                <ul id="bomList"><li style="color:#1f4870;justify-content:center;font-style:italic;opacity:0.4;font-size:0.65rem;">No BOM items</li></ul>
-
-                <div style="margin-top:6px;">
-                    <span class="text-muted" style="font-size:0.6rem;"><i class="fas fa-archive"></i> Saved BOMs (click to load)</span>
-                    <div id="savedBomContainer"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ============================================================= -->
-        <!-- ===== TAB 3: MATERIALS ===== -->
-        <!-- ============================================================= -->
-        <div id="tab3" class="tab-content">
-            <div class="card">
-                <div class="card-title"><i class="fas fa-list-ul"></i> All Materials <span class="badge">category wise</span></div>
-
-                <!-- 3-Line Clickable Sections -->
-                <div class="section-3line" id="materialStats">
-                    <div class="line-item" data-section="mcb">
-                        <div class="num" id="mcbCount">0</div>
-                        <div class="label">MCB</div>
-                    </div>
-                    <div class="line-item" data-section="light">
-                        <div class="num" id="lightCount">0</div>
-                        <div class="label">LIGHT</div>
-                    </div>
-                    <div class="line-item" data-section="wire">
-                        <div class="num" id="wireCount">0</div>
-                        <div class="label">WIRE</div>
-                    </div>
-                    <div class="line-item" data-section="contactor">
-                        <div class="num" id="contactorCount">0</div>
-                        <div class="label">CONTACTOR</div>
-                    </div>
-                    <div class="line-item" data-section="ssr">
-                        <div class="num" id="ssrCount">0</div>
-                        <div class="label">SSR</div>
-                    </div>
-                    <div class="line-item" data-section="other">
-                        <div class="num" id="otherCount">0</div>
-                        <div class="label">OTHER</div>
-                    </div>
-                </div>
-
-                <!-- Expandable Details -->
-                <div id="materialDetails" class="expandable-details">
-                    <div id="materialList" style="font-size:0.75rem;"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ============================================================= -->
-        <!-- ===== TAB 4: ACCOUNTS ===== -->
-        <!-- ============================================================= -->
-        <div id="tab4" class="tab-content">
-            <div class="card">
-                <div class="card-title"><i class="fas fa-coins"></i> Accounts Overview</div>
-                <div class="section-3line">
-                    <div class="line-item" id="accStock">
-                        <div class="num" id="totalStockValue">0</div>
-                        <div class="label">Total Stock Value</div>
-                    </div>
-                    <div class="line-item" id="accTransactions">
-                        <div class="num" id="totalTransactions">0</div>
-                        <div class="label">Total Transactions</div>
-                    </div>
-                    <div class="line-item" id="accBOMs">
-                        <div class="num" id="totalBOMs">0</div>
-                        <div class="label">Total BOMs</div>
-                    </div>
-                </div>
-                <!-- Expandable Details -->
-                <div id="accountDetails" class="expandable-details">
-                    <div style="font-size:0.75rem;padding:4px;">
-                        <p><strong>Account Summary</strong></p>
-                        <div id="accountDetailContent"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title"><i class="fas fa-user-circle"></i> My Account Data</div>
-                <div style="font-size:0.75rem;">
-                    <div class="flex" style="margin-bottom:2px;">
-                        <span style="font-weight:600;">Username:</span>
-                        <span id="userDataUsername">admin</span>
-                    </div>
-                    <div class="flex" style="margin-bottom:2px;">
-                        <span style="font-weight:600;">Role:</span>
-                        <span id="userDataRole">Admin</span>
-                    </div>
-                    <div class="flex" style="margin-bottom:2px;">
-                        <span style="font-weight:600;">Total Activities:</span>
-                        <span id="userDataActivities">0</span>
-                    </div>
-                    <div class="flex" style="margin-bottom:2px;">
-                        <span style="font-weight:600;">Last Login:</span>
-                        <span id="userDataLastLogin">Never</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ============================================================= -->
-        <!-- ===== TAB 5: HISTORY ===== -->
-        <!-- ============================================================= -->
-        <div id="tab5" class="tab-content">
-            <div class="card">
-                <div class="card-title"><i class="fas fa-history"></i> Login History <span class="badge">user activity</span></div>
-                <div id="loginHistory" style="font-size:0.7rem;max-height:280px;overflow-y:auto;">
-                    <p class="text-muted" style="text-align:center;padding:12px;">No login history yet</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- ============================================================= -->
-        <!-- ===== TAB 6: ATTENDANCE ===== -->
-        <!-- ============================================================= -->
-        <div id="tab6" class="tab-content">
-            <div class="card">
-                <div class="card-title"><i class="fas fa-user-check"></i> Attendance <span class="badge">location based</span></div>
-
-                <div style="background:rgba(255,255,255,0.04);backdrop-filter:blur(8px);border-radius:20px;padding:12px;border:1px solid rgba(255,255,255,0.04);text-align:center;margin-bottom:8px;">
-                    <div style="font-size:1.6rem;margin-bottom:2px;">📍</div>
-                    <div style="font-size:1rem;font-weight:700;" id="attendanceStatus">Not Marked</div>
-                    <div style="font-size:0.65rem;opacity:0.5;" id="attendanceLocation">Location: Unknown</div>
-                    <div class="flex" style="justify-content:center;gap:8px;margin-top:6px;">
-                        <button class="btn btn-success btn-sm" id="checkInBtn"><i class="fas fa-sign-in-alt"></i> Check In</button>
-                        <button class="btn btn-danger btn-sm" id="checkOutBtn"><i class="fas fa-sign-out-alt"></i> Check Out</button>
-                    </div>
-                </div>
-
-                <div>
-                    <span class="text-muted" style="font-size:0.65rem;"><i class="fas fa-clock"></i> Today's Attendance</span>
-                    <div id="todayAttendance" style="font-size:0.7rem;margin-top:3px;max-height:100px;overflow-y:auto;"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ============================================================= -->
-        <!-- ===== TAB 7: ADMIN ===== -->
-        <!-- ============================================================= -->
-        <div id="tab7" class="tab-content">
-            <div class="card">
-                <div class="card-title"><i class="fas fa-users-cog"></i> Admin Dashboard <span class="badge">all users</span></div>
-
-                <div class="section-3line">
-                    <div class="line-item" id="adminUsers">
-                        <div class="num" id="adminTotalUsers">0</div>
-                        <div class="label">Total Users</div>
-                    </div>
-                    <div class="line-item" id="adminActivities">
-                        <div class="num" id="adminTotalActivities">0</div>
-                        <div class="label">Total Activities</div>
-                    </div>
-                    <div class="line-item" id="adminCheckins">
-                        <div class="num" id="adminTodayCheckins">0</div>
-                        <div class="label">Today Check-ins</div>
-                    </div>
-                </div>
-
-                <!-- Expandable Details -->
-                <div id="adminDetails" class="expandable-details">
-                    <div style="margin-top:6px;">
-                        <div class="card-title" style="font-size:0.75rem;border-bottom:none;padding-bottom:0;margin-bottom:4px;">
-                            <i class="fas fa-stream"></i> All User Activities
+                    <!-- Stock History -->
+                    <div style="margin-top:16px; border-top:1px solid #eee; padding-top:12px;">
+                        <div style="font-weight:600; font-size:14px; margin-bottom:8px;">
+                            <i class="fas fa-clock"></i> Stock History
                         </div>
-                        <div id="adminActivityLog" class="activity-log">
-                            <p class="text-muted" style="text-align:center;padding:8px;">No activities yet</p>
+                        <div id="stockHistory" class="stock-history">
+                            <p style="color:#999; text-align:center; padding:10px;">No records yet</p>
                         </div>
                     </div>
-                    <div style="margin-top:6px;">
-                        <div class="card-title" style="font-size:0.75rem;border-bottom:none;padding-bottom:0;margin-bottom:4px;">
-                            <i class="fas fa-users"></i> All Users
+                </div>
+            </div>
+
+            <!-- ============================================================= -->
+            <!-- ===== BOM PAGE ===== -->
+            <!-- ============================================================= -->
+            <div id="page-bom" class="page">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-clipboard-list"></i> BOM Manager <span class="badge">upload/download & apply</span></div>
+                    
+                    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;">
+                        <button class="btn-success" id="downloadBomBtn"><i class="fas fa-download"></i> Download BOM</button>
+                        <button class="btn-primary" id="uploadBomBtn"><i class="fas fa-upload"></i> Upload BOM</button>
+                        <button class="btn-secondary" id="addBomItemBtn"><i class="fas fa-plus"></i> Add Item</button>
+                        <button class="btn-success" id="applyBomBtn"><i class="fas fa-check"></i> Apply BOM</button>
+                        <button class="btn-danger" id="clearBomBtn"><i class="fas fa-trash"></i> Clear BOM</button>
+                        <input type="file" id="bomFileInput" accept=".json" style="display:none;" />
+                    </div>
+
+                    <div style="margin-bottom:12px;">
+                        <label style="font-size:12px; font-weight:600; color:#0a2647;">Filter by Company:</label>
+                        <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:4px;">
+                            <span class="category-tag active" data-bom-cat="all">All</span>
+                            <span class="category-tag" data-bom-cat="innovation">Innovation</span>
+                            <span class="category-tag" data-bom-cat="precision tech">Precision Tech</span>
+                            <span class="category-tag" data-bom-cat="manan bhai">Manan Bhai</span>
+                            <span class="category-tag" data-bom-cat="hnc">HNC</span>
+                            <span class="category-tag" data-bom-cat="other">Other</span>
                         </div>
-                        <div id="adminUserList" style="font-size:0.7rem;max-height:120px;overflow-y:auto;"></div>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>Category</th><th>Material</th><th>Make</th><th>Qty</th><th style="width:60px;">Action</th></tr>
+                            </thead>
+                            <tbody id="bomTableBody"></tbody>
+                        </table>
+                    </div>
+                    <div style="margin-top:8px; font-size:13px; color:#666;">
+                        <i class="fas fa-database"></i> Total BOM Items: <span id="totalBomItems">0</span>
                     </div>
                 </div>
             </div>
-        </div>
 
+            <!-- ============================================================= -->
+            <!-- ===== TRANSACTIONS PAGE ===== -->
+            <!-- ============================================================= -->
+            <div id="page-transactions" class="page">
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-exchange-alt"></i> Transactions <span class="badge">all records</span></div>
+                    
+                    <div class="search-filter">
+                        <input type="date" id="transDateFrom" />
+                        <input type="date" id="transDateTo" />
+                        <input type="text" id="transUserFilter" placeholder="Filter by user..." />
+                        <input type="text" id="transCategoryFilter" placeholder="Filter by category..." />
+                        <button class="btn-primary btn-sm" id="filterTransBtn"><i class="fas fa-filter"></i> Filter</button>
+                        <button class="btn-secondary btn-sm" id="clearTransFilter"><i class="fas fa-times"></i> Clear</button>
+                    </div>
+
+                    <div class="table-wrap" style="max-height:450px;">
+                        <table>
+                            <thead>
+                                <tr><th>Date/Time</th><th>User</th><th>Category</th><th>Material</th><th>Qty</th><th>Type</th></tr>
+                            </thead>
+                            <tbody id="transactionsTableBody"></tbody>
+                        </table>
+                    </div>
+                    <div style="margin-top:8px; font-size:13px; color:#666;">
+                        <i class="fas fa-database"></i> Total: <span id="totalTransactions">0</span> records
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <!-- ============================================================= -->
@@ -1367,12 +770,7 @@
             const KEYS = {
                 STOCK: 'hindustan_stock',
                 BOM: 'hindustan_bom',
-                SAVED: 'hindustan_saved_boms',
-                ID: 'hindustan_id',
-                USERS: 'hindustan_users',
-                ACTIVITY: 'hindustan_activity',
-                ATTENDANCE: 'hindustan_attendance',
-                SESSION: 'hindustan_session',
+                TRANSACTIONS: 'hindustan_transactions',
                 STOCK_HISTORY: 'hindustan_stock_history'
             };
 
@@ -1381,1197 +779,495 @@
             // =============================================================
             let stockItems = [];
             let bomItems = [];
-            let savedBoms = [];
-            let idCounter = 0;
-            let users = [];
-            let activityLog = [];
-            let attendance = [];
+            let transactions = [];
             let stockHistory = [];
-            let currentUser = null;
-
-            // =============================================================
-            // DOM REFS
-            // =============================================================
-            const $ = id => document.getElementById(id);
-            const stockTbody = $('stockTableBody');
-            const totalSpan = $('totalItems');
-            const bomList = $('bomList');
-            const savedContainer = $('savedBomContainer');
-            const saveStatus = $('saveStatus');
-            const materialList = $('materialList');
-            const loginHistoryDiv = $('loginHistory');
-            const todayAttendanceDiv = $('todayAttendance');
-            const stockHistoryDiv = $('stockHistory');
-
-            // Stock
-            const catSel = $('categorySelect');
-            const itemName = $('itemName');
-            const itemModel = $('itemModel');
-            const itemQty = $('itemQty');
-            const entryType = $('entryType');
-            const addStockBtn = $('addStockBtn');
-
-            // BOM
-            const bomCat = $('bomCategorySelect');
-            const bomName = $('bomItemName');
-            const bomModel = $('bomModel');
-            const bomQty = $('bomQty');
-            const addBomBtn = $('addBomBtn');
-            const clearBomBtn = $('clearBomBtn');
-            const applyBomBtn = $('applyBomBtn');
-            const saveBomBtn = $('saveBomBtn');
-            const excelUpload = $('excelUpload');
-            const processExcelBtn = $('processExcelBtn');
-
-            // Attendance
-            const attendanceStatus = $('attendanceStatus');
-            const attendanceLocation = $('attendanceLocation');
-            const checkInBtn = $('checkInBtn');
-            const checkOutBtn = $('checkOutBtn');
-
-            // Login
-            const loginPage = $('loginPage');
-            const mainApp = $('mainApp');
-            const loginUsername = $('loginUsername');
-            const loginPassword = $('loginPassword');
-            const loginBtn = $('loginBtn');
-            const loginError = $('loginError');
-            const logoutBtn = $('logoutBtn');
-            const currentUserDisplay = $('currentUserDisplay');
-            const currentRoleDisplay = $('currentRoleDisplay');
-            const showRegister = $('showRegister');
-            const showLogin = $('showLogin');
-            const loginForm = $('loginForm');
-            const registerForm = $('registerForm');
-            const regUsername = $('regUsername');
-            const regPassword = $('regPassword');
-            const regConfirm = $('regConfirm');
-            const registerBtn = $('registerBtn');
-            const regError = $('regError');
-            const regSuccess = $('regSuccess');
-
-            // Admin
-            const adminTab = $('adminTab');
-            const adminTotalUsers = $('adminTotalUsers');
-            const adminTotalActivities = $('adminTotalActivities');
-            const adminTodayCheckins = $('adminTodayCheckins');
-            const adminActivityLog = $('adminActivityLog');
-            const adminUserList = $('adminUserList');
-
-            // User Data
-            const userDataUsername = $('userDataUsername');
-            const userDataRole = $('userDataRole');
-            const userDataActivities = $('userDataActivities');
-            const userDataLastLogin = $('userDataLastLogin');
-
-            // Export
-            const exportBtn = $('exportBtn');
-
-            // =============================================================
-            // ALL CATEGORIES
-            // =============================================================
-            const ALL_CATS = [
-                'MCB', 'LIGHT', 'CONTACTOR', 'SSR', 'WIRE', 'MULTI-CORE',
-                'SINGLE-CORE', 'LAMP', 'SWITCH', 'METER', 'LOCK', 'PLC',
-                'HMI', 'SOCKET', 'FAN', 'AIRVENT', 'TERMINAL', 'LUG',
-                'DRIVE', 'STRETCH ROLL', 'SMPS', 'TIE', 'SPIRAL', 'GLAN',
-                'TRANSFORMER', 'LINE CHOKE', 'SALZER OLR', 'CONTACTOR ADDON BLOCK'
-            ];
 
             // =============================================================
             // SAVE / LOAD
             // =============================================================
-            let statusTimer = null;
-
-            function showStatus(msg, isError) {
-                const icon = isError ? 'fa-exclamation-triangle' : 'fa-check';
-                saveStatus.innerHTML = `<i class="fas ${icon}"></i> ${msg}`;
-                saveStatus.className = 'save-status show';
-                clearTimeout(statusTimer);
-                statusTimer = setTimeout(() => {
-                    saveStatus.className = 'save-status';
-                }, 2500);
-            }
-
             function saveAll() {
-                try {
-                    localStorage.setItem(KEYS.STOCK, JSON.stringify(stockItems));
-                    localStorage.setItem(KEYS.BOM, JSON.stringify(bomItems));
-                    localStorage.setItem(KEYS.SAVED, JSON.stringify(savedBoms));
-                    localStorage.setItem(KEYS.ID, JSON.stringify(idCounter));
-                    localStorage.setItem(KEYS.USERS, JSON.stringify(users));
-                    localStorage.setItem(KEYS.ACTIVITY, JSON.stringify(activityLog));
-                    localStorage.setItem(KEYS.ATTENDANCE, JSON.stringify(attendance));
-                    localStorage.setItem(KEYS.STOCK_HISTORY, JSON.stringify(stockHistory));
-                    return true;
-                } catch (e) {
-                    console.error('Save error:', e);
-                    return false;
-                }
+                localStorage.setItem(KEYS.STOCK, JSON.stringify(stockItems));
+                localStorage.setItem(KEYS.BOM, JSON.stringify(bomItems));
+                localStorage.setItem(KEYS.TRANSACTIONS, JSON.stringify(transactions));
+                localStorage.setItem(KEYS.STOCK_HISTORY, JSON.stringify(stockHistory));
             }
 
             function loadAll() {
-                try {
-                    const stock = localStorage.getItem(KEYS.STOCK);
-                    const bom = localStorage.getItem(KEYS.BOM);
-                    const saved = localStorage.getItem(KEYS.SAVED);
-                    const id = localStorage.getItem(KEYS.ID);
-                    const usersData = localStorage.getItem(KEYS.USERS);
-                    const activity = localStorage.getItem(KEYS.ACTIVITY);
-                    const att = localStorage.getItem(KEYS.ATTENDANCE);
-                    const hist = localStorage.getItem(KEYS.STOCK_HISTORY);
-
-                    if (stock) stockItems = JSON.parse(stock);
-                    if (bom) bomItems = JSON.parse(bom);
-                    if (saved) savedBoms = JSON.parse(saved);
-                    if (id) idCounter = JSON.parse(id);
-                    if (usersData) users = JSON.parse(usersData);
-                    if (activity) activityLog = JSON.parse(activity);
-                    if (att) attendance = JSON.parse(att);
-                    if (hist) stockHistory = JSON.parse(hist);
-
-                    stockItems.forEach(item => {
-                        if (item.id >= idCounter) idCounter = item.id + 1;
-                    });
-                    return true;
-                } catch (e) {
-                    console.error('Load error:', e);
-                    return false;
-                }
-            }
-
-            // =============================================================
-            // DEFAULT USERS
-            // =============================================================
-            function initUsers() {
-                const adminExists = users.some(u => u.username === 'admin');
-                if (!adminExists) {
-                    users.push({
-                        username: 'admin',
-                        password: 'admin',
-                        role: 'admin',
-                        created: new Date().toISOString()
-                    });
-                    saveAll();
-                }
-            }
-
-            // =============================================================
-            // ACTIVITY LOGGING
-            // =============================================================
-            function logActivity(user, action, details) {
-                const entry = {
-                    user: user,
-                    action: action,
-                    details: details || '',
-                    time: new Date().toISOString(),
-                    timestamp: Date.now()
-                };
-                activityLog.push(entry);
-                if (activityLog.length > 500) {
-                    activityLog = activityLog.slice(-500);
-                }
-                saveAll();
-                return entry;
-            }
-
-            // =============================================================
-            // STOCK HISTORY
-            // =============================================================
-            function addStockHistory(category, name, model, qty, type, user) {
-                const entry = {
-                    category: category,
-                    name: name,
-                    model: model || '',
-                    qty: qty,
-                    type: type,
-                    user: user || currentUser?.username || 'Unknown',
-                    time: new Date().toISOString(),
-                    timestamp: Date.now()
-                };
-                stockHistory.push(entry);
-                if (stockHistory.length > 1000) {
-                    stockHistory = stockHistory.slice(-1000);
-                }
-                saveAll();
-                renderStockHistory();
-                return entry;
-            }
-
-            function renderStockHistory() {
-                if (stockHistory.length === 0) {
-                    stockHistoryDiv.innerHTML =
-                        '<p class="text-muted" style="text-align:center;padding:8px;font-size:0.65rem;">No records yet</p>';
-                    return;
-                }
-                let html = '';
-                const display = stockHistory.slice(-30).reverse();
-                display.forEach(entry => {
-                    const isIn = entry.type === 'in';
-                    html += `<div class="history-item">
-                        <span class="h-user">${entry.user}</span>
-                        <span class="h-action">${entry.category} - ${entry.name} ${entry.model ? '('+entry.model+')' : ''}</span>
-                        <span class="h-qty ${isIn ? 'h-in' : 'h-out'}">${isIn ? '+' : '-'}${entry.qty}</span>
-                        <span class="h-time">${new Date(entry.time).toLocaleString()}</span>
-                    </div>`;
-                });
-                stockHistoryDiv.innerHTML = html;
-            }
-
-            // =============================================================
-            // LOGIN / LOGOUT / REGISTER
-            // =============================================================
-            function loginUser() {
-                const username = loginUsername.value.trim();
-                const password = loginPassword.value.trim();
-
-                if (!username || !password) {
-                    loginError.textContent = 'Please enter username and password';
-                    loginError.classList.add('show');
-                    return;
-                }
-
-                const user = users.find(u => u.username === username && u.password === password);
-                if (!user) {
-                    loginError.textContent = 'Invalid username or password';
-                    loginError.classList.add('show');
-                    return;
-                }
-
-                loginError.classList.remove('show');
-                currentUser = user;
-
-                localStorage.setItem(KEYS.SESSION, JSON.stringify({
-                    username: user.username,
-                    role: user.role,
-                    loginTime: new Date().toISOString()
-                }));
-
-                logActivity(user.username, 'Login', `Logged in as ${user.role}`);
-
-                loginPage.classList.add('hidden');
-                mainApp.classList.add('show');
-
-                currentUserDisplay.textContent = user.username;
-                currentRoleDisplay.textContent = user.role.charAt(0).toUpperCase() + user.role.slice(1);
-
-                if (user.role === 'admin') {
-                    adminTab.classList.remove('hidden-tab');
-                } else {
-                    adminTab.classList.add('hidden-tab');
-                }
-
-                renderAll();
-                showStatus(`Welcome ${user.username}!`);
-            }
-
-            function registerUser() {
-                const username = regUsername.value.trim();
-                const password = regPassword.value.trim();
-                const confirm = regConfirm.value.trim();
-
-                regError.classList.remove('show');
-                regSuccess.classList.remove('show');
-
-                if (!username || !password || !confirm) {
-                    regError.textContent = 'Please fill all fields';
-                    regError.classList.add('show');
-                    return;
-                }
-
-                if (username.length < 3) {
-                    regError.textContent = 'Username must be at least 3 characters';
-                    regError.classList.add('show');
-                    return;
-                }
-
-                if (password.length < 4) {
-                    regError.textContent = 'Password must be at least 4 characters';
-                    regError.classList.add('show');
-                    return;
-                }
-
-                if (password !== confirm) {
-                    regError.textContent = 'Passwords do not match';
-                    regError.classList.add('show');
-                    return;
-                }
-
-                if (users.some(u => u.username === username)) {
-                    regError.textContent = 'Username already exists!';
-                    regError.classList.add('show');
-                    return;
-                }
-
-                users.push({
-                    username: username,
-                    password: password,
-                    role: 'user',
-                    created: new Date().toISOString()
-                });
-
-                saveAll();
-
-                regSuccess.textContent = '✅ Account created successfully! Please login.';
-                regSuccess.classList.add('show');
-
-                regUsername.value = '';
-                regPassword.value = '';
-                regConfirm.value = '';
-
-                setTimeout(() => {
-                    regSuccess.classList.remove('show');
-                    showLoginForm();
-                }, 1500);
-            }
-
-            function logoutUser() {
-                if (currentUser) {
-                    logActivity(currentUser.username, 'Logout', 'Logged out');
-                }
-                currentUser = null;
-                localStorage.removeItem(KEYS.SESSION);
-                loginPage.classList.remove('hidden');
-                mainApp.classList.remove('show');
-                loginPassword.value = '';
-                showStatus('Logged out');
-            }
-
-            function showRegisterForm() {
-                loginForm.style.display = 'none';
-                registerForm.style.display = 'block';
-                regError.classList.remove('show');
-                regSuccess.classList.remove('show');
-            }
-
-            function showLoginForm() {
-                registerForm.style.display = 'none';
-                loginForm.style.display = 'block';
-                loginError.classList.remove('show');
-            }
-
-            function checkSession() {
-                const session = localStorage.getItem(KEYS.SESSION);
-                if (session) {
-                    try {
-                        const data = JSON.parse(session);
-                        const user = users.find(u => u.username === data.username);
-                        if (user) {
-                            currentUser = user;
-                            loginPage.classList.add('hidden');
-                            mainApp.classList.add('show');
-                            currentUserDisplay.textContent = user.username;
-                            currentRoleDisplay.textContent = user.role.charAt(0).toUpperCase() + user.role.slice(1);
-                            if (user.role === 'admin') {
-                                adminTab.classList.remove('hidden-tab');
-                            }
-                            renderAll();
-                            showStatus(`Welcome back ${user.username}!`);
-                            return true;
-                        }
-                    } catch (e) {
-                        localStorage.removeItem(KEYS.SESSION);
-                    }
-                }
-                return false;
-            }
-
-            // =============================================================
-            // EXPORT TO EXCEL
-            // =============================================================
-            function exportToExcel() {
-                try {
-                    const data = [];
-
-                    stockItems.forEach(item => {
-                        data.push({
-                            'Type': 'Stock',
-                            'Category': item.category,
-                            'Item Name': item.name,
-                            'Model': item.model || '',
-                            'Quantity': item.qty,
-                            'User': currentUser?.username || 'Unknown',
-                            'Timestamp': new Date().toISOString()
-                        });
-                    });
-
-                    bomItems.forEach(item => {
-                        data.push({
-                            'Type': 'BOM',
-                            'Category': item.category,
-                            'Item Name': item.name,
-                            'Model': item.model || '',
-                            'Quantity': item.qty,
-                            'User': currentUser?.username || 'Unknown',
-                            'Timestamp': new Date().toISOString()
-                        });
-                    });
-
-                    attendance.forEach(item => {
-                        data.push({
-                            'Type': 'Attendance',
-                            'Category': 'Attendance',
-                            'Item Name': item.status === 'in' ? 'Check In' : 'Check Out',
-                            'Model': item.location || '',
-                            'Quantity': 1,
-                            'User': item.user || 'Unknown',
-                            'Timestamp': new Date(item.time).toLocaleString()
-                        });
-                    });
-
-                    activityLog.forEach(item => {
-                        data.push({
-                            'Type': 'Activity',
-                            'Category': 'Activity',
-                            'Item Name': item.action,
-                            'Model': item.details || '',
-                            'Quantity': 1,
-                            'User': item.user,
-                            'Timestamp': new Date(item.time).toLocaleString()
-                        });
-                    });
-
-                    stockHistory.forEach(item => {
-                        data.push({
-                            'Type': 'Stock History',
-                            'Category': item.category,
-                            'Item Name': item.name,
-                            'Model': item.model || '',
-                            'Quantity': (item.type === 'in' ? '+' : '-') + item.qty,
-                            'User': item.user,
-                            'Timestamp': new Date(item.time).toLocaleString()
-                        });
-                    });
-
-                    if (data.length === 0) {
-                        alert('No data to export!');
-                        return;
-                    }
-
-                    const ws = XLSX.utils.json_to_sheet(data);
-                    const wb = XLSX.utils.book_new();
-                    XLSX.utils.book_append_sheet(wb, ws, 'StoreData');
-
-                    const filename = `Store_Export_${new Date().toISOString().slice(0,10)}.xlsx`;
-                    XLSX.writeFile(wb, filename);
-                    showStatus(`✅ Exported ${data.length} records to ${filename}`);
-                    logActivity(currentUser?.username || 'Unknown', 'Export Data',
-                        `Exported ${data.length} records to Excel`);
-                } catch (e) {
-                    alert('Error exporting: ' + e.message);
-                }
-            }
-
-            // =============================================================
-            // RENDER FUNCTIONS
-            // =============================================================
-            function renderStock() {
-                stockTbody.innerHTML = '';
-                let total = 0;
-                stockItems.forEach((item, idx) => {
-                    total += item.qty;
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td><span class="cat-badge">${item.category}</span></td>
-                        <td><strong>${item.name}</strong></td>
-                        <td>${item.model || '-'}</td>
-                        <td>${item.qty}</td>
-                        <td><button class="btn btn-danger btn-xs" data-idx="${idx}"><i class="fas fa-trash"></i></button></td>
-                    `;
-                    stockTbody.appendChild(tr);
-                });
-                totalSpan.textContent = total;
-
-                stockTbody.querySelectorAll('button[data-idx]').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const idx = parseInt(this.dataset.idx);
-                        const item = stockItems[idx];
-                        stockItems.splice(idx, 1);
-                        renderStock();
-                        saveAll();
-                        if (currentUser) {
-                            logActivity(currentUser.username, 'Delete Stock',
-                                `Deleted ${item.category} - ${item.name} (${item.model || 'No model'})`);
-                        }
-                        showStatus('Item deleted');
-                    });
-                });
-                renderStockHistory();
-            }
-
-            function renderBom() {
-                bomList.innerHTML = '';
-                if (bomItems.length === 0) {
-                    bomList.innerHTML =
-                        '<li style="color:#1f4870;justify-content:center;font-style:italic;opacity:0.4;font-size:0.65rem;">No BOM items</li>';
-                    return;
-                }
-                bomItems.forEach((item, idx) => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `
-                        <span><span class="cat-badge">${item.category}</span> ${item.name} ${item.model ? '['+item.model+']' : ''} × ${item.qty}</span>
-                        <button class="btn btn-danger btn-xs" data-bomidx="${idx}"><i class="fas fa-times"></i></button>
-                    `;
-                    bomList.appendChild(li);
-                });
-                bomList.querySelectorAll('button[data-bomidx]').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const idx = parseInt(this.dataset.bomidx);
-                        const item = bomItems[idx];
-                        bomItems.splice(idx, 1);
-                        renderBom();
-                        saveAll();
-                        if (currentUser) {
-                            logActivity(currentUser.username, 'Remove BOM Item',
-                                `Removed ${item.category} - ${item.name} from BOM`);
-                        }
-                    });
-                });
-            }
-
-            function renderSavedBoms() {
-                savedContainer.innerHTML = '';
-                if (savedBoms.length === 0) {
-                    savedContainer.innerHTML =
-                        '<span class="text-muted" style="font-size:0.6rem;">No saved BOMs</span>';
-                    return;
-                }
-                savedBoms.forEach((bom, idx) => {
-                    const span = document.createElement('span');
-                    span.className = 'saved-item';
-                    span.textContent = `📋 ${bom.name || 'BOM-'+(idx+1)} (${bom.items.length})`;
-                    span.dataset.idx = idx;
-                    span.addEventListener('click', function() {
-                        const i = parseInt(this.dataset.idx);
-                        const loaded = savedBoms[i];
-                        if (loaded) {
-                            bomItems = JSON.parse(JSON.stringify(loaded.items));
-                            renderBom();
-                            saveAll();
-                            if (currentUser) {
-                                logActivity(currentUser.username, 'Load BOM',
-                                    `Loaded BOM: ${loaded.name}`);
-                            }
-                            showStatus('BOM loaded: ' + loaded.name);
-                            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove(
-                            'active'));
-                            document.querySelector('[data-tab="tab2"]').classList.add('active');
-                            document.getElementById('tab2').classList.add('active');
-                        }
-                    });
-                    savedContainer.appendChild(span);
-                });
-            }
-
-            function renderMaterials() {
-                // Count items by category
-                const counts = {};
-                stockItems.forEach(it => {
-                    counts[it.category] = (counts[it.category] || 0) + it.qty;
-                });
-
-                // Update 3-line stats
-                const mainCats = ['MCB', 'LIGHT', 'WIRE', 'CONTACTOR', 'SSR'];
-                mainCats.forEach(cat => {
-                    const el = document.getElementById(cat.toLowerCase() + 'Count');
-                    if (el) el.textContent = counts[cat] || 0;
-                });
-                // Other count
-                let otherTotal = 0;
-                Object.keys(counts).forEach(cat => {
-                    if (!mainCats.includes(cat)) otherTotal += counts[cat];
-                });
-                document.getElementById('otherCount').textContent = otherTotal;
-
-                // Full material list
-                if (stockItems.length === 0) {
-                    materialList.innerHTML =
-                        '<p class="text-muted" style="text-align:center;padding:12px;">No materials in stock</p>';
-                    return;
-                }
-                const grouped = {};
-                stockItems.forEach(it => {
-                    if (!grouped[it.category]) grouped[it.category] = [];
-                    grouped[it.category].push(it);
-                });
-                let html = '';
-                for (const [cat, items] of Object.entries(grouped)) {
-                    html += `<div style="margin-bottom:6px;">
-                        <h4 style="color:#f57c00;font-size:0.75rem;margin-bottom:2px;"><i class="fas fa-folder"></i> ${cat}</h4>
-                        <div style="display:flex;flex-wrap:wrap;gap:2px;">`;
-                    items.forEach(it => {
-                        html +=
-                            `<span style="background:rgba(255,255,255,0.04);padding:2px 8px;border-radius:40px;font-size:0.65rem;">${it.name} ${it.model ? '('+it.model+')' : ''} × ${it.qty}</span>`;
-                    });
-                    html += `</div></div>`;
-                }
-                materialList.innerHTML = html;
-            }
-
-            function renderAccounts() {
-                const totalValue = stockItems.reduce((sum, it) => sum + it.qty, 0);
-                document.getElementById('totalStockValue').textContent = totalValue;
-                document.getElementById('totalTransactions').textContent = stockItems.length + bomItems.length;
-                document.getElementById('totalBOMs').textContent = savedBoms.length;
-
-                // Account details
-                document.getElementById('accountDetailContent').innerHTML = `
-                    <p>Total Stock Items: ${stockItems.length}</p>
-                    <p>Total BOM Items: ${bomItems.length}</p>
-                    <p>Total Saved BOMs: ${savedBoms.length}</p>
-                    <p>Total Activities: ${activityLog.length}</p>
-                `;
-
-                if (currentUser) {
-                    userDataUsername.textContent = currentUser.username;
-                    userDataRole.textContent = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
-                    const userActivities = activityLog.filter(a => a.user === currentUser.username);
-                    userDataActivities.textContent = userActivities.length;
-                    const lastLogin = userActivities.filter(a => a.action === 'Login');
-                    if (lastLogin.length > 0) {
-                        userDataLastLogin.textContent = new Date(lastLogin[lastLogin.length - 1].time).toLocaleString();
-                    } else {
-                        userDataLastLogin.textContent = 'Never';
-                    }
-                }
-            }
-
-            function renderLoginHistory() {
-                // Normal users see only their own history
-                // Admin sees all history
-                let userLogs;
-                if (currentUser?.role === 'admin') {
-                    userLogs = activityLog;
-                } else {
-                    userLogs = activityLog.filter(a => a.user === currentUser?.username);
-                }
-
-                if (userLogs.length === 0) {
-                    loginHistoryDiv.innerHTML =
-                        '<p class="text-muted" style="text-align:center;padding:12px;">No login history yet</p>';
-                    return;
-                }
-                let html = '<table><thead><tr><th>Time</th><th>User</th><th>Action</th><th>Details</th></tr></thead><tbody>';
-                userLogs.slice(-30).reverse().forEach(entry => {
-                    html += `<tr>
-                        <td style="font-size:0.6rem;">${new Date(entry.time).toLocaleString()}</td>
-                        <td style="font-size:0.65rem;font-weight:600;color:#f57c00;">${entry.user}</td>
-                        <td style="font-size:0.65rem;">${entry.action}</td>
-                        <td style="font-size:0.6rem;opacity:0.5;">${entry.details || '-'}</td>
-                    </tr>`;
-                });
-                html += '</tbody></table>';
-                loginHistoryDiv.innerHTML = html;
-            }
-
-            function renderAttendance() {
-                const today = new Date().toDateString();
-                const todayAtt = attendance.filter(a => new Date(a.time).toDateString() === today);
-
-                if (todayAtt.length === 0) {
-                    attendanceStatus.textContent = 'Not Marked';
-                    attendanceStatus.style.color = '#1a4a6e';
-                    todayAttendanceDiv.innerHTML = '<p class="text-muted" style="font-size:0.65rem;">No attendance today</p>';
-                    return;
-                }
-
-                const last = todayAtt[todayAtt.length - 1];
-                attendanceStatus.textContent = last.status === 'in' ? '✅ Present' : '❌ Left';
-                attendanceStatus.style.color = last.status === 'in' ? '#2b8c5e' : '#b33c3c';
-                attendanceLocation.textContent = `Location: ${last.location || 'Unknown'}`;
-
-                let html = '';
-                todayAtt.slice().reverse().forEach(a => {
-                    html += `<div style="background:rgba(255,255,255,0.03);padding:2px 8px;border-radius:40px;margin-bottom:2px;display:flex;justify-content:space-between;font-size:0.65rem;">
-                        <span>${a.status === 'in' ? '🟢 Check In' : '🔴 Check Out'}</span>
-                        <span>${new Date(a.time).toLocaleTimeString()}</span>
-                        <span style="opacity:0.3;">${a.location || 'Unknown'}</span>
-                        <span style="font-size:0.55rem;opacity:0.4;">${a.user || 'Unknown'}</span>
-                    </div>`;
-                });
-                todayAttendanceDiv.innerHTML = html;
-            }
-
-            function renderAdminDashboard() {
-                if (!currentUser || currentUser.role !== 'admin') return;
-
-                adminTotalUsers.textContent = users.length;
-                adminTotalActivities.textContent = activityLog.length;
-
-                const today = new Date().toDateString();
-                const todayCheckins = attendance.filter(a =>
-                    new Date(a.time).toDateString() === today && a.status === 'in'
-                );
-                adminTodayCheckins.textContent = todayCheckins.length;
-
-                if (activityLog.length === 0) {
-                    adminActivityLog.innerHTML = '<p class="text-muted" style="text-align:center;padding:8px;">No activities yet</p>';
-                } else {
-                    let html = '';
-                    activityLog.slice(-30).reverse().forEach(entry => {
-                        html += `<div class="log-item">
-                            <span class="user-tag">${entry.user}</span>
-                            <span class="action-tag">${entry.action}</span>
-                            <span style="font-size:0.55rem;opacity:0.4;">${entry.details || ''}</span>
-                            <span class="time-tag">${new Date(entry.time).toLocaleString()}</span>
-                        </div>`;
-                    });
-                    adminActivityLog.innerHTML = html;
-                }
-
-                if (users.length === 0) {
-                    adminUserList.innerHTML = '<p class="text-muted" style="font-size:0.65rem;">No users</p>';
-                } else {
-                    let html = '<div style="display:flex;flex-wrap:wrap;gap:3px;">';
-                    users.forEach(u => {
-                        const userActivity = activityLog.filter(a => a.user === u.username);
-                        const userAtt = attendance.filter(a => a.user === u.username);
-                        html +=
-                            `<span style="background:rgba(255,255,255,0.04);padding:2px 10px;border-radius:40px;font-size:0.6rem;">
-                                <i class="fas fa-user"></i> ${u.username} 
-                                <span style="opacity:0.3;">(${u.role})</span>
-                                <span style="opacity:0.2;">${userActivity.length} acts, ${userAtt.length} att</span>
-                            </span>`;
-                    });
-                    html += '</div>';
-                    adminUserList.innerHTML = html;
-                }
-            }
-
-            function renderAll() {
-                renderStock();
-                renderBom();
-                renderSavedBoms();
-                renderMaterials();
-                renderAccounts();
-                renderLoginHistory();
-                renderAttendance();
-                renderStockHistory();
-                if (currentUser && currentUser.role === 'admin') {
-                    renderAdminDashboard();
-                }
-            }
-
-            // =============================================================
-            // 3-LINE CLICK HANDLERS (Expandable Details)
-            // =============================================================
-            function setupExpandableSections() {
-                // Materials section
-                document.querySelectorAll('#materialStats .line-item').forEach(item => {
-                    item.addEventListener('click', function() {
-                        const details = document.getElementById('materialDetails');
-                        details.classList.toggle('open');
-                        if (details.classList.contains('open')) {
-                            renderMaterials();
-                        }
-                    });
-                });
-
-                // Accounts section
-                document.querySelectorAll('#tab4 .section-3line .line-item').forEach(item => {
-                    item.addEventListener('click', function() {
-                        const details = document.getElementById('accountDetails');
-                        details.classList.toggle('open');
-                        if (details.classList.contains('open')) {
-                            renderAccounts();
-                        }
-                    });
-                });
-
-                // Admin section
-                document.querySelectorAll('#tab7 .section-3line .line-item').forEach(item => {
-                    item.addEventListener('click', function() {
-                        const details = document.getElementById('adminDetails');
-                        details.classList.toggle('open');
-                        if (details.classList.contains('open')) {
-                            renderAdminDashboard();
-                        }
-                    });
-                });
+                const stock = localStorage.getItem(KEYS.STOCK);
+                const bom = localStorage.getItem(KEYS.BOM);
+                const trans = localStorage.getItem(KEYS.TRANSACTIONS);
+                const hist = localStorage.getItem(KEYS.STOCK_HISTORY);
+                
+                if (stock) stockItems = JSON.parse(stock);
+                if (bom) bomItems = JSON.parse(bom);
+                if (trans) transactions = JSON.parse(trans);
+                if (hist) stockHistory = JSON.parse(hist);
             }
 
             // =============================================================
             // STOCK OPERATIONS
             // =============================================================
-            function addStock() {
-                const category = catSel.value;
-                const name = itemName.value.trim();
-                const model = itemModel.value.trim();
-                const qty = parseInt(itemQty.value) || 1;
-                const type = entryType.value;
+            function addMaterial() {
+                const category = document.getElementById('materialCategory').value;
+                const name = document.getElementById('matName').value.trim();
+                const make = document.getElementById('matMake').value.trim();
+                const rack = document.getElementById('matRack').value.trim();
+                const qty = parseInt(document.getElementById('matQty').value) || 1;
+                const action = document.getElementById('matAction').value;
 
-                if (!name) { alert('Please enter item name'); return; }
+                if (!name) { alert('Please enter material name'); return; }
                 if (qty <= 0) { alert('Qty must be > 0'); return; }
 
                 const existing = stockItems.find(it =>
                     it.category === category &&
                     it.name.toLowerCase() === name.toLowerCase() &&
-                    it.model === model
+                    it.make === make &&
+                    it.rack === rack
                 );
 
-                let action = '';
                 if (existing) {
-                    if (type === 'in') existing.qty += qty;
-                    else existing.qty = Math.max(0, existing.qty - qty);
-                    action = type === 'in' ? 'Added Stock' : 'Removed Stock';
+                    if (action === 'add') {
+                        existing.qty += qty;
+                    } else {
+                        existing.qty = Math.max(0, existing.qty - qty);
+                    }
                 } else {
-                    if (type === 'out') {
-                        alert('Item not in stock. Cannot exit.');
+                    if (action === 'remove') {
+                        alert('Item not found in stock');
                         return;
                     }
-                    stockItems.push({ id: idCounter++, category, name, model, qty });
-                    action = 'Added New Item';
+                    stockItems.push({ category, name, make, rack, qty });
                 }
 
-                // Add to stock history
-                addStockHistory(category, name, model, qty, type, currentUser?.username || 'Unknown');
+                // Add to history
+                stockHistory.push({
+                    user: 'Admin',
+                    category, name, make, rack,
+                    qty: qty,
+                    type: action,
+                    time: new Date().toISOString()
+                });
 
-                renderStock();
+                // Add to transactions
+                transactions.push({
+                    user: 'Admin',
+                    category, name,
+                    qty: qty,
+                    type: action === 'add' ? 'IN' : 'OUT',
+                    time: new Date().toISOString()
+                });
+
                 saveAll();
-                if (currentUser) {
-                    logActivity(currentUser.username, action,
-                        `${category} - ${name} (${model || 'No model'}) × ${qty} ${type === 'in' ? 'IN' : 'OUT'}`);
-                }
-                itemName.value = '';
-                itemModel.value = '';
-                itemQty.value = 1;
-                showStatus('Stock updated');
+                renderMaterialTable();
+                renderStockHistory();
+                renderTransactions();
+                showStatus('✅ ' + (action === 'add' ? 'Added' : 'Removed') + ' ' + name);
+
+                document.getElementById('matName').value = '';
+                document.getElementById('matMake').value = '';
+                document.getElementById('matRack').value = '';
+                document.getElementById('matQty').value = 1;
+            }
+
+            function deleteMaterial(index) {
+                if (!confirm('Delete this material?')) return;
+                const item = stockItems[index];
+                stockItems.splice(index, 1);
+                saveAll();
+                renderMaterialTable();
+                showStatus('Deleted ' + item.name);
             }
 
             // =============================================================
             // BOM OPERATIONS
             // =============================================================
             function addBomItem() {
-                const category = bomCat.value;
-                const name = bomName.value.trim();
-                const model = bomModel.value.trim();
-                const qty = parseInt(bomQty.value) || 1;
+                const name = prompt('Enter material name:');
+                if (!name) return;
+                const category = prompt('Enter category:') || 'Other';
+                const make = prompt('Enter make/company:') || 'Other';
+                const qty = parseInt(prompt('Enter quantity:')) || 1;
 
-                if (!name) { alert('Enter BOM item name'); return; }
-                if (qty <= 0) { alert('Qty must be > 0'); return; }
-
-                bomItems.push({ category, name, model, qty });
-                renderBom();
+                bomItems.push({ category, name, make, qty });
                 saveAll();
-                if (currentUser) {
-                    logActivity(currentUser.username, 'Add BOM Item',
-                        `${category} - ${name} (${model || 'No model'}) × ${qty}`);
-                }
-                bomName.value = '';
-                bomModel.value = '';
-                bomQty.value = 1;
-                showStatus('BOM item added');
+                renderBomTable();
+                showStatus('✅ Added to BOM: ' + name);
+            }
+
+            function removeBomItem(index) {
+                bomItems.splice(index, 1);
+                saveAll();
+                renderBomTable();
             }
 
             function applyBom() {
                 if (bomItems.length === 0) {
-                    alert('BOM is empty. Add items first.');
+                    alert('BOM is empty');
                     return;
                 }
 
-                const stockCopy = [...stockItems];
+                // Check stock sufficiency
                 for (const bom of bomItems) {
-                    const found = stockCopy.find(it =>
+                    const stock = stockItems.find(it =>
                         it.category === bom.category &&
                         it.name.toLowerCase() === bom.name.toLowerCase() &&
-                        it.model === bom.model
+                        it.make === bom.make
                     );
-                    if (!found || found.qty < bom.qty) {
-                        alert(
-                            `❌ Insufficient stock for ${bom.category} · ${bom.name} (need ${bom.qty}, have ${found ? found.qty : 0})`);
+                    if (!stock || stock.qty < bom.qty) {
+                        alert(`Insufficient stock for ${bom.category} - ${bom.name} (need ${bom.qty}, have ${stock ? stock.qty : 0})`);
                         return;
                     }
-                    found.qty -= bom.qty;
                 }
 
+                // Deduct stock
                 for (const bom of bomItems) {
-                    const found = stockItems.find(it =>
+                    const stock = stockItems.find(it =>
                         it.category === bom.category &&
                         it.name.toLowerCase() === bom.name.toLowerCase() &&
-                        it.model === bom.model
+                        it.make === bom.make
                     );
-                    if (found) {
-                        // Log stock history for BOM removal
-                        addStockHistory(bom.category, bom.name, bom.model, bom.qty, 'out', currentUser?.username ||
-                            'BOM');
-                        found.qty -= bom.qty;
+                    if (stock) {
+                        stock.qty -= bom.qty;
+                        stockHistory.push({
+                            user: 'BOM',
+                            category: bom.category,
+                            name: bom.name,
+                            make: bom.make,
+                            rack: '-',
+                            qty: bom.qty,
+                            type: 'remove',
+                            time: new Date().toISOString()
+                        });
+                        transactions.push({
+                            user: 'BOM',
+                            category: bom.category,
+                            name: bom.name,
+                            qty: bom.qty,
+                            type: 'BOM OUT',
+                            time: new Date().toISOString()
+                        });
                     }
                 }
 
-                const appliedItems = JSON.parse(JSON.stringify(bomItems));
-                stockItems = stockItems.filter(it => it.qty > 0);
                 bomItems = [];
-
-                renderStock();
-                renderBom();
                 saveAll();
-                if (currentUser) {
-                    logActivity(currentUser.username, 'Apply BOM',
-                        `Applied ${appliedItems.length} items to stock`);
-                }
-                alert('✅ BOM applied successfully. Stock updated.');
+                renderMaterialTable();
+                renderBomTable();
+                renderStockHistory();
+                renderTransactions();
+                alert('✅ BOM applied successfully');
             }
 
-            function saveBom() {
+            function clearBom() {
+                if (bomItems.length === 0) return;
+                if (confirm('Clear all BOM items?')) {
+                    bomItems = [];
+                    saveAll();
+                    renderBomTable();
+                }
+            }
+
+            function downloadBom() {
                 if (bomItems.length === 0) {
-                    alert('No BOM items to save.');
+                    alert('BOM is empty');
                     return;
                 }
-                const name = prompt('Enter BOM name:', 'BOM-' + (savedBoms.length + 1));
-                if (!name) return;
-                const obj = {
-                    name: name,
-                    items: JSON.parse(JSON.stringify(bomItems)),
-                    date: new Date().toISOString()
-                };
-                savedBoms.push(obj);
-                renderSavedBoms();
-                saveAll();
-                if (currentUser) {
-                    logActivity(currentUser.username, 'Save BOM',
-                        `Saved BOM: ${name} with ${obj.items.length} items`);
-                }
-                alert('✅ BOM saved successfully!');
+                const data = JSON.stringify(bomItems, null, 2);
+                const blob = new Blob([data], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `BOM_${new Date().toISOString().slice(0,10)}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
             }
 
-            // =============================================================
-            // EXCEL
-            // =============================================================
-            function processExcel() {
-                const file = excelUpload.files[0];
-                if (!file) { alert('Please select an Excel file.'); return; }
+            function uploadBom() {
+                document.getElementById('bomFileInput').click();
+            }
+
+            function handleBomUpload(e) {
+                const file = e.target.files[0];
+                if (!file) return;
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     try {
-                        const data = new Uint8Array(e.target.result);
-                        const workbook = XLSX.read(data, { type: 'array' });
-                        const sheet = workbook.Sheets[workbook.SheetNames[0]];
-                        const json = XLSX.utils.sheet_to_json(sheet);
-
-                        if (json.length === 0) { alert('Excel file is empty.'); return; }
-
-                        const items = [];
-                        json.forEach(row => {
-                            const cat = (row['Category'] || row['category'] || '').toString().trim();
-                            const name = (row['ItemName'] || row['Item'] || row['item'] || '').toString().trim();
-                            const model = (row['Model'] || row['model'] || '').toString().trim();
-                            const qty = parseInt(row['Qty'] || row['qty'] || 0);
-                            if (cat && name && qty > 0) {
-                                items.push({ category: cat, name, model, qty });
-                            }
-                        });
-
-                        if (items.length === 0) {
-                            alert('No valid data. Columns: Category, ItemName, Model, Qty');
-                            return;
+                        const data = JSON.parse(e.target.result);
+                        if (Array.isArray(data)) {
+                            bomItems = data;
+                            saveAll();
+                            renderBomTable();
+                            showStatus('✅ BOM uploaded successfully');
+                        } else {
+                            alert('Invalid BOM format');
                         }
-
-                        bomItems = items;
-                        renderBom();
-                        saveAll();
-                        if (currentUser) {
-                            logActivity(currentUser.username, 'Excel Import BOM',
-                                `Imported ${items.length} items from Excel`);
-                        }
-                        alert(`✅ ${items.length} items loaded from Excel. Click "Apply BOM" to remove from stock.`);
                     } catch (err) {
-                        alert('Error reading Excel: ' + err.message);
+                        alert('Error reading file: ' + err.message);
                     }
                 };
-                reader.readAsArrayBuffer(file);
+                reader.readAsText(file);
+                e.target.value = '';
             }
 
             // =============================================================
-            // ATTENDANCE WITH LOCATION
+            // FILTER MATERIALS
             // =============================================================
-            function getLocation() {
-                return new Promise((resolve) => {
-                    if (!navigator.geolocation) {
-                        resolve('Location not supported');
-                        return;
-                    }
-                    navigator.geolocation.getCurrentPosition(
-                        (pos) => {
-                            resolve(`Lat: ${pos.coords.latitude.toFixed(4)}, Lng: ${pos.coords.longitude.toFixed(4)}`);
-                        },
-                        () => { resolve('Location unavailable'); },
-                        { enableHighAccuracy: true, timeout: 10000 }
+            function filterMaterials() {
+                const search = document.getElementById('materialSearch').value.toLowerCase();
+                const category = document.getElementById('materialFilterCategory').value;
+                const activeTag = document.querySelector('.category-tag.active');
+                const tagCat = activeTag ? activeTag.dataset.cat : 'all';
+
+                let filtered = stockItems;
+                if (category !== 'all') {
+                    filtered = filtered.filter(it => it.category === category);
+                } else if (tagCat !== 'all') {
+                    filtered = filtered.filter(it => it.category === tagCat);
+                }
+                if (search) {
+                    filtered = filtered.filter(it =>
+                        it.name.toLowerCase().includes(search) ||
+                        it.make.toLowerCase().includes(search) ||
+                        it.category.toLowerCase().includes(search)
                     );
+                }
+                renderMaterialTable(filtered);
+            }
+
+            // =============================================================
+            // FILTER TRANSACTIONS
+            // =============================================================
+            function filterTransactions() {
+                const dateFrom = document.getElementById('transDateFrom').value;
+                const dateTo = document.getElementById('transDateTo').value;
+                const user = document.getElementById('transUserFilter').value.toLowerCase();
+                const category = document.getElementById('transCategoryFilter').value.toLowerCase();
+
+                let filtered = [...transactions];
+                if (dateFrom) {
+                    filtered = filtered.filter(t => t.time >= dateFrom);
+                }
+                if (dateTo) {
+                    const end = new Date(dateTo);
+                    end.setDate(end.getDate() + 1);
+                    filtered = filtered.filter(t => new Date(t.time) <= end);
+                }
+                if (user) {
+                    filtered = filtered.filter(t => t.user.toLowerCase().includes(user));
+                }
+                if (category) {
+                    filtered = filtered.filter(t => t.category.toLowerCase().includes(category));
+                }
+                renderTransactions(filtered);
+            }
+
+            function clearTransFilter() {
+                document.getElementById('transDateFrom').value = '';
+                document.getElementById('transDateTo').value = '';
+                document.getElementById('transUserFilter').value = '';
+                document.getElementById('transCategoryFilter').value = '';
+                renderTransactions();
+            }
+
+            // =============================================================
+            // RENDER FUNCTIONS
+            // =============================================================
+            function renderMaterialTable(filtered) {
+                const tbody = document.getElementById('materialTableBody');
+                const items = filtered || stockItems;
+                tbody.innerHTML = '';
+                items.forEach((item, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><span class="cat-badge">${item.category}</span></td>
+                        <td><strong>${item.name}</strong></td>
+                        <td>${item.make || '-'}</td>
+                        <td>${item.rack || '-'}</td>
+                        <td>${item.qty}</td>
+                        <td><button class="btn-danger btn-sm" onclick="deleteMaterial(${stockItems.indexOf(item)})"><i class="fas fa-trash"></i></button></td>
+                    `;
+                    tbody.appendChild(tr);
                 });
+                document.getElementById('totalMaterials').textContent = stockItems.length;
             }
 
-            async function checkIn() {
-                const location = await getLocation();
-                const entry = {
-                    time: new Date().toISOString(),
-                    status: 'in',
-                    location: location,
-                    user: currentUser?.username || 'Unknown'
-                };
-                attendance.push(entry);
-                if (currentUser) {
-                    logActivity(currentUser.username, 'Check In',
-                        `Checked in at ${location}`);
+            function renderStockHistory() {
+                const el = document.getElementById('stockHistory');
+                if (stockHistory.length === 0) {
+                    el.innerHTML = '<p style="color:#999; text-align:center; padding:10px;">No records yet</p>';
+                    return;
                 }
-                saveAll();
-                renderAttendance();
-                showStatus('✅ Checked In at ' + location);
-                attendanceStatus.textContent = '✅ Present';
-                attendanceStatus.style.color = '#2b8c5e';
+                let html = '';
+                stockHistory.slice(-20).reverse().forEach(h => {
+                    const isIn = h.type === 'add';
+                    html += `<div class="history-item">
+                        <span class="h-user">${h.user}</span>
+                        <span>${h.category} - ${h.name} ${h.make ? '('+h.make+')' : ''}</span>
+                        <span class="${isIn ? 'h-in' : 'h-out'}">${isIn ? '+' : '-'}${h.qty}</span>
+                        <span style="font-size:11px; color:#999;">${new Date(h.time).toLocaleString()}</span>
+                    </div>`;
+                });
+                el.innerHTML = html;
             }
 
-            async function checkOut() {
-                const location = await getLocation();
-                const entry = {
-                    time: new Date().toISOString(),
-                    status: 'out',
-                    location: location,
-                    user: currentUser?.username || 'Unknown'
-                };
-                attendance.push(entry);
-                if (currentUser) {
-                    logActivity(currentUser.username, 'Check Out',
-                        `Checked out at ${location}`);
-                }
-                saveAll();
-                renderAttendance();
-                showStatus('✅ Checked Out at ' + location);
-                attendanceStatus.textContent = '❌ Left';
-                attendanceStatus.style.color = '#b33c3c';
+            function renderBomTable(filtered) {
+                const tbody = document.getElementById('bomTableBody');
+                const items = filtered || bomItems;
+                tbody.innerHTML = '';
+                items.forEach((item, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><span class="cat-badge">${item.category}</span></td>
+                        <td><strong>${item.name}</strong></td>
+                        <td>${item.make || '-'}</td>
+                        <td>${item.qty}</td>
+                        <td><button class="btn-danger btn-sm" onclick="removeBomItem(${bomItems.indexOf(item)})"><i class="fas fa-times"></i></button></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+                document.getElementById('totalBomItems').textContent = bomItems.length;
+            }
+
+            function renderTransactions(filtered) {
+                const tbody = document.getElementById('transactionsTableBody');
+                const items = filtered || transactions;
+                tbody.innerHTML = '';
+                items.slice().reverse().forEach(t => {
+                    const tr = document.createElement('tr');
+                    const isIn = t.type === 'IN' || t.type === 'add';
+                    tr.innerHTML = `
+                        <td style="font-size:12px;">${new Date(t.time).toLocaleString()}</td>
+                        <td style="font-weight:600; color:#f57c00;">${t.user}</td>
+                        <td>${t.category}</td>
+                        <td>${t.name}</td>
+                        <td class="${isIn ? 'h-in' : 'h-out'}">${isIn ? '+' : '-'}${t.qty}</td>
+                        <td><span style="background:${isIn ? '#2b8c5e' : '#b33c3c'}; color:#fff; padding:2px 8px; border-radius:40px; font-size:11px;">${t.type}</span></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+                document.getElementById('totalTransactions').textContent = transactions.length;
+            }
+
+            function renderAll() {
+                renderMaterialTable();
+                renderStockHistory();
+                renderBomTable();
+                renderTransactions();
             }
 
             // =============================================================
-            // NOTIFICATION SYSTEM
+            // SHOW STATUS
             // =============================================================
-            function showAttendanceNotification() {
-                const notif = document.getElementById('notification');
-                notif.classList.add('show');
-                setTimeout(() => {
-                    notif.classList.remove('show');
-                }, 30000);
+            function showStatus(msg) {
+                const el = document.getElementById('saveStatus') || document.createElement('div');
+                if (!el.id) {
+                    el.id = 'saveStatus';
+                    el.style.cssText = 'position:fixed;bottom:20px;right:20px;background:rgba(10,38,71,0.9);color:#fff;padding:8px 20px;border-radius:40px;font-size:13px;z-index:9999;transition:0.3s;border:1px solid #f57c00;';
+                    document.body.appendChild(el);
+                }
+                el.textContent = '✅ ' + msg;
+                el.style.opacity = '1';
+                clearTimeout(el._timeout);
+                el._timeout = setTimeout(() => { el.style.opacity = '0'; }, 3000);
             }
+
+            // =============================================================
+            // NAVIGATION
+            // =============================================================
+            document.querySelectorAll('.main-header .nav-buttons button').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.main-header .nav-buttons button').forEach(b => b.classList.remove(
+                        'active'));
+                    this.classList.add('active');
+                    const page = this.dataset.page;
+                    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                    document.getElementById('page-' + page).classList.add('active');
+                });
+            });
+
+            // Category tags for materials
+            document.querySelectorAll('.category-tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    document.querySelectorAll('.category-tag').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    filterMaterials();
+                });
+            });
+
+            // BOM category tags
+            document.querySelectorAll('[data-bom-cat]').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    document.querySelectorAll('[data-bom-cat]').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    const cat = this.dataset.bomCat;
+                    let filtered = bomItems;
+                    if (cat !== 'all') {
+                        filtered = bomItems.filter(it => it.make && it.make.toLowerCase().includes(cat));
+                    }
+                    renderBomTable(filtered);
+                });
+            });
+
+            // =============================================================
+            // EXPOSE FUNCTIONS TO GLOBAL
+            // =============================================================
+            window.deleteMaterial = deleteMaterial;
+            window.removeBomItem = removeBomItem;
 
             // =============================================================
             // EVENT BINDINGS
             // =============================================================
-            // Login/Register
-            loginBtn.addEventListener('click', loginUser);
-            loginPassword.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') loginUser();
-            });
-            loginUsername.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') loginUser();
-            });
-
-            registerBtn.addEventListener('click', registerUser);
-            regConfirm.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') registerUser();
+            document.getElementById('addMaterialBtn').addEventListener('click', addMaterial);
+            document.getElementById('materialSearch').addEventListener('input', filterMaterials);
+            document.getElementById('materialFilterCategory').addEventListener('change', filterMaterials);
+            document.getElementById('clearFilterBtn').addEventListener('click', function() {
+                document.getElementById('materialSearch').value = '';
+                document.getElementById('materialFilterCategory').value = 'all';
+                document.querySelectorAll('.category-tag').forEach(t => t.classList.remove('active'));
+                document.querySelector('.category-tag[data-cat="all"]').classList.add('active');
+                filterMaterials();
             });
 
-            showRegister.addEventListener('click', showRegisterForm);
-            showLogin.addEventListener('click', showLoginForm);
+            document.getElementById('addBomItemBtn').addEventListener('click', addBomItem);
+            document.getElementById('applyBomBtn').addEventListener('click', applyBom);
+            document.getElementById('clearBomBtn').addEventListener('click', clearBom);
+            document.getElementById('downloadBomBtn').addEventListener('click', downloadBom);
+            document.getElementById('uploadBomBtn').addEventListener('click', uploadBom);
+            document.getElementById('bomFileInput').addEventListener('change', handleBomUpload);
 
-            logoutBtn.addEventListener('click', logoutUser);
+            document.getElementById('filterTransBtn').addEventListener('click', filterTransactions);
+            document.getElementById('clearTransFilter').addEventListener('click', clearTransFilter);
 
-            // Stock
-            addStockBtn.addEventListener('click', addStock);
-
-            // BOM
-            addBomBtn.addEventListener('click', addBomItem);
-            clearBomBtn.addEventListener('click', function() {
-                bomItems = [];
-                renderBom();
-                saveAll();
-                if (currentUser) {
-                    logActivity(currentUser.username, 'Clear BOM', 'Cleared all BOM items');
-                }
-                showStatus('BOM cleared');
-            });
-            applyBomBtn.addEventListener('click', applyBom);
-            saveBomBtn.addEventListener('click', saveBom);
-            processExcelBtn.addEventListener('click', processExcel);
-
-            // Attendance
-            checkInBtn.addEventListener('click', checkIn);
-            checkOutBtn.addEventListener('click', checkOut);
-
-            // Export
-            exportBtn.addEventListener('click', exportToExcel);
-
-            // Notification buttons
-            document.getElementById('attendanceYes').addEventListener('click', function() {
-                document.getElementById('notification').classList.remove('show');
-                checkIn();
-            });
-            document.getElementById('attendanceNo').addEventListener('click', function() {
-                document.getElementById('notification').classList.remove('show');
-                showStatus('Attendance not marked');
-            });
-
-            // Tabs
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                    this.classList.add('active');
-                    const tabId = this.dataset.tab;
-                    document.getElementById(tabId).classList.add('active');
-                    if (tabId === 'tab3') renderMaterials();
-                    if (tabId === 'tab4') renderAccounts();
-                    if (tabId === 'tab5') renderLoginHistory();
-                    if (tabId === 'tab6') renderAttendance();
-                    if (tabId === 'tab7' && currentUser?.role === 'admin') renderAdminDashboard();
+            // Keyboard shortcuts for entry fields
+            document.querySelectorAll('.entry-row input').forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') addMaterial();
                 });
             });
-
-            // Enter key support
-            document.querySelectorAll('input, select').forEach(el => {
-                el.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        if (this.closest('#tab1')) addStock();
-                        else if (this.closest('#tab2')) addBomItem();
-                    }
-                });
-            });
-
-            // Auto-save on page unload
-            window.addEventListener('beforeunload', function() {
-                saveAll();
-            });
-
-            // Periodic auto-save
-            setInterval(saveAll, 30000);
-
-            // Setup expandable sections
-            setupExpandableSections();
 
             // =============================================================
-            // INITIALIZATION
+            // INIT
             // =============================================================
             function init() {
                 loadAll();
-                initUsers();
-
-                const hasSession = checkSession();
-
-                if (!hasSession) {
-                    loginPage.classList.remove('hidden');
-                    mainApp.classList.remove('show');
-                    showLoginForm();
-                }
-
                 renderAll();
                 showStatus('Ready');
-
-                if (currentUser) {
-                    setTimeout(() => {
-                        showAttendanceNotification();
-                    }, 3000);
-                }
             }
 
+            // =============================================================
+            // START
+            // =============================================================
             init();
+
+            // Auto-save every 30 seconds
+            setInterval(saveAll, 30000);
+
+            // Add save status element
+            const statusEl = document.createElement('div');
+            statusEl.id = 'saveStatus';
+            statusEl.style.cssText =
+                'position:fixed;bottom:20px;right:20px;background:rgba(10,38,71,0.9);color:#fff;padding:8px 20px;border-radius:40px;font-size:13px;z-index:9999;transition:0.3s;opacity:0;pointer-events:none;border:1px solid #f57c00;';
+            document.body.appendChild(statusEl);
 
         })();
     </script>
